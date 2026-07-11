@@ -7,7 +7,7 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 1 | Foundation & data layer | **Complete** (v0.1.0, 2026-07-11) |
 | Stage 2 | Elementor checkout widget (structure) | **Complete** (v0.2.0, 2026-07-11) |
 | Stage 3 | Checkout styling controls | **Complete** (v0.3.0, 2026-07-11) |
-| Stage 4 | Cart strip (mini-cart) | Not started |
+| Stage 4 | Cart strip (mini-cart) | **Complete** (v0.4.0, 2026-07-11) |
 | Stage 5 | Express payment row + styling | Not started |
 | Stage 6 | Field optimisation & guest checkout | Not started |
 | Stage 7 | Order bumps | Not started |
@@ -16,6 +16,17 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 10 | Abandoned-cart capture (data layer) | Not started |
 | Stage 11 | Recovery email sequence (admin-built + branded template) | Not started |
 | Stage 12 | Polish, compatibility & packaging | Not started |
+
+## Stage 4 session notes
+
+- `includes/class-kdna-checkout-cart-strip.php` owns the strip: `render()` builds the markup (tiles with image, escaped name, quantity input capped for sold-individually products, remove button, subtotal via `get_cart_subtotal()`), and `ajax_update` (action `kdna_checkout_strip_update`, nonce-checked, works for guests via `wp_ajax_nopriv`) sets a quantity (0 removes), recalculates totals and returns fresh strip HTML. Unknown modes fall back to `full`; unknown cart keys 404.
+- The strip renders at the very top of the widget wrapper, above where the Stage 5 express row will go. Content controls: show/hide (default shown), Item controls select (Full default / Subtle / Edit toggle / Locked), separate desktop and mobile sticky switches, and label text for Subtotal / Edit / Done.
+- Mode behaviour is CSS-driven off `--controls-<mode>` classes: Subtle dims the remove icon until hover, Edit toggle hides the controls (showing a static quantity) until the Edit link adds `--editing`, Locked always shows the static quantity. Render args round-trip through data attributes so AJAX refreshes keep the exact same mode, sticky flags and labels; the JS preserves the editing state across refreshes.
+- JS (appended module in `assets/js/kdna-checkout.js`): document-delegated change/click handlers (the strip node is replaced on every update), 350 ms debounce on quantity edits, busy state during requests, `update_checkout` triggered on `document.body` so WooCommerce refreshes the order summary itself, and a `kdna:strip-updated` event. Editor skeletons (`--skeleton`) never hit the endpoint.
+- Six new Style sections (all condition-gated on the strip being shown): Container (background, border group, radius, shadow, padding, margin, tile gap, sticky offset, empty-state text), Tiles (size, background, border group, radius, shadow, padding, image radius, name typography/colour), Quantity Field (typography, colours, border group, radius, width, padding, focus border/background), Remove Button (icon size, padding, border group, radius, Normal/Hover tabs), Edit Link (typography, border group, radius, padding, Normal/Hover tabs), Subtotal (label and amount typography/colour, alignment, spacing). Selector hygiene sweep passes.
+- The editor placeholder now includes a static skeleton strip using the real classes, so all strip style controls give live feedback in the editor.
+- Nonce + AJAX data attach to the existing `kdna-checkout` script handle via `wp_localize_script`, so nothing loads where the widget is absent.
+- Verified by a Stage 4 smoke test (render modes, escaping, sold-individually cap, empty state, AJAX set/remove/404 paths, widget integration order, skeleton, localisation) plus jsdom strip behaviour tests and the full Stage 2/3 regression suite.
 
 ## Stage 3 session notes
 

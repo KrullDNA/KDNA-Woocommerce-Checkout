@@ -137,3 +137,139 @@
 		boot();
 	}
 }() );
+
+/**
+ * Stage 4: cart strip live updates.
+ *
+ * Quantity edits and removals post to the plugin's AJAX endpoint, the
+ * returned strip HTML replaces the old strip, and WooCommerce's own
+ * update_checkout event refreshes the order summary totals. Events are
+ * delegated to the document because the strip node is replaced on
+ * every update.
+ */
+( function () {
+	'use strict';
+
+	var qtyTimer = null;
+
+	function findStrip( el ) {
+		return el.closest ? el.closest( '.kdna-checkout-strip' ) : null;
+	}
+
+	function inSkeleton( strip ) {
+		return strip.classList.contains( 'kdna-checkout-strip--skeleton' );
+	}
+
+	function request( strip, cartItemKey, quantity ) {
+		var cfg = window.kdnaCheckoutStrip;
+		if ( ! cfg || ! window.fetch || inSkeleton( strip ) ) {
+			return;
+		}
+
+		strip.classList.add( 'kdna-checkout-strip--busy' );
+
+		var data = new window.FormData();
+		data.append( 'action', 'kdna_checkout_strip_update' );
+		data.append( 'nonce', cfg.nonce );
+		data.append( 'cart_item_key', cartItemKey );
+		data.append( 'quantity', String( quantity ) );
+		data.append( 'controls', strip.getAttribute( 'data-controls' ) || 'full' );
+		data.append( 'sticky_desktop', strip.getAttribute( 'data-sticky-desktop' ) || '' );
+		data.append( 'sticky_mobile', strip.getAttribute( 'data-sticky-mobile' ) || '' );
+		data.append( 'subtotal_label', strip.getAttribute( 'data-subtotal-label' ) || '' );
+		data.append( 'edit_label', strip.getAttribute( 'data-edit-label' ) || '' );
+		data.append( 'done_label', strip.getAttribute( 'data-done-label' ) || '' );
+
+		window.fetch( cfg.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: data } )
+			.then( function ( response ) {
+				return response.json();
+			} )
+			.then( function ( result ) {
+				if ( ! result || ! result.success || ! result.data || ! result.data.strip_html ) {
+					strip.classList.remove( 'kdna-checkout-strip--busy' );
+					return;
+				}
+
+				var wasEditing = strip.classList.contains( 'kdna-checkout-strip--editing' );
+				var holder     = document.createElement( 'div' );
+				holder.innerHTML = result.data.strip_html;
+
+				var fresh = holder.firstElementChild;
+				if ( fresh && strip.parentNode ) {
+					if ( wasEditing && ! result.data.cart_empty ) {
+						fresh.classList.add( 'kdna-checkout-strip--editing' );
+						var link = fresh.querySelector( '.kdna-checkout-strip__edit-link' );
+						if ( link ) {
+							link.textContent = fresh.getAttribute( 'data-done-label' ) || link.textContent;
+							link.setAttribute( 'aria-expanded', 'true' );
+						}
+					}
+					strip.parentNode.replaceChild( fresh, strip );
+					fresh.dispatchEvent( new CustomEvent( 'kdna:strip-updated', { bubbles: true } ) );
+				}
+
+				// Refresh the order summary through WooCommerce itself.
+				if ( window.jQuery ) {
+					window.jQuery( document.body ).trigger( 'update_checkout' );
+				}
+			} )
+			.catch( function () {
+				strip.classList.remove( 'kdna-checkout-strip--busy' );
+			} );
+	}
+
+	document.addEventListener( 'change', function ( event ) {
+		var input = event.target;
+		if ( ! input.classList || ! input.classList.contains( 'kdna-checkout-strip__qty' ) ) {
+			return;
+		}
+
+		var strip = findStrip( input );
+		var tile  = input.closest( '.kdna-checkout-strip__tile' );
+		if ( ! strip || ! tile || ! tile.getAttribute( 'data-key' ) ) {
+			return;
+		}
+
+		var quantity = parseInt( input.value, 10 );
+		if ( isNaN( quantity ) || quantity < 0 ) {
+			quantity    = 1;
+			input.value = '1';
+		}
+
+		window.clearTimeout( qtyTimer );
+		qtyTimer = window.setTimeout( function () {
+			request( strip, tile.getAttribute( 'data-key' ), quantity );
+		}, 350 );
+	} );
+
+	document.addEventListener( 'click', function ( event ) {
+		if ( ! event.target || ! event.target.closest ) {
+			return;
+		}
+
+		var removeButton = event.target.closest( '.kdna-checkout-strip__remove' );
+		if ( removeButton ) {
+			event.preventDefault();
+			var removeStrip = findStrip( removeButton );
+			var removeTile  = removeButton.closest( '.kdna-checkout-strip__tile' );
+			if ( removeStrip && removeTile && removeTile.getAttribute( 'data-key' ) ) {
+				request( removeStrip, removeTile.getAttribute( 'data-key' ), 0 );
+			}
+			return;
+		}
+
+		var editLink = event.target.closest( '.kdna-checkout-strip__edit-link' );
+		if ( editLink ) {
+			event.preventDefault();
+			var editStrip = findStrip( editLink );
+			if ( ! editStrip ) {
+				return;
+			}
+			var editing = editStrip.classList.toggle( 'kdna-checkout-strip--editing' );
+			editLink.setAttribute( 'aria-expanded', editing ? 'true' : 'false' );
+			editLink.textContent = editing
+				? ( editStrip.getAttribute( 'data-done-label' ) || editLink.textContent )
+				: ( editStrip.getAttribute( 'data-edit-label' ) || editLink.textContent );
+		}
+	} );
+}() );

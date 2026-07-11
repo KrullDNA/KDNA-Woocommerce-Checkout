@@ -157,6 +157,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	 */
 	protected function register_controls() {
 		$this->register_layout_controls();
+		$this->register_cart_strip_controls();
 		$this->register_style_controls();
 	}
 
@@ -204,7 +205,116 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	}
 
 	/**
-	 * The complete Style tab (Stage 3).
+	 * Content tab > Cart Strip (Stage 4).
+	 *
+	 * @return void
+	 */
+	private function register_cart_strip_controls() {
+		$this->start_controls_section(
+			'section_cart_strip',
+			array(
+				'label' => __( 'Cart Strip', 'kdna-checkout' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'show_cart_strip',
+			array(
+				'label'        => __( 'Show cart strip', 'kdna-checkout' ),
+				'description'  => __( 'A sideways-scrolling row of product tiles at the very top of the checkout.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'kdna-checkout' ),
+				'label_off'    => __( 'Hide', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+
+		$this->add_control(
+			'strip_item_controls',
+			array(
+				'label'       => __( 'Item controls', 'kdna-checkout' ),
+				'description' => __( 'How much editing the strip allows.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::SELECT,
+				'options'     => array(
+					'full'   => __( 'Full: quantity editable, remove always visible', 'kdna-checkout' ),
+					'subtle' => __( 'Subtle: quantity editable, low-emphasis remove', 'kdna-checkout' ),
+					'edit'   => __( 'Edit toggle: controls hidden until "Edit" is tapped', 'kdna-checkout' ),
+					'locked' => __( 'Locked: read-only display', 'kdna-checkout' ),
+				),
+				'default'     => 'full',
+				'condition'   => array( 'show_cart_strip' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'strip_sticky_desktop',
+			array(
+				'label'        => __( 'Sticky on desktop', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'On', 'kdna-checkout' ),
+				'label_off'    => __( 'Off', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => array( 'show_cart_strip' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'strip_sticky_mobile',
+			array(
+				'label'        => __( 'Sticky on mobile', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'On', 'kdna-checkout' ),
+				'label_off'    => __( 'Off', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => array( 'show_cart_strip' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'strip_subtotal_label',
+			array(
+				'label'     => __( 'Subtotal label', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::TEXT,
+				'default'   => __( 'Subtotal', 'kdna-checkout' ),
+				'condition' => array( 'show_cart_strip' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'strip_edit_label',
+			array(
+				'label'     => __( '"Edit" link text', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::TEXT,
+				'default'   => __( 'Edit', 'kdna-checkout' ),
+				'condition' => array(
+					'show_cart_strip'     => 'yes',
+					'strip_item_controls' => 'edit',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_done_label',
+			array(
+				'label'     => __( '"Done" link text', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::TEXT,
+				'default'   => __( 'Done', 'kdna-checkout' ),
+				'condition' => array(
+					'show_cart_strip'     => 'yes',
+					'strip_item_controls' => 'edit',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * The complete Style tab (Stage 3, cart strip sections added in Stage 4).
 	 *
 	 * @return void
 	 */
@@ -216,6 +326,12 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->style_section_summary_card();
 		$this->style_section_summary_content();
 		$this->style_section_pay_button();
+		$this->style_section_strip_container();
+		$this->style_section_strip_tiles();
+		$this->style_section_strip_qty();
+		$this->style_section_strip_remove();
+		$this->style_section_strip_edit_link();
+		$this->style_section_strip_subtotal();
 	}
 
 	/**
@@ -1041,6 +1157,770 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Style > Cart Strip Container.
+	 *
+	 * @return void
+	 */
+	private function style_section_strip_container() {
+		$this->start_controls_section(
+			'style_strip_container',
+			array(
+				'label'     => __( 'Cart Strip: Container', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array( 'show_cart_strip' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'strip_background_colour',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'strip_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip',
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_border_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Box_Shadow::get_type(),
+			array(
+				'name'     => 'strip_box_shadow',
+				'label'    => __( 'Box shadow', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip',
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_margin',
+			array(
+				'label'      => __( 'Margin', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_tile_gap',
+			array(
+				'label'      => __( 'Gap between tiles', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 60,
+					),
+				),
+				'separator'  => 'before',
+				'selectors'  => array(
+					'{{WRAPPER}}' => '--kdna-checkout-strip-tile-gap: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_sticky_offset',
+			array(
+				'label'       => __( 'Sticky top offset', 'kdna-checkout' ),
+				'description' => __( 'Distance from the top of the screen while the strip is stuck.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'size_units'  => array( 'px', 'em' ),
+				'range'       => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 240,
+					),
+				),
+				'selectors'   => array(
+					'{{WRAPPER}}' => '--kdna-checkout-strip-sticky-offset: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'      => 'strip_empty_typography',
+				'label'     => __( 'Empty state typography', 'kdna-checkout' ),
+				'selector'  => '{{WRAPPER}} .kdna-checkout-strip__empty',
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_control(
+			'strip_empty_colour',
+			array(
+				'label'     => __( 'Empty state colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__empty' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Style > Cart Strip Tiles.
+	 *
+	 * @return void
+	 */
+	private function style_section_strip_tiles() {
+		$this->start_controls_section(
+			'style_strip_tiles',
+			array(
+				'label'     => __( 'Cart Strip: Tiles', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array( 'show_cart_strip' => 'yes' ),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_tile_size',
+			array(
+				'label'      => __( 'Tile size', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 56,
+						'max' => 220,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}}' => '--kdna-checkout-strip-tile-size: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_tile_background_colour',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__tile' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'strip_tile_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__tile',
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_tile_border_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__tile' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Box_Shadow::get_type(),
+			array(
+				'name'     => 'strip_tile_box_shadow',
+				'label'    => __( 'Box shadow', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__tile',
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_tile_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__tile' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_image_border_radius',
+			array(
+				'label'      => __( 'Product image border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'separator'  => 'before',
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__image img, {{WRAPPER}} .kdna-checkout-strip__image-ph' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'strip_name_typography',
+				'label'    => __( 'Product name typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__name',
+			)
+		);
+
+		$this->add_control(
+			'strip_name_colour',
+			array(
+				'label'     => __( 'Product name colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__name' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Style > Cart Strip Quantity Field.
+	 *
+	 * @return void
+	 */
+	private function style_section_strip_qty() {
+		$this->start_controls_section(
+			'style_strip_qty',
+			array(
+				'label'     => __( 'Cart Strip: Quantity Field', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array( 'show_cart_strip' => 'yes' ),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'strip_qty_typography',
+				'label'    => __( 'Typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__qty, {{WRAPPER}} .kdna-checkout-strip__qty-static',
+			)
+		);
+
+		$this->add_control(
+			'strip_qty_text_colour',
+			array(
+				'label'     => __( 'Text colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__qty, {{WRAPPER}} .kdna-checkout-strip__qty-static' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_qty_background_colour',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__qty' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'strip_qty_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__qty',
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_qty_border_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__qty' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_qty_width',
+			array(
+				'label'      => __( 'Width', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 32,
+						'max' => 120,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__qty' => 'width: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_qty_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__qty' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_qty_focus_border_colour',
+			array(
+				'label'     => __( 'Focus border colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'separator' => 'before',
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__qty:focus' => 'border-color: {{VALUE}}; outline-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_qty_focus_background_colour',
+			array(
+				'label'     => __( 'Focus background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__qty:focus' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Style > Cart Strip Remove Button.
+	 *
+	 * @return void
+	 */
+	private function style_section_strip_remove() {
+		$this->start_controls_section(
+			'style_strip_remove',
+			array(
+				'label'     => __( 'Cart Strip: Remove Button', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array( 'show_cart_strip' => 'yes' ),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_remove_size',
+			array(
+				'label'      => __( 'Icon size', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 8,
+						'max' => 40,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__remove' => 'font-size: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_remove_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__remove' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; width: auto; height: auto;',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'strip_remove_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__remove',
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_remove_border_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__remove' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->start_controls_tabs( 'strip_remove_state_tabs' );
+
+		$this->start_controls_tab(
+			'strip_remove_tab_normal',
+			array( 'label' => __( 'Normal', 'kdna-checkout' ) )
+		);
+
+		$this->add_control(
+			'strip_remove_colour',
+			array(
+				'label'     => __( 'Icon colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__remove' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_remove_background_colour',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__remove' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'strip_remove_tab_hover',
+			array( 'label' => __( 'Hover', 'kdna-checkout' ) )
+		);
+
+		$this->add_control(
+			'strip_remove_hover_colour',
+			array(
+				'label'     => __( 'Icon colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__remove:hover, {{WRAPPER}} .kdna-checkout-strip__remove:focus' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_remove_hover_background_colour',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__remove:hover, {{WRAPPER}} .kdna-checkout-strip__remove:focus' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_remove_hover_border_colour',
+			array(
+				'label'     => __( 'Border colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__remove:hover, {{WRAPPER}} .kdna-checkout-strip__remove:focus' => 'border-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Style > Cart Strip Edit Link (Edit toggle mode only).
+	 *
+	 * @return void
+	 */
+	private function style_section_strip_edit_link() {
+		$this->start_controls_section(
+			'style_strip_edit',
+			array(
+				'label'     => __( 'Cart Strip: Edit Link', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					'show_cart_strip'     => 'yes',
+					'strip_item_controls' => 'edit',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'strip_edit_typography',
+				'label'    => __( 'Typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__edit-link',
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'strip_edit_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__edit-link',
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_edit_border_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__edit-link' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_edit_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__edit-link' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->start_controls_tabs( 'strip_edit_state_tabs' );
+
+		$this->start_controls_tab(
+			'strip_edit_tab_normal',
+			array( 'label' => __( 'Normal', 'kdna-checkout' ) )
+		);
+
+		$this->add_control(
+			'strip_edit_colour',
+			array(
+				'label'     => __( 'Text colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__edit-link' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_edit_background_colour',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__edit-link' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'strip_edit_tab_hover',
+			array( 'label' => __( 'Hover', 'kdna-checkout' ) )
+		);
+
+		$this->add_control(
+			'strip_edit_hover_colour',
+			array(
+				'label'     => __( 'Text colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__edit-link:hover, {{WRAPPER}} .kdna-checkout-strip__edit-link:focus' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_edit_hover_background_colour',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__edit-link:hover, {{WRAPPER}} .kdna-checkout-strip__edit-link:focus' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'strip_edit_hover_border_colour',
+			array(
+				'label'     => __( 'Border colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__edit-link:hover, {{WRAPPER}} .kdna-checkout-strip__edit-link:focus' => 'border-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Style > Cart Strip Subtotal.
+	 *
+	 * @return void
+	 */
+	private function style_section_strip_subtotal() {
+		$this->start_controls_section(
+			'style_strip_subtotal',
+			array(
+				'label'     => __( 'Cart Strip: Subtotal', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array( 'show_cart_strip' => 'yes' ),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'strip_subtotal_label_typography',
+				'label'    => __( 'Label typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__subtotal-label',
+			)
+		);
+
+		$this->add_control(
+			'strip_subtotal_label_colour',
+			array(
+				'label'     => __( 'Label colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__subtotal-label' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'strip_subtotal_amount_typography',
+				'label'    => __( 'Amount typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-strip__subtotal-amount',
+			)
+		);
+
+		$this->add_control(
+			'strip_subtotal_amount_colour',
+			array(
+				'label'     => __( 'Amount colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__subtotal-amount' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_subtotal_alignment',
+			array(
+				'label'     => __( 'Alignment', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::CHOOSE,
+				'options'   => array(
+					'left'   => array(
+						'title' => __( 'Left', 'kdna-checkout' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Centre', 'kdna-checkout' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'kdna-checkout' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__subtotal' => 'text-align: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'strip_subtotal_spacing',
+			array(
+				'label'      => __( 'Spacing from tiles', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 80,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__meta' => 'padding-left: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
 	/* ================================================================== *
 	 * Rendering
 	 * ================================================================== */
@@ -1085,9 +1965,42 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			$this->render_pay_icon_template( $settings );
 		}
 
+		// Cart strip (Stage 4): the very top of the checkout, above the
+		// express payment row that arrives in Stage 5.
+		if ( $this->show_cart_strip( $settings ) && class_exists( 'KDNA_Checkout_Cart_Strip' ) ) {
+			echo KDNA_Checkout_Cart_Strip::render( $this->strip_args( $settings ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Strip markup is escaped where it is built.
+		}
+
 		// Native WooCommerce classic shortcode checkout, reflowed by the widget CSS/JS.
 		echo do_shortcode( '[woocommerce_checkout]' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce renders and escapes its own checkout markup.
 		echo '</div>';
+	}
+
+	/**
+	 * Whether the cart strip is enabled in the widget settings.
+	 *
+	 * @param array $settings Widget settings.
+	 * @return bool
+	 */
+	private function show_cart_strip( array $settings ) {
+		return isset( $settings['show_cart_strip'] ) && 'yes' === $settings['show_cart_strip'];
+	}
+
+	/**
+	 * Map widget settings to cart strip render arguments.
+	 *
+	 * @param array $settings Widget settings.
+	 * @return array
+	 */
+	private function strip_args( array $settings ) {
+		return array(
+			'controls'       => $settings['strip_item_controls'] ?? 'full',
+			'sticky_desktop' => $settings['strip_sticky_desktop'] ?? '',
+			'sticky_mobile'  => $settings['strip_sticky_mobile'] ?? '',
+			'subtotal_label' => $settings['strip_subtotal_label'] ?? '',
+			'edit_label'     => $settings['strip_edit_label'] ?? '',
+			'done_label'     => $settings['strip_done_label'] ?? '',
+		);
 	}
 
 	/**
@@ -1138,6 +2051,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	 */
 	private function render_placeholder( array $classes ) {
 		$classes[] = 'kdna-checkout--editor';
+		$settings  = $this->get_settings_for_display();
 		?>
 		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 			<div class="kdna-checkout__placeholder">
@@ -1145,6 +2059,33 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 					<strong><?php echo esc_html__( 'KDNA Checkout', 'kdna-checkout' ); ?></strong>
 					<span><?php echo esc_html__( 'The live WooCommerce checkout renders here on the front end. Preview the page to see it working.', 'kdna-checkout' ); ?></span>
 				</div>
+				<?php if ( $this->show_cart_strip( $settings ) ) : ?>
+					<?php $strip_mode = $settings['strip_item_controls'] ?? 'full'; ?>
+					<div class="kdna-checkout-strip kdna-checkout-strip--controls-<?php echo esc_attr( $strip_mode ); ?> kdna-checkout-strip--skeleton">
+						<div class="kdna-checkout-strip__items">
+							<?php for ( $i = 0; $i < 3; $i++ ) : ?>
+								<div class="kdna-checkout-strip__tile">
+									<span class="kdna-checkout-strip__image"><span class="kdna-checkout-strip__image-ph"></span></span>
+									<span class="kdna-checkout-strip__name"><?php echo esc_html__( 'Product name', 'kdna-checkout' ); ?></span>
+									<span class="kdna-checkout-strip__qty-static" aria-hidden="true">&times;&nbsp;1</span>
+									<span class="kdna-checkout-strip__controls">
+										<input class="kdna-checkout-strip__qty" type="number" value="1" min="0" readonly aria-label="<?php echo esc_attr__( 'Quantity', 'kdna-checkout' ); ?>" />
+										<button type="button" class="kdna-checkout-strip__remove" aria-label="<?php echo esc_attr__( 'Remove', 'kdna-checkout' ); ?>">&times;</button>
+									</span>
+								</div>
+							<?php endfor; ?>
+						</div>
+						<div class="kdna-checkout-strip__meta">
+							<?php if ( 'edit' === $strip_mode ) : ?>
+								<button type="button" class="kdna-checkout-strip__edit-link"><?php echo esc_html( $settings['strip_edit_label'] ?? __( 'Edit', 'kdna-checkout' ) ); ?></button>
+							<?php endif; ?>
+							<div class="kdna-checkout-strip__subtotal">
+								<span class="kdna-checkout-strip__subtotal-label"><?php echo esc_html( $settings['strip_subtotal_label'] ?? __( 'Subtotal', 'kdna-checkout' ) ); ?></span>
+								<span class="kdna-checkout-strip__subtotal-amount">&#163;0.00</span>
+							</div>
+						</div>
+					</div>
+				<?php endif; ?>
 				<div class="kdna-checkout__ph-columns">
 					<div class="kdna-checkout__ph-form">
 						<div class="kdna-checkout__ph-line kdna-checkout__ph-line--title"></div>

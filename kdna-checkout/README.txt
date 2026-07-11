@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.3.0
+Stable tag: 0.4.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 3 of 12, checkout styling controls.
+Current build stage: Stage 4 of 12, cart strip (mini-cart).
 
 * KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
 * The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
@@ -49,6 +49,14 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.4.0 =
+* Stage 4: the cart strip (mini-cart) at the very top of the checkout.
+* Square product tiles (image, name, editable quantity, remove) in a sideways-scrolling row with the cart subtotal on the right.
+* Live AJAX updates: quantity edits and removals refresh the strip and the order summary with no page reload; a tidy empty state when the last item goes.
+* Item controls modes: Full (default), Subtle, Edit toggle and Locked.
+* Separate sticky-on-desktop and sticky-on-mobile toggles.
+* Full Elementor style controls for the strip container, tiles, product image, quantity field, remove button, edit link and subtotal.
 
 = 0.3.0 =
 * Stage 3: the complete Elementor Style tab for the KDNA Checkout widget.

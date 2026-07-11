@@ -120,6 +120,217 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Cart strip (Stage 4)
+ *
+ * Square product tiles in a sideways-scrolling row with the subtotal
+ * on the right. Every hard value routes through a --kdna-checkout-
+ * variable or is overridden by the instance-scoped Elementor controls.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-strip {
+	display: flex;
+	align-items: stretch;
+	gap: var(--kdna-checkout-strip-gap, 16px);
+	background: var(--kdna-checkout-strip-bg, #f7f8f9);
+	border-style: var(--kdna-checkout-strip-border-style, solid);
+	border-width: var(--kdna-checkout-strip-border-width, 1px);
+	border-color: var(--kdna-checkout-strip-border-colour, #e2e4e7);
+	border-radius: var(--kdna-checkout-strip-radius, 8px);
+	padding: var(--kdna-checkout-strip-padding, 12px);
+	margin: 0 0 var(--kdna-checkout-strip-margin-bottom, 24px);
+}
+
+.kdna-checkout-strip--busy {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.kdna-checkout-strip__items {
+	display: flex;
+	flex: 1 1 auto;
+	min-width: 0;
+	gap: var(--kdna-checkout-strip-tile-gap, 12px);
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	padding-bottom: 2px;
+}
+
+.kdna-checkout-strip__tile {
+	flex: 0 0 auto;
+	width: var(--kdna-checkout-strip-tile-size, 96px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	background: var(--kdna-checkout-strip-tile-bg, #ffffff);
+	border-style: var(--kdna-checkout-strip-tile-border-style, solid);
+	border-width: var(--kdna-checkout-strip-tile-border-width, 1px);
+	border-color: var(--kdna-checkout-strip-tile-border-colour, #e2e4e7);
+	border-radius: var(--kdna-checkout-strip-tile-radius, 8px);
+	padding: var(--kdna-checkout-strip-tile-padding, 8px);
+}
+
+.kdna-checkout-strip__image {
+	display: block;
+	width: 100%;
+}
+
+.kdna-checkout-strip__image img,
+.kdna-checkout-strip__image-ph {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: var(--kdna-checkout-strip-image-radius, 6px);
+}
+
+.kdna-checkout-strip__image-ph {
+	background: #dfe3e7;
+}
+
+.kdna-checkout-strip__name {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	width: 100%;
+	margin-top: 6px;
+	font-size: var(--kdna-checkout-strip-name-size, 12px);
+	line-height: 1.3;
+}
+
+.kdna-checkout-strip__controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+.kdna-checkout-strip__qty {
+	width: var(--kdna-checkout-strip-qty-width, 48px);
+	text-align: center;
+	font-size: var(--kdna-checkout-strip-qty-size, 12px);
+	padding: 2px 4px;
+	background: var(--kdna-checkout-strip-qty-bg, #ffffff);
+	border-style: var(--kdna-checkout-strip-qty-border-style, solid);
+	border-width: var(--kdna-checkout-strip-qty-border-width, 1px);
+	border-color: var(--kdna-checkout-strip-qty-border-colour, #d5d9dd);
+	border-radius: var(--kdna-checkout-strip-qty-radius, 4px);
+}
+
+.kdna-checkout-strip__qty-static {
+	display: none;
+	margin-top: 6px;
+	font-size: var(--kdna-checkout-strip-qty-size, 12px);
+}
+
+.kdna-checkout-strip__remove {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	padding: 0;
+	font-size: var(--kdna-checkout-strip-remove-size, 14px);
+	line-height: 1;
+	color: var(--kdna-checkout-strip-remove-colour, #7c848b);
+	background: var(--kdna-checkout-strip-remove-bg, transparent);
+	border: 0 solid transparent;
+	border-radius: var(--kdna-checkout-strip-remove-radius, 50%);
+	cursor: pointer;
+}
+
+.kdna-checkout-strip__remove:hover,
+.kdna-checkout-strip__remove:focus {
+	color: var(--kdna-checkout-strip-remove-hover-colour, #d63638);
+	background: var(--kdna-checkout-strip-remove-hover-bg, #eceef0);
+}
+
+.kdna-checkout-strip__meta {
+	flex: 0 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+	gap: 6px;
+	padding-left: var(--kdna-checkout-strip-subtotal-gap, 12px);
+}
+
+.kdna-checkout-strip__subtotal {
+	text-align: right;
+	white-space: nowrap;
+}
+
+.kdna-checkout-strip__subtotal-label {
+	display: block;
+	font-size: var(--kdna-checkout-strip-subtotal-label-size, 12px);
+	color: var(--kdna-checkout-strip-subtotal-label-colour, #7c848b);
+}
+
+.kdna-checkout-strip__subtotal-amount {
+	display: block;
+	font-weight: 600;
+}
+
+.kdna-checkout-strip__edit-link {
+	background: transparent;
+	border: 0 solid transparent;
+	padding: 0;
+	font-size: var(--kdna-checkout-strip-edit-size, 12px);
+	color: var(--kdna-checkout-strip-edit-colour, #2271b1);
+	text-decoration: underline;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.kdna-checkout-strip__empty {
+	margin: 0;
+	padding: 4px 0;
+}
+
+/* Item-controls modes. Full shows everything (default). */
+
+.kdna-checkout-strip--controls-subtle .kdna-checkout-strip__remove {
+	opacity: var(--kdna-checkout-strip-remove-subtle-opacity, 0.45);
+	font-size: calc(var(--kdna-checkout-strip-remove-size, 14px) * 0.85);
+}
+
+.kdna-checkout-strip--controls-subtle .kdna-checkout-strip__remove:hover,
+.kdna-checkout-strip--controls-subtle .kdna-checkout-strip__remove:focus {
+	opacity: 1;
+}
+
+.kdna-checkout-strip--controls-edit:not(.kdna-checkout-strip--editing) .kdna-checkout-strip__controls,
+.kdna-checkout-strip--controls-locked .kdna-checkout-strip__controls {
+	display: none;
+}
+
+.kdna-checkout-strip--controls-edit:not(.kdna-checkout-strip--editing) .kdna-checkout-strip__qty-static,
+.kdna-checkout-strip--controls-locked .kdna-checkout-strip__qty-static {
+	display: block;
+}
+
+/* Sticky, independently per device. */
+
+@media (min-width: 768px) {
+	.kdna-checkout-strip--sticky-desktop {
+		position: sticky;
+		top: var(--kdna-checkout-strip-sticky-offset, 0px);
+		z-index: 20;
+	}
+}
+
+@media (max-width: 767px) {
+	.kdna-checkout-strip--sticky-mobile {
+		position: sticky;
+		top: var(--kdna-checkout-strip-sticky-offset, 0px);
+		z-index: 20;
+	}
+}
+
+/* ------------------------------------------------------------------ *
  * Elementor editor placeholder
  * ------------------------------------------------------------------ */
 
