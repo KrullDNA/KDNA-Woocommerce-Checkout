@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.6.0
+Stable tag: 0.7.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 6 of 12, field optimisation and guest checkout.
+Current build stage: Stage 7 of 12, order bumps.
 
 * KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
 * The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
@@ -49,6 +49,15 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.7.0 =
+* Stage 7: order bumps.
+* Order bump editor under Settings > Order Bumps: product search, optional percentage or fixed discount, description, optional image (featured image, falls back to the product image) and which checkout the bump applies to; the entry title is the headline.
+* Tick-to-add bump box above the pay button, showing the original and discounted price.
+* Ticking adds the product at the discounted price via AJAX with no reload and updates the totals; unticking removes it cleanly.
+* Fail-safe: default unticked and full price; deleted, unpublished, unbuyable or out-of-stock bump products never render or discount; discounts never compound across recalculations.
+* Elementor Style controls for the bump box: background, full border group, radius, box-shadow, padding, margin, headline/description/price typography and colour, checkbox accent and size, image size and radius.
+* The bump ID is recorded on the order line item for traceability.
 
 = 0.6.0 =
 * Stage 6: field optimisation and guest checkout.

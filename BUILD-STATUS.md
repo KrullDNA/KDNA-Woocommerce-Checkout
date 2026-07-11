@@ -10,12 +10,23 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 4 | Cart strip (mini-cart) | **Complete** (v0.4.0, 2026-07-11) |
 | Stage 5 | Express payment row + styling | **Complete** (v0.5.0, 2026-07-11) |
 | Stage 6 | Field optimisation & guest checkout | **Complete** (v0.6.0, 2026-07-11) |
-| Stage 7 | Order bumps | Not started |
+| Stage 7 | Order bumps | **Complete** (v0.7.0, 2026-07-11) |
 | Stage 8 | Trust signals block | Not started |
 | Stage 9 | Google Places address autocomplete | Not started |
 | Stage 10 | Abandoned-cart capture (data layer) | Not started |
 | Stage 11 | Recovery email sequence (admin-built + branded template) | Not started |
 | Stage 12 | Polish, compatibility & packaging | Not started |
+
+## Stage 7 session notes
+
+- `includes/class-kdna-checkout-order-bump.php` owns everything: admin meta boxes on the Stage 1 `kdna_order_bump` CPT, the front-end box, the AJAX toggle and the discount filter. The CPT is surfaced under the Settings menu via the `register_post_type_args` filter (no Stage 1 file modified), and featured-image support is added for the optional bump image without widening theme support when the theme already has it.
+- Admin fields: WooCommerce product search select (products and variations, enqueued only on the bump edit screen), discount type (none/percentage/fixed) and amount (negative clamps to 0, percentage caps at 100, unknown type falls back to none), description textarea, applies-to page select (default all checkouts). Headline = post title; image = featured image with product-image fallback. Nonce, capability and autosave guards on save; everything sanitised.
+- Front end renders on `woocommerce_review_order_before_submit` (above the pay button, inside the payment fragment), so WooCommerce's own fragment refresh re-renders the box with the server-confirmed checked state after every totals update. A hidden `kdna_checkout_page_id` field keeps the applies-to page context available during AJAX refreshes, parsed from `post_data`.
+- Ticking posts `kdna_checkout_bump_toggle` (nonce-checked, guest-capable): adds the product (variation-aware) once with a `kdna_bump_id` cart item marker; unticking removes marked items; the client then triggers `update_checkout` so totals and the box refresh with no reload. Failure reverts the checkbox.
+- Discount applies in `woocommerce_before_calculate_totals`, always computed from a pristine product instance so repeated recalculations never compound a percentage. Fail-safes throughout: deleted/unpublished bumps leave full price; unbuyable or out-of-stock products never render; default state is unticked and full price. `_kdna_bump_id` is written to the order line item.
+- Style section "Order Bump": background, full border group, separate radius, box-shadow, padding, margin, headline/description/price typography and colours, checkbox accent colour and size, image size and radius; all `{{WRAPPER}}`-scoped. The editor placeholder shows a bump skeleton in the summary card for live style feedback.
+- One bug caught by the smoke test during the session: `discounted_price()` returned int 0 from `max()` when a fixed discount exceeded the price; now cast to float.
+- Verified by the Stage 7 smoke test (discount maths and clamps, applies-to matching, render including checked state and skips, AJAX add/no-dup/remove/404, no compounding, unpublished-bump full price, save sanitisation, style section and hygiene sweep, editor skeleton), a jsdom bump toggle test, and the full Stage 2-6 regression suite.
 
 ## Stage 6 session notes
 

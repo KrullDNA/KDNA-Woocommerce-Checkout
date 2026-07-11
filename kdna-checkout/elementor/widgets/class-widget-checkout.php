@@ -538,6 +538,210 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->style_section_strip_subtotal();
 		$this->style_section_express_row();
 		$this->style_section_express_divider();
+		$this->style_section_order_bump();
+	}
+
+	/**
+	 * Style > Order Bump (Stage 7).
+	 *
+	 * @return void
+	 */
+	private function style_section_order_bump() {
+		$this->start_controls_section(
+			'style_order_bump',
+			array(
+				'label' => __( 'Order Bump', 'kdna-checkout' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			)
+		);
+
+		$this->add_control(
+			'bump_background_colour',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-bump' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'bump_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-bump',
+			)
+		);
+
+		$this->add_responsive_control(
+			'bump_border_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-bump' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Box_Shadow::get_type(),
+			array(
+				'name'     => 'bump_box_shadow',
+				'label'    => __( 'Box shadow', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-bump',
+			)
+		);
+
+		$this->add_responsive_control(
+			'bump_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-bump' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'bump_margin',
+			array(
+				'label'      => __( 'Margin', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-bump' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'      => 'bump_headline_typography',
+				'label'     => __( 'Headline typography', 'kdna-checkout' ),
+				'selector'  => '{{WRAPPER}} .kdna-checkout-bump__headline',
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_control(
+			'bump_headline_colour',
+			array(
+				'label'     => __( 'Headline colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-bump__headline' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'bump_body_typography',
+				'label'    => __( 'Description typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-bump__description',
+			)
+		);
+
+		$this->add_control(
+			'bump_body_colour',
+			array(
+				'label'     => __( 'Description colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-bump__description' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'bump_price_typography',
+				'label'    => __( 'Price typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-bump__price',
+			)
+		);
+
+		$this->add_control(
+			'bump_price_colour',
+			array(
+				'label'     => __( 'Price colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-bump__price ins, {{WRAPPER}} .kdna-checkout-bump__price' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'bump_checkbox_accent',
+			array(
+				'label'     => __( 'Checkbox accent colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'separator' => 'before',
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-bump__checkbox' => 'accent-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'bump_checkbox_size',
+			array(
+				'label'      => __( 'Checkbox size', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 12,
+						'max' => 40,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-bump__checkbox' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'bump_image_size',
+			array(
+				'label'      => __( 'Image size', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 32,
+						'max' => 160,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}}' => '--kdna-checkout-bump-image-size: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'bump_image_radius',
+			array(
+				'label'      => __( 'Image border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-bump__image img, {{WRAPPER}} .kdna-checkout-bump__image-ph' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
 	}
 
 	/**
@@ -2638,6 +2842,17 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 						<div class="kdna-checkout__ph-line"></div>
 						<div class="kdna-checkout__ph-line"></div>
 						<div class="kdna-checkout__ph-line kdna-checkout__ph-line--total"></div>
+						<div class="kdna-checkout-bump kdna-checkout-bump--skeleton">
+							<label class="kdna-checkout-bump__label">
+								<input type="checkbox" class="kdna-checkout-bump__checkbox" disabled />
+								<span class="kdna-checkout-bump__image"><span class="kdna-checkout-bump__image-ph"></span></span>
+								<span class="kdna-checkout-bump__text">
+									<span class="kdna-checkout-bump__headline"><?php echo esc_html__( 'Order bump headline', 'kdna-checkout' ); ?></span>
+									<span class="kdna-checkout-bump__description"><?php echo esc_html__( 'Published order bumps appear here, above the pay button.', 'kdna-checkout' ); ?></span>
+									<span class="kdna-checkout-bump__price"><del>&#163;20.00</del> <ins>&#163;16.00</ins></span>
+								</span>
+							</label>
+						</div>
 						<div class="kdna-checkout__ph-button"></div>
 					</div>
 				</div>

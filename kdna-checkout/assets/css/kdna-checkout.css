@@ -426,6 +426,100 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Order bump (Stage 7)
+ *
+ * Tick-to-add offer box rendered above the pay button. Defaults are
+ * neutral and every value is overridable from the Elementor controls.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-bump {
+	display: block;
+	margin: 0 0 var(--kdna-checkout-bump-margin-bottom, 16px);
+	background: var(--kdna-checkout-bump-bg, #f7f8f9);
+	border-style: var(--kdna-checkout-bump-border-style, dashed);
+	border-width: var(--kdna-checkout-bump-border-width, 2px);
+	border-color: var(--kdna-checkout-bump-border-colour, #cfd4d9);
+	border-radius: var(--kdna-checkout-bump-radius, 8px);
+	padding: var(--kdna-checkout-bump-padding, 14px);
+}
+
+.kdna-checkout-bump--busy {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.kdna-checkout-bump__label {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	cursor: pointer;
+	margin: 0;
+}
+
+.kdna-checkout-bump__checkbox {
+	flex: 0 0 auto;
+	margin: 2px 0 0;
+	width: var(--kdna-checkout-bump-checkbox-size, 18px);
+	height: var(--kdna-checkout-bump-checkbox-size, 18px);
+	accent-color: var(--kdna-checkout-bump-accent, #2271b1);
+	cursor: pointer;
+}
+
+.kdna-checkout-bump__image {
+	flex: 0 0 auto;
+	width: var(--kdna-checkout-bump-image-size, 64px);
+}
+
+.kdna-checkout-bump__image img,
+.kdna-checkout-bump__image-ph {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: var(--kdna-checkout-bump-image-radius, 6px);
+}
+
+.kdna-checkout-bump__image-ph {
+	background: #dfe3e7;
+}
+
+.kdna-checkout-bump__text {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.kdna-checkout-bump__headline {
+	display: block;
+	font-weight: 600;
+	font-size: var(--kdna-checkout-bump-headline-size, 14px);
+	line-height: 1.4;
+}
+
+.kdna-checkout-bump__description {
+	display: block;
+	margin-top: 2px;
+	font-size: var(--kdna-checkout-bump-body-size, 13px);
+	line-height: 1.45;
+	color: var(--kdna-checkout-bump-body-colour, #50575e);
+}
+
+.kdna-checkout-bump__price {
+	display: block;
+	margin-top: 4px;
+	font-size: var(--kdna-checkout-bump-price-size, 13px);
+}
+
+.kdna-checkout-bump__price del {
+	opacity: 0.6;
+	margin-right: 6px;
+}
+
+.kdna-checkout-bump__price ins {
+	text-decoration: none;
+	font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ *
  * Elementor editor placeholder
  * ------------------------------------------------------------------ */
 

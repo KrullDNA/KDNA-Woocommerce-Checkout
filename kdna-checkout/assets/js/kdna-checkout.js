@@ -525,3 +525,78 @@
 		}
 	} );
 }() );
+
+/**
+ * Stage 7: order bump toggle.
+ *
+ * Ticking the bump checkbox adds the offered product (at its
+ * discounted price) via AJAX with no reload; unticking removes it.
+ * Totals refresh through WooCommerce's own update_checkout event,
+ * whose fragment re-render also restores the checkbox state from the
+ * cart, so the box always reflects reality. Events are delegated to
+ * the document because the payment box is replaced on every refresh.
+ */
+( function () {
+	'use strict';
+
+	document.addEventListener( 'change', function ( event ) {
+		var checkbox = event.target;
+		if ( ! checkbox.classList || ! checkbox.classList.contains( 'kdna-checkout-bump__checkbox' ) ) {
+			return;
+		}
+
+		var box = checkbox.closest ? checkbox.closest( '.kdna-checkout-bump' ) : null;
+		if ( ! box || box.classList.contains( 'kdna-checkout-bump--skeleton' ) ) {
+			return;
+		}
+
+		var cfg = window.kdnaCheckoutBump;
+		if ( ! cfg || ! window.fetch ) {
+			return;
+		}
+
+		var ticked = checkbox.checked;
+
+		box.classList.add( 'kdna-checkout-bump--busy' );
+		checkbox.disabled = true;
+
+		var data = new window.FormData();
+		data.append( 'action', 'kdna_checkout_bump_toggle' );
+		data.append( 'nonce', cfg.nonce );
+		data.append( 'bump_id', box.getAttribute( 'data-bump' ) || '0' );
+		data.append( 'ticked', ticked ? '1' : '0' );
+
+		window.fetch( cfg.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: data } )
+			.then( function ( response ) {
+				return response.json();
+			} )
+			.then( function ( result ) {
+				if ( ! result || ! result.success ) {
+					// Fail-safe: revert to the previous state.
+					checkbox.checked = ! ticked;
+					box.classList.remove( 'kdna-checkout-bump--busy' );
+					checkbox.disabled = false;
+					return;
+				}
+
+				box.dispatchEvent( new CustomEvent( 'kdna:bump-toggled', {
+					bubbles: true,
+					detail: { inCart: !! result.data.in_cart },
+				} ) );
+
+				// The fragment refresh re-renders the bump box with the
+				// server-confirmed state and updated totals.
+				if ( window.jQuery ) {
+					window.jQuery( document.body ).trigger( 'update_checkout' );
+				} else {
+					box.classList.remove( 'kdna-checkout-bump--busy' );
+					checkbox.disabled = false;
+				}
+			} )
+			.catch( function () {
+				checkbox.checked = ! ticked;
+				box.classList.remove( 'kdna-checkout-bump--busy' );
+				checkbox.disabled = false;
+			} );
+	} );
+}() );
