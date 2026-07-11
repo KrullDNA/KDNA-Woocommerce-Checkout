@@ -273,3 +273,139 @@
 		}
 	} );
 }() );
+
+/**
+ * Stage 5: express payment row.
+ *
+ * The gateways render their express buttons wherever they normally do
+ * (usually inside the checkout form). This module relocates the known
+ * express wrappers into the row at the top, hides the gateways' own
+ * separators, and shows the row only while at least one relocated
+ * button is actually visible. Gateways keep full ownership of their
+ * buttons; nodes are moved, never rebuilt, so their JS keeps working.
+ */
+( function () {
+	'use strict';
+
+	function parseList( root, attribute ) {
+		try {
+			var parsed = JSON.parse( root.getAttribute( attribute ) || '[]' );
+			return Array.isArray( parsed ) ? parsed : [];
+		} catch ( error ) {
+			return [];
+		}
+	}
+
+	function isVisible( el ) {
+		if ( el.hidden ) {
+			return false;
+		}
+		if ( window.getComputedStyle && 'none' === window.getComputedStyle( el ).display ) {
+			return false;
+		}
+		return true;
+	}
+
+	function setUp( row ) {
+		if ( row.classList.contains( 'kdna-checkout-express--skeleton' ) ) {
+			return; // Editor skeleton: static, never scans for gateways.
+		}
+
+		var root      = row.closest( '.kdna-checkout' ) || document;
+		var buttons   = row.querySelector( '.kdna-checkout-express__buttons' );
+		var selectors = parseList( row, 'data-selectors' );
+		var hide      = parseList( row, 'data-hide' );
+
+		if ( ! buttons ) {
+			return;
+		}
+
+		function collect() {
+			selectors.forEach( function ( selector ) {
+				var found;
+				try {
+					found = root.querySelectorAll( selector );
+				} catch ( error ) {
+					return; // Ignore an invalid selector from the filter.
+				}
+				Array.prototype.slice.call( found ).forEach( function ( el ) {
+					if ( ! buttons.contains( el ) ) {
+						buttons.appendChild( el );
+					}
+				} );
+			} );
+
+			hide.forEach( function ( selector ) {
+				var found;
+				try {
+					found = root.querySelectorAll( selector );
+				} catch ( error ) {
+					return;
+				}
+				Array.prototype.slice.call( found ).forEach( function ( el ) {
+					el.classList.add( 'kdna-checkout-express-hide' );
+				} );
+			} );
+		}
+
+		function updateVisibility() {
+			var children = Array.prototype.slice.call( buttons.children );
+			var anyVisible = children.some( isVisible );
+			row.classList.toggle( 'kdna-checkout-express--active', anyVisible );
+		}
+
+		function scan() {
+			collect();
+			updateVisibility();
+		}
+
+		scan();
+
+		// Gateways initialise asynchronously: some insert their wrapper
+		// late, most reveal it only once the payment sheet is confirmed
+		// available. Watch briefly, then settle.
+		var scheduled = null;
+		var observer  = null;
+
+		function scheduleScan() {
+			if ( scheduled ) {
+				return;
+			}
+			scheduled = window.setTimeout( function () {
+				scheduled = null;
+				scan();
+			}, 100 );
+		}
+
+		if ( window.MutationObserver && root !== document ) {
+			observer = new MutationObserver( scheduleScan );
+			observer.observe( root, {
+				childList: true,
+				subtree: true,
+				attributes: true,
+				attributeFilter: [ 'style', 'class', 'hidden' ],
+			} );
+			window.setTimeout( function () {
+				observer.disconnect();
+			}, 15000 );
+		}
+
+		[ 500, 1500, 3000 ].forEach( function ( delay ) {
+			window.setTimeout( scan, delay );
+		} );
+
+		if ( window.jQuery ) {
+			window.jQuery( document.body ).on( 'updated_checkout', scan );
+		}
+	}
+
+	function boot() {
+		Array.prototype.slice.call( document.querySelectorAll( '.kdna-checkout-express' ) ).forEach( setUp );
+	}
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', boot );
+	} else {
+		boot();
+	}
+}() );

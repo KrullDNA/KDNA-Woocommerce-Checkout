@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.4.0
+Stable tag: 0.5.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 4 of 12, cart strip (mini-cart).
+Current build stage: Stage 5 of 12, express payment row.
 
 * KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
 * The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
@@ -49,6 +49,14 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.5.0 =
+* Stage 5: the express payment row.
+* Express buttons output by the active gateways (Apple Pay, Google Pay, PayPal Express, Stripe Link, Afterpay/Zip) are gathered into a row at the top of the checkout, above the form.
+* Styled "or pay with card below" divider with editable text.
+* Fail-safe: the row only appears while at least one gateway button is actually visible; an inactive gateway leaves no gap and no error.
+* Content toggles for the row and the divider; Style controls for the container (background, border, radius, shadow, padding, margin, button gap) and the divider (line colour and thickness, text typography and colour, spacing).
+* Filters kdna_checkout_express_selectors / kdna_checkout_express_hide_selectors and the kdna_checkout_express_buttons action for extending gateway coverage.
 
 = 0.4.0 =
 * Stage 4: the cart strip (mini-cart) at the very top of the checkout.

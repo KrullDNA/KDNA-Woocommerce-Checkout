@@ -158,7 +158,64 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	protected function register_controls() {
 		$this->register_layout_controls();
 		$this->register_cart_strip_controls();
+		$this->register_express_controls();
 		$this->register_style_controls();
+	}
+
+	/**
+	 * Content tab > Express Payments (Stage 5).
+	 *
+	 * @return void
+	 */
+	private function register_express_controls() {
+		$this->start_controls_section(
+			'section_express',
+			array(
+				'label' => __( 'Express Payments', 'kdna-checkout' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'show_express',
+			array(
+				'label'        => __( 'Show express payment row', 'kdna-checkout' ),
+				'description'  => __( 'Express buttons from the active gateways (Apple Pay, Google Pay, PayPal, Stripe Link, Afterpay/Zip) gather here, above the form. Buttons only appear when their gateway offers them.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'kdna-checkout' ),
+				'label_off'    => __( 'Hide', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+
+		$this->add_control(
+			'show_express_divider',
+			array(
+				'label'        => __( 'Show divider', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'kdna-checkout' ),
+				'label_off'    => __( 'Hide', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => array( 'show_express' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'express_divider_text',
+			array(
+				'label'     => __( 'Divider text', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::TEXT,
+				'default'   => __( 'or pay with card below', 'kdna-checkout' ),
+				'condition' => array(
+					'show_express'         => 'yes',
+					'show_express_divider' => 'yes',
+				),
+			)
+		);
+
+		$this->end_controls_section();
 	}
 
 	/**
@@ -332,6 +389,235 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->style_section_strip_remove();
 		$this->style_section_strip_edit_link();
 		$this->style_section_strip_subtotal();
+		$this->style_section_express_row();
+		$this->style_section_express_divider();
+	}
+
+	/**
+	 * Style > Express Payment Row.
+	 *
+	 * @return void
+	 */
+	private function style_section_express_row() {
+		$this->start_controls_section(
+			'style_express_row',
+			array(
+				'label'     => __( 'Express Payment Row', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array( 'show_express' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'express_background_colour',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-express' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'express_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-express',
+			)
+		);
+
+		$this->add_responsive_control(
+			'express_border_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-express' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Box_Shadow::get_type(),
+			array(
+				'name'     => 'express_box_shadow',
+				'label'    => __( 'Box shadow', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-express',
+			)
+		);
+
+		$this->add_responsive_control(
+			'express_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-express' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'express_margin',
+			array(
+				'label'      => __( 'Margin', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-express' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'express_button_gap',
+			array(
+				'label'      => __( 'Gap between buttons', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 60,
+					),
+				),
+				'separator'  => 'before',
+				'selectors'  => array(
+					'{{WRAPPER}}' => '--kdna-checkout-express-gap: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'express_button_min_width',
+			array(
+				'label'       => __( 'Button minimum width', 'kdna-checkout' ),
+				'description' => __( 'Buttons narrower than this wrap onto a new line.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'size_units'  => array( 'px', '%' ),
+				'range'       => array(
+					'px' => array(
+						'min' => 120,
+						'max' => 600,
+					),
+				),
+				'selectors'   => array(
+					'{{WRAPPER}}' => '--kdna-checkout-express-min-width: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Style > Express Divider.
+	 *
+	 * @return void
+	 */
+	private function style_section_express_divider() {
+		$this->start_controls_section(
+			'style_express_divider',
+			array(
+				'label'     => __( 'Express Divider', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					'show_express'         => 'yes',
+					'show_express_divider' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'express_divider_line_colour',
+			array(
+				'label'     => __( 'Line colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-express__divider' => '--kdna-checkout-express-divider-colour: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'express_divider_line_thickness',
+			array(
+				'label'      => __( 'Line thickness', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 1,
+						'max' => 10,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-express__divider' => '--kdna-checkout-express-divider-thickness: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'express_divider_typography',
+				'label'    => __( 'Text typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-express__divider-text',
+			)
+		);
+
+		$this->add_control(
+			'express_divider_text_colour',
+			array(
+				'label'     => __( 'Text colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-express__divider-text' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'express_divider_text_gap',
+			array(
+				'label'      => __( 'Gap around the text', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 60,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-express__divider' => '--kdna-checkout-express-divider-gap: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'express_divider_spacing',
+			array(
+				'label'      => __( 'Spacing above the divider', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 80,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-express__divider' => 'margin-top: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
 	}
 
 	/**
@@ -1966,9 +2252,15 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		}
 
 		// Cart strip (Stage 4): the very top of the checkout, above the
-		// express payment row that arrives in Stage 5.
+		// express payment row.
 		if ( $this->show_cart_strip( $settings ) && class_exists( 'KDNA_Checkout_Cart_Strip' ) ) {
 			echo KDNA_Checkout_Cart_Strip::render( $this->strip_args( $settings ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Strip markup is escaped where it is built.
+		}
+
+		// Express payment row (Stage 5): below the strip, above the form.
+		// Hidden until the widget JS confirms a gateway button is visible.
+		if ( $this->show_express( $settings ) && class_exists( 'KDNA_Checkout_Express' ) ) {
+			echo KDNA_Checkout_Express::render( $this->express_args( $settings ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Express row markup is escaped where it is built.
 		}
 
 		// Native WooCommerce classic shortcode checkout, reflowed by the widget CSS/JS.
@@ -1984,6 +2276,29 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	 */
 	private function show_cart_strip( array $settings ) {
 		return isset( $settings['show_cart_strip'] ) && 'yes' === $settings['show_cart_strip'];
+	}
+
+	/**
+	 * Whether the express payment row is enabled in the widget settings.
+	 *
+	 * @param array $settings Widget settings.
+	 * @return bool
+	 */
+	private function show_express( array $settings ) {
+		return isset( $settings['show_express'] ) && 'yes' === $settings['show_express'];
+	}
+
+	/**
+	 * Map widget settings to express row render arguments.
+	 *
+	 * @param array $settings Widget settings.
+	 * @return array
+	 */
+	private function express_args( array $settings ) {
+		return array(
+			'show_divider' => isset( $settings['show_express_divider'] ) && 'yes' === $settings['show_express_divider'],
+			'divider_text' => $settings['express_divider_text'] ?? '',
+		);
 	}
 
 	/**
@@ -2084,6 +2399,19 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 								<span class="kdna-checkout-strip__subtotal-amount">&#163;0.00</span>
 							</div>
 						</div>
+					</div>
+				<?php endif; ?>
+				<?php if ( $this->show_express( $settings ) ) : ?>
+					<div class="kdna-checkout-express kdna-checkout-express--active kdna-checkout-express--skeleton">
+						<div class="kdna-checkout-express__buttons">
+							<span class="kdna-checkout-express__ph-button"></span>
+							<span class="kdna-checkout-express__ph-button"></span>
+						</div>
+						<?php if ( isset( $settings['show_express_divider'] ) && 'yes' === $settings['show_express_divider'] ) : ?>
+							<div class="kdna-checkout-express__divider" aria-hidden="true">
+								<span class="kdna-checkout-express__divider-text"><?php echo esc_html( '' !== trim( (string) ( $settings['express_divider_text'] ?? '' ) ) ? $settings['express_divider_text'] : __( 'or pay with card below', 'kdna-checkout' ) ); ?></span>
+							</div>
+						<?php endif; ?>
 					</div>
 				<?php endif; ?>
 				<div class="kdna-checkout__ph-columns">

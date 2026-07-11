@@ -8,7 +8,7 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 2 | Elementor checkout widget (structure) | **Complete** (v0.2.0, 2026-07-11) |
 | Stage 3 | Checkout styling controls | **Complete** (v0.3.0, 2026-07-11) |
 | Stage 4 | Cart strip (mini-cart) | **Complete** (v0.4.0, 2026-07-11) |
-| Stage 5 | Express payment row + styling | Not started |
+| Stage 5 | Express payment row + styling | **Complete** (v0.5.0, 2026-07-11) |
 | Stage 6 | Field optimisation & guest checkout | Not started |
 | Stage 7 | Order bumps | Not started |
 | Stage 8 | Trust signals block | Not started |
@@ -16,6 +16,16 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 10 | Abandoned-cart capture (data layer) | Not started |
 | Stage 11 | Recovery email sequence (admin-built + branded template) | Not started |
 | Stage 12 | Polish, compatibility & packaging | Not started |
+
+## Stage 5 session notes
+
+- `includes/class-kdna-checkout-express.php` renders the row container: a buttons area (with a `kdna_checkout_express_buttons` action inside for direct server-side rendering) and an optional divider with editable, escaped text. No payment logic anywhere; gateways keep full ownership of their buttons.
+- Relocation, not re-rendering: a new JS module moves the known gateway express wrappers (Stripe express checkout element and legacy payment request wrapper, WooPayments, PayPal Payments express placements, Afterpay/Zip) into the row and hides the gateways' own "OR" separators. The selector lists are filterable (`kdna_checkout_express_selectors`, `kdna_checkout_express_hide_selectors`) and travel to the JS via data attributes.
+- Fail-safe visibility: the row is `display:none` until the JS confirms at least one relocated button is actually visible (gateways reveal their wrappers only after e.g. `canMakePayment` resolves). A MutationObserver scoped to the widget (auto-disconnects after 15 s), retry scans at 0.5/1.5/3 s and the `updated_checkout` event handle late initialisation, and the row deactivates again if every button hides, so an inactive gateway leaves no gap and no error.
+- Render order inside the wrapper: cart strip, express row, checkout form.
+- Content controls: show/hide row (default shown), show/hide divider, divider text (default "or pay with card below"). Style sections: Express Payment Row (background, full border group, separate radius, box-shadow, padding, margin, gap between buttons, button minimum width) and Express Divider (line colour, line thickness, text typography and colour, gap around the text, spacing above), all condition-gated and `{{WRAPPER}}`-scoped.
+- The editor placeholder shows a static skeleton row (two grey buttons plus the divider) marked `--skeleton` so it never scans for gateways; divider styling previews live in the editor.
+- Verified by a Stage 5 smoke test (render/escaping/fallback text, filter round-trip, no premature `--active`, widget order strip→express→form, toggles, skeleton) and a jsdom test (relocation, separator hiding, activate-on-reveal, late-insert collection, deactivate-when-hidden, Stage 2 reflow coexistence), plus the full Stage 2-4 regression suite.
 
 ## Stage 4 session notes
 

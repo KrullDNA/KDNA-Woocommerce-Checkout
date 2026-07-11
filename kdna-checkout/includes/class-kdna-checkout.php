@@ -80,6 +80,7 @@ final class KDNA_Checkout {
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-cpt.php';
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-assets.php';
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-cart-strip.php';
+		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-express.php';
 
 		// Stage 2: Elementor bootstrap, registers its hooks at file-load time.
 		require_once KDNA_CHECKOUT_PATH . 'elementor/class-kdna-checkout-elementor.php';

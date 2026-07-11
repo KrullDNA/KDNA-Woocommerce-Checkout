@@ -331,6 +331,68 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Express payment row (Stage 5)
+ *
+ * Hidden until the widget JS relocates at least one visible gateway
+ * express button into it, so an inactive gateway leaves no gap.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-express {
+	display: none;
+	margin: 0 0 var(--kdna-checkout-express-margin-bottom, 24px);
+}
+
+.kdna-checkout-express--active {
+	display: block;
+}
+
+.kdna-checkout-express__buttons {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--kdna-checkout-express-gap, 12px);
+}
+
+.kdna-checkout-express__buttons > * {
+	flex: 1 1 var(--kdna-checkout-express-min-width, 240px);
+	min-width: 0;
+	margin: 0;
+}
+
+/* Gateway-rendered separators are replaced by our own divider. */
+.kdna-checkout-express-hide {
+	display: none !important;
+}
+
+.kdna-checkout-express__divider {
+	display: flex;
+	align-items: center;
+	gap: var(--kdna-checkout-express-divider-gap, 16px);
+	margin-top: var(--kdna-checkout-express-divider-spacing, 16px);
+}
+
+.kdna-checkout-express__divider::before,
+.kdna-checkout-express__divider::after {
+	content: '';
+	flex: 1 1 auto;
+	border-top: var(--kdna-checkout-express-divider-thickness, 1px) solid var(--kdna-checkout-express-divider-colour, #e2e4e7);
+}
+
+.kdna-checkout-express__divider-text {
+	flex: 0 0 auto;
+	font-size: var(--kdna-checkout-express-divider-text-size, 13px);
+	color: var(--kdna-checkout-express-divider-text-colour, #7c848b);
+}
+
+/* Editor skeleton buttons. */
+.kdna-checkout-express__ph-button {
+	display: block;
+	height: 44px;
+	border-radius: 6px;
+	background: #c6ccd2;
+}
+
+/* ------------------------------------------------------------------ *
  * Elementor editor placeholder
  * ------------------------------------------------------------------ */
 
