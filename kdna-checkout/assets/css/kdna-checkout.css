@@ -83,6 +83,43 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Pay button icon (Stage 3)
+ *
+ * The icon is cloned into #place_order by the widget JS from an inert
+ * template, and re-applied after WooCommerce fragment refreshes.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout--pay-icon #place_order {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.kdna-checkout__pay-icon {
+	display: inline-flex;
+	align-items: center;
+	line-height: 1;
+}
+
+.kdna-checkout__pay-icon--before {
+	margin-right: var(--kdna-checkout-pay-icon-gap, 8px);
+}
+
+.kdna-checkout__pay-icon--after {
+	margin-left: var(--kdna-checkout-pay-icon-gap, 8px);
+}
+
+.kdna-checkout__pay-icon svg {
+	width: var(--kdna-checkout-pay-icon-size, 1em);
+	height: var(--kdna-checkout-pay-icon-size, 1em);
+	fill: currentColor;
+}
+
+.kdna-checkout__pay-icon i {
+	font-size: var(--kdna-checkout-pay-icon-size, 1em);
+}
+
+/* ------------------------------------------------------------------ *
  * Elementor editor placeholder
  * ------------------------------------------------------------------ */
 

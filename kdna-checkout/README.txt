@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 2 of 12, Elementor checkout widget (structure).
+Current build stage: Stage 3 of 12, checkout styling controls.
 
 * KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
 * The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
@@ -49,6 +49,15 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.3.0 =
+* Stage 3: the complete Elementor Style tab for the KDNA Checkout widget.
+* Grouped style sections: Columns & Spacing, Headings, Field Labels, Input Fields, Order Summary Card, Order Summary Text & Totals, Pay Button.
+* Full box coverage everywhere: background, complete border group, separate border-radius, box-shadow, padding and margin.
+* Distinct, controllable input focus state and pay button hover state (hover styling also applies on keyboard focus).
+* Optional pay button icon with position, spacing and size controls, persisted across WooCommerce AJAX refreshes.
+* Responsive controls for the column layout and all spacing.
+* All generated CSS scoped to the widget instance, so two checkouts can be styled independently.
 
 = 0.2.0 =
 * Stage 2: Elementor checkout widget (structure).

@@ -75,3 +75,65 @@
 		boot();
 	}
 }() );
+
+/**
+ * Stage 3: pay button icon.
+ *
+ * The widget renders the chosen icon into an inert <template> so the
+ * icon markup survives WooCommerce rebuilding the Place Order button
+ * during AJAX fragment refreshes. This module clones the template into
+ * the button on load and again after every updated_checkout event.
+ */
+( function () {
+	'use strict';
+
+	/**
+	 * Inject the icon into the pay button of one widget instance.
+	 *
+	 * @param {HTMLElement} root The .kdna-checkout wrapper.
+	 */
+	function applyPayIcon( root ) {
+		var template = root.querySelector( 'template.kdna-checkout__pay-icon-tpl' );
+		if ( ! template || ! template.content ) {
+			return;
+		}
+
+		var button = root.querySelector( '#place_order' );
+		if ( ! button || button.querySelector( '.kdna-checkout__pay-icon' ) ) {
+			return; // No button yet, or the icon is already in place.
+		}
+
+		var position = 'after' === template.getAttribute( 'data-position' ) ? 'after' : 'before';
+
+		var icon = document.createElement( 'span' );
+		icon.className = 'kdna-checkout__pay-icon kdna-checkout__pay-icon--' + position;
+		icon.setAttribute( 'aria-hidden', 'true' );
+		icon.appendChild( template.content.cloneNode( true ) );
+
+		if ( 'after' === position ) {
+			button.appendChild( icon );
+		} else {
+			button.insertBefore( icon, button.firstChild );
+		}
+	}
+
+	function applyAll() {
+		Array.prototype.slice.call( document.querySelectorAll( '.kdna-checkout--pay-icon' ) ).forEach( applyPayIcon );
+	}
+
+	function boot() {
+		applyAll();
+
+		// WooCommerce replaces the payment box (button included) via
+		// jQuery-driven fragments, so re-apply after each refresh.
+		if ( window.jQuery ) {
+			window.jQuery( document.body ).on( 'updated_checkout', applyAll );
+		}
+	}
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', boot );
+	} else {
+		boot();
+	}
+}() );

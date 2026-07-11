@@ -6,7 +6,7 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | --- | --- | --- |
 | Stage 1 | Foundation & data layer | **Complete** (v0.1.0, 2026-07-11) |
 | Stage 2 | Elementor checkout widget (structure) | **Complete** (v0.2.0, 2026-07-11) |
-| Stage 3 | Checkout styling controls | Not started |
+| Stage 3 | Checkout styling controls | **Complete** (v0.3.0, 2026-07-11) |
 | Stage 4 | Cart strip (mini-cart) | Not started |
 | Stage 5 | Express payment row + styling | Not started |
 | Stage 6 | Field optimisation & guest checkout | Not started |
@@ -16,6 +16,19 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 10 | Abandoned-cart capture (data layer) | Not started |
 | Stage 11 | Recovery email sequence (admin-built + branded template) | Not started |
 | Stage 12 | Polish, compatibility & packaging | Not started |
+
+## Stage 3 session notes
+
+- The full Style tab lives in `elementor/widgets/class-widget-checkout.php`, organised into one private method per section: Columns & Spacing, Headings, Field Labels, Input Fields, Order Summary Card, Order Summary Text & Totals, Pay Button.
+- Every selector is emitted through `{{WRAPPER}}` (Elementor resolves it to the widget instance ID), so two checkout widgets on one site style independently; `.elementor-widget-container` is never referenced, verified by an automated selector sweep.
+- Layout controls (summary column width, column gap, row gap, sticky top offset, pay icon gap/size) set the Stage 2 `--kdna-checkout-*` CSS variables on the wrapper; everything else uses direct instance-scoped selectors, which always out-rank the plugin base CSS.
+- Full styling-coverage convention applied: inputs, summary card and pay button each expose background, the complete border group, separate border-radius, box-shadow, padding and margin. Inputs get a distinct Focus tab (text, background, border colour, box-shadow); the pay button gets a Hover tab whose styles also apply on keyboard focus, plus a transition-duration control.
+- Input selectors cover text inputs, textareas, selects and WooCommerce select2 boxes (including select2 focus/open states); placeholder colour is separate.
+- Pay button icon: an ICONS control renders into an inert `<template>` in the wrapper; a new module in `assets/js/kdna-checkout.js` clones it into `#place_order` on load and re-applies it after every `updated_checkout` fragment refresh (WooCommerce rebuilds the button). Position, spacing and size controls included.
+- Key box controls also target the editor placeholder skeleton (fields, summary card, button) so restyling gives live feedback in the editor without running a live checkout.
+- Responsive controls: summary width, all gaps and spacing, paddings, margins and radii.
+- Content tab untouched; no express buttons. Stage 1/2 files untouched except additive blocks in the shared assets and the version constant (0.3.0).
+- Verified by stubbed-Elementor smoke tests (all sections/controls present, selector hygiene sweep, focus/hover distinctness, icon template render paths, editor placeholder) and jsdom DOM tests (icon injection, idempotency, re-apply after simulated fragment refresh, Stage 2 reflow regression).
 
 ## Stage 2 session notes
 
