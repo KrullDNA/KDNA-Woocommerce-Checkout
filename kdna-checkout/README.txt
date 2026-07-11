@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,13 +21,13 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 1 of 12, foundation and data layer.
+Current build stage: Stage 2 of 12, Elementor checkout widget (structure).
 
-* Plugin scaffold with HPOS compatibility declared and a WooCommerce-active guard.
-* Captured-carts database table created on activation.
-* Recovery email and order bump custom post types registered (admin-only).
-* Settings > KDNA Checkout page shell running Alpine.js with a placeholder.
-* Clean uninstall that removes the table, custom post type content and options.
+* KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
+* The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
+* A clean placeholder shows in the Elementor editor instead of a live checkout.
+* Widget CSS/JS load only on pages containing the widget.
+* Plus everything from Stage 1: HPOS declaration, WooCommerce guard, captured-carts table, admin-only CPTs, settings page shell, clean uninstall.
 
 == Installation ==
 
@@ -49,6 +49,14 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.2.0 =
+* Stage 2: Elementor checkout widget (structure).
+* KDNA Elementor widget category and KDNA Checkout widget, Atomic architecture compliant.
+* Two-column CSS grid reflow of the native classic shortcode checkout with a sticky order summary card.
+* Mobile single-column stacking with an above/below order summary control.
+* Elementor editor placeholder, no live checkout runs in the editor.
+* Front-end assets registered centrally and enqueued only where the widget is used.
 
 = 0.1.0 =
 * Stage 1: foundation and data layer.

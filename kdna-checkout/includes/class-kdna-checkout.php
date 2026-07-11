@@ -36,6 +36,13 @@ final class KDNA_Checkout {
 	public $admin = null;
 
 	/**
+	 * Front-end assets component (Stage 2).
+	 *
+	 * @var KDNA_Checkout_Assets
+	 */
+	public $assets;
+
+	/**
 	 * Return the single plugin instance, creating it on first call.
 	 *
 	 * @return KDNA_Checkout
@@ -64,6 +71,10 @@ final class KDNA_Checkout {
 	private function includes() {
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-install.php';
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-cpt.php';
+		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-assets.php';
+
+		// Stage 2: Elementor bootstrap, registers its hooks at file-load time.
+		require_once KDNA_CHECKOUT_PATH . 'elementor/class-kdna-checkout-elementor.php';
 
 		if ( is_admin() ) {
 			require_once KDNA_CHECKOUT_PATH . 'admin/class-kdna-checkout-admin.php';
@@ -76,7 +87,8 @@ final class KDNA_Checkout {
 	 * @return void
 	 */
 	private function init_components() {
-		$this->cpt = new KDNA_Checkout_CPT();
+		$this->cpt    = new KDNA_Checkout_CPT();
+		$this->assets = new KDNA_Checkout_Assets();
 
 		if ( is_admin() ) {
 			$this->admin = new KDNA_Checkout_Admin();
