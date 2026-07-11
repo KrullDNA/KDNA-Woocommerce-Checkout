@@ -480,6 +480,7 @@
 		if ( message ) {
 			var error = document.createElement( 'span' );
 			error.className = 'kdna-checkout-field-error';
+			error.setAttribute( 'role', 'alert' );
 			error.textContent = message;
 			row.appendChild( error );
 

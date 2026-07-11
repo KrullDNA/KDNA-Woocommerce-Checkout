@@ -15,7 +15,17 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 9 | Google Places address autocomplete | **Complete** (v0.9.0, 2026-07-11) |
 | Stage 10 | Abandoned-cart capture (data layer) | **Complete** (v0.10.0, 2026-07-11) |
 | Stage 11 | Recovery email sequence (admin-built + branded template) | **Complete** (v0.11.0, 2026-07-11) |
-| Stage 12 | Polish, compatibility & packaging | Not started |
+| Stage 12 | Polish, compatibility & packaging | **Complete** (v1.0.0, 2026-07-11) |
+
+## Stage 12 session notes
+
+- Final polish and packaging; version bumped to 1.0.0. No agreed behaviour changed, only additive polish and one conditional-loading fix.
+- Accessibility: added a consistent `:focus-visible` keyboard focus ring on every interactive element in the widget/strip/express/bump (layered on top of the earlier per-element focus styling, overridable via `--kdna-checkout-focus-colour`); `role="group"` + aria-label on the express row; `role="alert"` on inline validation error messages so screen readers announce them; darkened two low-contrast muted-text defaults (strip subtotal label, express divider text) to `#565d66` for WCAG AA. Existing ARIA (strip region/qty/remove labels, edit-link aria-expanded, bump aria-describedby, trust icon role=img, subtotal aria-live) confirmed in place; all admin form fields have associated labels.
+- Conditional-loading audit: found and fixed a gap where `admin.css` (which gained the Captured Carts status-badge styles in Stage 10) only loaded on the main settings page; it now also loads on the Captured Carts screen, while Alpine.js stays limited to the settings page. Front-end assets remain widget-only (registered at priority 5, enqueued via `get_style_depends`/`get_script_depends`); the Google Places script still loads only when enabled and only where the widget runs.
+- i18n: token-parse audit confirms all 470 translation calls use the `kdna-checkout` text domain (no default-domain strings, no hardcoded user-facing JS strings, which are all localised or server-rendered). Added `languages/kdna-checkout.pot` (327 unique strings) for translation readiness.
+- Compatibility: HPOS declared at file-load (`custom_order_tables`), both Elementor widgets implement `has_widget_inner_wrapper()` returning false under `e_optimized_markup` with single-wrapper output and no `.elementor-widget-container` selectors (enforced by the selector-hygiene sweeps across the suite).
+- Packaged as `kdna-checkout.zip` from the `kdna-checkout/` folder only (no dev/test files; those live in the session scratchpad, never in the plugin).
+- Full suite still green after the polish edits: 10 PHP smoke tests + 9 jsdom DOM tests = 19 tests.
 
 ## Stage 11 session notes
 

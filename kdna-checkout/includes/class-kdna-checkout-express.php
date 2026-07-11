@@ -105,6 +105,8 @@ class KDNA_Checkout_Express {
 		ob_start();
 		?>
 		<div class="kdna-checkout-express"
+			role="group"
+			aria-label="<?php echo esc_attr__( 'Express payment options', 'kdna-checkout' ); ?>"
 			data-selectors="<?php echo esc_attr( wp_json_encode( self::button_selectors() ) ); ?>"
 			data-hide="<?php echo esc_attr( wp_json_encode( self::hide_selectors() ) ); ?>">
 			<div class="kdna-checkout-express__buttons">

@@ -1,0 +1,1321 @@
+# KDNA Checkout translation template.
+# Copyright (C) 2026 Krull Design & Advertising
+# This file is distributed under the GPL-2.0-or-later license.
+msgid ""
+msgstr ""
+"Project-Id-Version: KDNA Checkout 1.0.0\n"
+"Report-Msgid-Bugs-To: https://krulldna.com/\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: kdna-checkout\n"
+
+#: elementor/widgets/class-widget-checkout.php:563
+msgid "\"Done\" link text"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:550
+msgid "\"Edit\" link text"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:101
+msgid "100% safe and secure checkout. Your payment details are encrypted."
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:141
+msgid "A short line shown in the email footer (for example your business address)."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:485
+msgid "A sideways-scrolling row of product tiles at the very top of the checkout."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:348
+msgid "A valid email address is needed."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:632
+msgid "Abandoned"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:188
+msgid "Abandoned-cart capture"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:458
+msgid "Above the customer details"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:114
+msgid "Above the icons"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:631
+msgid "Active"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:90 includes/class-kdna-checkout-cpt.php:91
+msgid "Add Order Bump"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:61 includes/class-kdna-checkout-cpt.php:62
+msgid "Add Recovery Email"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:207
+msgid "Add a step"
+msgstr ""
+
+#: includes/class-kdna-checkout-autocomplete.php:148
+msgid "Address autocomplete"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:234
+msgid "Address line 2"
+msgstr ""
+
+#: admin/class-kdna-checkout-admin.php:140
+msgid "Admin interface loaded, Alpine.js is running."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1694
+msgid "After the text"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:170 elementor/widgets/class-widget-checkout.php:2617
+msgid "Alignment"
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:233
+msgid "All checkouts"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:630
+msgid "All statuses"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:49
+msgid "American Express"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2606
+msgid "Amount colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2598
+msgid "Amount typography"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:63
+msgid "Apple Pay"
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:226
+msgid "Applies to"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:353
+msgid "Attached to the recovery link and available as {coupon_code}."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:196
+msgid "Auto-purge captured carts"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:300 elementor/widgets/class-widget-checkout.php:638 elementor/widgets/class-widget-checkout.php:842 elementor/widgets/class-widget-checkout.php:1349 elementor/widgets/class-widget-checkout.php:1396 elementor/widgets/class-widget-checkout.php:1496 elementor/widgets/class-widget-checkout.php:1760 elementor/widgets/class-widget-checkout.php:1807
+msgid "Background colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1693
+msgid "Before the text"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:209 elementor/widgets/class-widget-checkout.php:457
+msgid "Below the customer details"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:113
+msgid "Below the icons"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:315 elementor/widgets/class-widget-checkout.php:650 elementor/widgets/class-widget-checkout.php:854 elementor/widgets/class-widget-checkout.php:1361 elementor/widgets/class-widget-checkout.php:1508 elementor/widgets/class-widget-checkout.php:1772 elementor/widgets/class-widget-checkout.php:1926 elementor/widgets/class-widget-checkout.php:2086
+msgid "Border"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1407 elementor/widgets/class-widget-checkout.php:1818 elementor/widgets/class-widget-checkout.php:2410 elementor/widgets/class-widget-checkout.php:2545
+msgid "Border colour"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:325 elementor/widgets/class-widget-checkout.php:658 elementor/widgets/class-widget-checkout.php:862 elementor/widgets/class-widget-checkout.php:1430 elementor/widgets/class-widget-checkout.php:1516 elementor/widgets/class-widget-checkout.php:1859 elementor/widgets/class-widget-checkout.php:1934 elementor/widgets/class-widget-checkout.php:2094
+msgid "Border radius"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:340 elementor/widgets/class-widget-checkout.php:671 elementor/widgets/class-widget-checkout.php:875 elementor/widgets/class-widget-checkout.php:1370 elementor/widgets/class-widget-checkout.php:1419 elementor/widgets/class-widget-checkout.php:1529 elementor/widgets/class-widget-checkout.php:1781 elementor/widgets/class-widget-checkout.php:1830
+msgid "Box shadow"
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:66
+msgid "Brand colour"
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:93
+msgid "Brand the recovery emails to match the checkout. These apply to every step in the recovery sequence."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:203
+msgid "Build the sequence as recovery-email steps, each with its own delay and optional coupon. Steps are sent in order of their delay from abandonment. Nothing sends until this is switched on and at least one step exists."
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:67
+msgid "Button colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:926
+msgid "Button minimum width"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:927
+msgid "Buttons narrower than this wrap onto a new line."
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:129
+msgid "Call-to-action button colour (hex)."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:193
+msgid "Capture carts"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:220
+msgid "Capture carts and emails on the checkout"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:658
+msgid "Captured"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:590 includes/class-kdna-checkout-cart-capture.php:591 includes/class-kdna-checkout-cart-capture.php:638
+msgid "Captured Carts"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:476
+msgid "Cart Strip"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1905
+msgid "Cart Strip: Container"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2433
+msgid "Cart Strip: Edit Link"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2169
+msgid "Cart Strip: Quantity Field"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2292
+msgid "Cart Strip: Remove Button"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2568
+msgid "Cart Strip: Subtotal"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2047
+msgid "Cart Strip: Tiles"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-strip.php:134
+msgid "Cart contents"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:656
+msgid "Cart value"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:178 elementor/widgets/class-widget-checkout.php:2625
+msgid "Centre"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:764
+msgid "Checkbox accent colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:776
+msgid "Checkbox size"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:356
+msgid "Checkout fields"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:262
+msgid "Checkout is always guest by default. This adds an optional create-an-account checkbox near the end of the form."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1195 elementor/widgets/class-widget-checkout.php:1250
+msgid "Colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1456
+msgid "Colours the inline error message and the invalid field border."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1063
+msgid "Columns & Spacing"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:274
+msgid "Combine first and last name"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:231
+msgid "Company"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:634
+msgid "Completed"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:232
+msgid "Country / Region"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:417
+msgid "Coupon"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:351
+msgid "Coupon code (optional)"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:142
+msgid "Custom badge images"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:337
+msgid "Custom label"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:416
+msgid "Delay"
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:219
+msgid "Description"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:733
+msgid "Description colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:725
+msgid "Description typography"
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:203
+msgid "Discount (optional)"
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:216
+msgid "Discount amount"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1562
+msgid "Distance from the top of the screen while the card is stuck. Allow room for a fixed site header."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1999
+msgid "Distance from the top of the screen while the strip is stuck."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:411
+msgid "Divider text"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:565 includes/class-kdna-checkout-cart-strip.php:98
+msgid "Done"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:357
+msgid "Drag to reorder. Hiding a field never loses order data: anything WooCommerce needs still submits a valid default."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:552 elementor/widgets/class-widget-checkout.php:2905 includes/class-kdna-checkout-cart-strip.php:95
+msgid "Edit"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:92
+msgid "Edit Order Bump"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:63
+msgid "Edit Recovery Email"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:503
+msgid "Edit toggle: controls hidden until \"Edit\" is tapped"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:654
+msgid "Email"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:239
+msgid "Email (always shown)"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:220
+msgid "Email customers who abandon their cart"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2027
+msgid "Empty state colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2018
+msgid "Empty state typography"
+msgstr ""
+
+#: includes/class-kdna-checkout-autocomplete.php:196
+msgid "Enable address autocomplete on the checkout"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:301
+msgid "Errors show per field as the shopper goes, not only on submit."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:502
+msgid "Every 15 minutes (KDNA Checkout)"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:954
+msgid "Express Divider"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:833
+msgid "Express Payment Row"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:377
+msgid "Express Payments"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:386
+msgid "Express buttons from the active gateways (Apple Pay, Google Pay, PayPal, Stripe Link, Afterpay/Zip) gather here, above the form. Buttons only appear when their gateway offers them."
+msgstr ""
+
+#: includes/class-kdna-checkout-express.php:109
+msgid "Express payment options"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:315
+msgid "Field"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1233
+msgid "Field Labels"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:253
+msgid "Fields & Account"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:648
+msgid "Filter"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:642
+msgid "Filter by status"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:229
+msgid "First name"
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:207
+msgid "Fixed amount off"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1379
+msgid "Focus"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2272
+msgid "Focus background colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2260
+msgid "Focus border colour"
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:68
+msgid "Footer text"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:189
+msgid "From email"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:188
+msgid "From name"
+msgstr ""
+
+#: includes/class-kdna-checkout-fields.php:292
+msgid "Full name"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:210
+msgid "Full width, below the checkout"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:501
+msgid "Full: quantity editable, remove always visible"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1015
+msgid "Gap around the text"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:907
+msgid "Gap between buttons"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1111
+msgid "Gap between stacked areas"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1093
+msgid "Gap between the columns"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1979
+msgid "Gap between tiles"
+msgstr ""
+
+#: includes/class-kdna-checkout-autocomplete.php:163
+msgid "Google API key"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:70
+msgid "Google Pay"
+msgstr ""
+
+#: includes/class-kdna-checkout-autocomplete.php:155
+msgid "Google address autocomplete"
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:117
+msgid "Header and accent colour (hex, for example #2271b1)."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1178
+msgid "Headings"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:713
+msgid "Headline colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:704
+msgid "Headline typography"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:824
+msgid "Hi {customer_name}, you left these items in your cart:"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:130 elementor/widgets/class-widget-checkout.php:196 elementor/widgets/class-widget-checkout.php:328 elementor/widgets/class-widget-checkout.php:389 elementor/widgets/class-widget-checkout.php:401 elementor/widgets/class-widget-checkout.php:488 includes/class-kdna-checkout-autocomplete.php:221
+msgid "Hide"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1790 elementor/widgets/class-widget-checkout.php:2382 elementor/widgets/class-widget-checkout.php:2517
+msgid "Hover"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:498
+msgid "How much editing the strip allows."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1680
+msgid "Icon"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:242 elementor/widgets/class-widget-checkout.php:2359 elementor/widgets/class-widget-checkout.php:2388
+msgid "Icon colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1690
+msgid "Icon position"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:202 elementor/widgets/class-widget-checkout.php:1723 elementor/widgets/class-widget-checkout.php:2301
+msgid "Icon size"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:222 elementor/widgets/class-widget-checkout.php:1704
+msgid "Icon spacing"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:812
+msgid "Image border radius"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:794
+msgid "Image size"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:208
+msgid "In the order summary card, below the pay button"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:300
+msgid "Inline field validation"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1303
+msgid "Input Fields"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:497
+msgid "Item controls"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:655
+msgid "Items"
+msgstr ""
+
+#: admin/class-kdna-checkout-admin.php:143
+msgid "JavaScript is disabled, the interactive admin interface needs it enabled."
+msgstr ""
+
+#: elementor/class-kdna-checkout-elementor.php:49
+msgid "KDNA"
+msgstr ""
+
+#: admin/class-kdna-checkout-admin.php:57 admin/class-kdna-checkout-admin.php:58 admin/class-kdna-checkout-admin.php:128 elementor/widgets/class-widget-checkout.php:49 elementor/widgets/class-widget-checkout.php:2884
+msgid "KDNA Checkout"
+msgstr ""
+
+#: kdna-checkout.php:79
+msgid "KDNA Checkout requires WooCommerce to be installed and active. The plugin is paused until WooCommerce is available."
+msgstr ""
+
+#: elementor/widgets/class-widget-trust.php:40
+msgid "KDNA Trust Badges"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:182 includes/class-kdna-checkout-cart-capture.php:237 includes/class-kdna-checkout-cart-capture.php:733
+msgid "Keep me posted about my order and cart."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2586
+msgid "Label colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2578
+msgid "Label typography"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:288
+msgid "Labels move into the fields as placeholders and stay available to screen readers."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:659
+msgid "Last activity"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:230
+msgid "Last name"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:433
+msgid "Layout"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:339
+msgid "Leave blank for the default"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:245
+msgid "Leave blank to use the WordPress default."
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:174 elementor/widgets/class-widget-checkout.php:2621
+msgid "Left"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:966
+msgid "Line colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:977
+msgid "Line thickness"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:504
+msgid "Locked: read-only display"
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:65
+msgid "Logo URL"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:205
+msgid "Manage recovery steps"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:364 elementor/widgets/class-widget-checkout.php:691 elementor/widgets/class-widget-checkout.php:895 elementor/widgets/class-widget-checkout.php:1549 elementor/widgets/class-widget-checkout.php:1884 elementor/widgets/class-widget-checkout.php:1967
+msgid "Margin"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:195
+msgid "Mark abandoned after"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:42
+msgid "Mastercard"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:306
+msgid "Merge Tags"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:267
+msgid "Message colour"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:110
+msgid "Message position"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:256
+msgid "Message typography"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:93
+msgid "New Order Bump"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:64
+msgid "New Recovery Email"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:664
+msgid "No captured carts yet."
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:205
+msgid "No discount (full price)"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:97
+msgid "No order bumps found in the bin."
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:96
+msgid "No order bumps found."
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:68
+msgid "No recovery emails found in the bin."
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:67
+msgid "No recovery emails found."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1332 elementor/widgets/class-widget-checkout.php:1743 elementor/widgets/class-widget-checkout.php:2353 elementor/widgets/class-widget-checkout.php:2488
+msgid "Normal"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:265 elementor/widgets/class-widget-checkout.php:278 elementor/widgets/class-widget-checkout.php:291 elementor/widgets/class-widget-checkout.php:304 elementor/widgets/class-widget-checkout.php:445 elementor/widgets/class-widget-checkout.php:517 elementor/widgets/class-widget-checkout.php:530
+msgid "Off"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:261
+msgid "Offer \"create an account\""
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:264
+msgid "Old captured carts are deleted automatically for privacy compliance."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:264 elementor/widgets/class-widget-checkout.php:277 elementor/widgets/class-widget-checkout.php:290 elementor/widgets/class-widget-checkout.php:303 elementor/widgets/class-widget-checkout.php:444 elementor/widgets/class-widget-checkout.php:516 elementor/widgets/class-widget-checkout.php:529
+msgid "On"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:275
+msgid "One full-width name field. The order still receives first and last name."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:234
+msgid "Only capture when the shopper ticks a consent box under the email field"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:630 includes/class-kdna-checkout-cpt.php:89
+msgid "Order Bump"
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:153
+msgid "Order Bump Settings"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:88 includes/class-kdna-checkout-cpt.php:98
+msgid "Order Bumps"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1488
+msgid "Order Summary Card"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1590
+msgid "Order Summary Text & Totals"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2949
+msgid "Order bump headline"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:240
+msgid "Order notes"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1071
+msgid "Order summary column width"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:454
+msgid "Order summary position on mobile"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:350 elementor/widgets/class-widget-checkout.php:679 elementor/widgets/class-widget-checkout.php:883 elementor/widgets/class-widget-checkout.php:1443 elementor/widgets/class-widget-checkout.php:1537 elementor/widgets/class-widget-checkout.php:1872 elementor/widgets/class-widget-checkout.php:1955 elementor/widgets/class-widget-checkout.php:2115
+msgid "Padding"
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:105
+msgid "Paste the full URL of your logo image. Leave blank to show the store name instead."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1663
+msgid "Pay Button"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:56
+msgid "PayPal"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:193
+msgid "Payment method icons and a secure-checkout reassurance message."
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:206
+msgid "Percentage off"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:238
+msgid "Phone"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1320
+msgid "Placeholder colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:287
+msgid "Placeholders as labels"
+msgstr ""
+
+#: includes/class-kdna-checkout-fields.php:98
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: includes/class-kdna-checkout-fields.php:100
+msgid "Please enter a valid phone number."
+msgstr ""
+
+#: includes/class-kdna-checkout-fields.php:99
+msgid "Please enter a valid postcode."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:205
+msgid "Position"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:237
+msgid "Postcode"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:753
+msgid "Price colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:745
+msgid "Price typography"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2127
+msgid "Product image border radius"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2894
+msgid "Product name"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2149
+msgid "Product name colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2141
+msgid "Product name typography"
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:189
+msgid "Product to offer"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2950
+msgid "Published order bumps appear here, above the pay button."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2897
+msgid "Quantity"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-strip.php:170
+msgid "Quantity of %s"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:98
+msgid "Reassurance message"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:633
+msgid "Recovered"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:60
+msgid "Recovery Email"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:59 includes/class-kdna-checkout-cpt.php:69
+msgid "Recovery Emails"
+msgstr ""
+
+#: includes/class-kdna-checkout-emails.php:60
+msgid "Recovery email branding"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:182
+msgid "Recovery emails"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2898
+msgid "Remove"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-strip.php:174
+msgid "Remove %s from your cart"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:194
+msgid "Require consent"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1261
+msgid "Required mark colour"
+msgstr ""
+
+#: includes/class-kdna-checkout-autocomplete.php:198
+msgid "Requires a Google API key with the Places API enabled."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:222
+msgid "Respects the capture-consent setting: only carts that were captured are ever emailed."
+msgstr ""
+
+#: includes/class-kdna-checkout-autocomplete.php:225
+msgid "Restrict the key to your domain (HTTP referrer restriction) in the Google Cloud console. Browser keys are visible in the Places script address by design, the restriction is what keeps them safe."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:793
+msgid "Return to the store"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:824
+msgid "Return to your cart"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:182 elementor/widgets/class-widget-checkout.php:2629
+msgid "Right"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1638
+msgid "Row separator colour"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:706
+msgid "Rows older than %d days are purged automatically (configure under Settings > KDNA Checkout)."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:847
+msgid "Sample product"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:854
+msgid "Sample product x 1"
+msgstr ""
+
+#: admin/class-kdna-checkout-admin.php:135
+msgid "Save settings"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:95
+msgid "Search Order Bumps"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:66
+msgid "Search Recovery Emails"
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:194
+msgid "Search for a product&hellip;"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:187
+msgid "Send recovery emails"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:258
+msgid "Send test to me"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:340
+msgid "Send this step"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:264
+msgid "Sends the first recovery step (with sample data) to %s."
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:129 elementor/widgets/class-widget-checkout.php:195 elementor/widgets/class-widget-checkout.php:325 elementor/widgets/class-widget-checkout.php:327 elementor/widgets/class-widget-checkout.php:388 elementor/widgets/class-widget-checkout.php:400 elementor/widgets/class-widget-checkout.php:487 includes/class-kdna-checkout-autocomplete.php:220
+msgid "Show"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:127
+msgid "Show %s"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:484
+msgid "Show cart strip"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:398
+msgid "Show divider"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:385
+msgid "Show express payment row"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:192
+msgid "Show trust block"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1033
+msgid "Spacing above the divider"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1206
+msgid "Spacing below headings"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1272
+msgid "Spacing below labels"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1129
+msgid "Spacing between checkout sections"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1148
+msgid "Spacing between fields"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:280
+msgid "Spacing between icons and message"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2642
+msgid "Spacing from tiles"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:236
+msgid "State / County"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:657
+msgid "Status"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:298
+msgid "Step Settings"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:514
+msgid "Sticky on desktop"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:527
+msgid "Sticky on mobile"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:441
+msgid "Sticky order summary on desktop"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1561 elementor/widgets/class-widget-checkout.php:1998
+msgid "Sticky top offset"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:821
+msgid "Still thinking it over?"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:233
+msgid "Street address"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:336
+msgid "Subject line"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:502
+msgid "Subtle: quantity editable, low-emphasis remove"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:542 elementor/widgets/class-widget-checkout.php:2908 includes/class-kdna-checkout-cart-strip.php:92
+msgid "Subtotal"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:540
+msgid "Subtotal label"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:832
+msgid "Test"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:190
+msgid "Test email"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:873
+msgid "Test recovery email sent."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1004 elementor/widgets/class-widget-checkout.php:1338 elementor/widgets/class-widget-checkout.php:1385 elementor/widgets/class-widget-checkout.php:1607 elementor/widgets/class-widget-checkout.php:1749 elementor/widgets/class-widget-checkout.php:1796 elementor/widgets/class-widget-checkout.php:2187 elementor/widgets/class-widget-checkout.php:2494
+msgid "Text colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:996 elementor/widgets/class-widget-checkout.php:1599
+msgid "Text typography"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-strip.php:222
+msgid "That item is no longer in the cart."
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:504
+msgid "That offer is no longer available."
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:515
+msgid "That product cannot be added right now."
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:534
+msgid "That product could not be added."
+msgstr ""
+
+#: includes/class-kdna-checkout-order-bump.php:240
+msgid "The bump headline is this entry's title. The optional image is the featured image (the product image is used when none is set). The bump only shows while the product is purchasable and in stock."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:337 includes/class-kdna-checkout-order-bump.php:496 includes/class-kdna-checkout-cart-strip.php:213
+msgid "The cart is not available."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:207
+msgid "The checkout quietly captures the shopper's email and a snapshot of their cart so an abandoned cart can be recovered. View everything under Settings > Captured Carts. No recovery emails are sent until the recovery sequence stage is built and configured."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:239
+msgid "The consent box label shown to shoppers."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2885
+msgid "The live WooCommerce checkout renders here on the front end. Preview the page to see it working."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:442
+msgid "The order summary card follows the shopper as they scroll."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:875
+msgid "The test email could not be sent. Check your site email configuration."
+msgstr ""
+
+#: includes/class-kdna-checkout-fields.php:97
+msgid "This field is required."
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2056
+msgid "Tile size"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1627
+msgid "Totals colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1619
+msgid "Totals typography"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:235
+msgid "Town / City"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1838
+msgid "Transition duration (s)"
+msgstr ""
+
+#: elementor/widgets/class-widget-trust.php:97
+msgid "Trust Badges"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:610 elementor/widgets/class-widget-trust.php:107
+msgid "Trust Block"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:184
+msgid "Trust Signals"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1187 elementor/widgets/class-widget-checkout.php:1242 elementor/widgets/class-widget-checkout.php:1312 elementor/widgets/class-widget-checkout.php:1672 elementor/widgets/class-widget-checkout.php:2179 elementor/widgets/class-widget-checkout.php:2446
+msgid "Typography"
+msgstr ""
+
+#: templates/emails/recovery-email.php:85
+msgid "Unsubscribe"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:797
+msgid "Unsubscribed"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:143
+msgid "Upload your own badges (for example Afterpay, Zip or an SSL seal). They render after the icons above."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:365
+msgid "Use these in the subject and body:"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1455
+msgid "Validation error colour"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1469
+msgid "Validation error typography"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:94
+msgid "View Order Bump"
+msgstr ""
+
+#: includes/class-kdna-checkout-cpt.php:65
+msgid "View Recovery Email"
+msgstr ""
+
+#: elementor/class-kdna-checkout-trust.php:35
+msgid "Visa"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:2230
+msgid "Width"
+msgstr ""
+
+#: includes/class-kdna-checkout-autocomplete.php:178
+msgid "With this enabled, shoppers start typing their address and pick it from Google suggestions. The street, suburb/city, postcode, state and country fill in automatically. Without a key, the checkout simply uses standard address fields."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:331 includes/class-kdna-checkout-cart-strip.php:205
+msgid "WooCommerce is not available."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:355
+msgid "Write the email body in the editor above using the merge tags listed opposite. Publish the step to make it live."
+msgstr ""
+
+#: templates/emails/recovery-email.php:80
+msgid "You are receiving this because you started a checkout at %s."
+msgstr ""
+
+#: admin/class-kdna-checkout-admin.php:124 includes/class-kdna-checkout-cart-capture.php:606
+msgid "You do not have permission to access this page."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:813
+msgid "You do not have permission to do that."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:791
+msgid "You have been unsubscribed"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:337
+msgid "You left something behind"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:792
+msgid "You will not receive any more cart reminder emails. You can close this window."
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-strip.php:142
+msgid "Your cart is empty."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:348
+msgid "after the cart is abandoned."
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:345
+msgid "days"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:263
+msgid "days (0 keeps rows forever)"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:344
+msgid "hours"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:343
+msgid "minutes"
+msgstr ""
+
+#: includes/class-kdna-checkout-cart-capture.php:251
+msgid "minutes of inactivity"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:413 elementor/widgets/class-widget-checkout.php:2922 includes/class-kdna-checkout-express.php:97 includes/class-kdna-checkout-express.php:103
+msgid "or pay with card below"
+msgstr ""
+
+#: includes/class-kdna-checkout-recovery.php:671 includes/class-kdna-checkout-recovery.php:851
+msgid "there"
+msgstr ""
+

@@ -15,6 +15,29 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Accessibility: a consistent, visible keyboard focus ring on every
+ * interactive element in the widget (Stage 12). Uses :focus-visible so
+ * it appears for keyboard users without ringing on mouse clicks, and
+ * layers on top of the per-element focus styling from earlier stages.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout a:focus-visible,
+.kdna-checkout button:focus-visible,
+.kdna-checkout input:focus-visible,
+.kdna-checkout select:focus-visible,
+.kdna-checkout textarea:focus-visible,
+.kdna-checkout-strip a:focus-visible,
+.kdna-checkout-strip button:focus-visible,
+.kdna-checkout-strip input:focus-visible,
+.kdna-checkout-strip__edit-link:focus-visible,
+.kdna-checkout-bump__checkbox:focus-visible,
+.kdna-checkout-express a:focus-visible,
+.kdna-checkout-express button:focus-visible {
+	outline: 2px solid var(--kdna-checkout-focus-colour, #1a4d80);
+	outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ *
  * Two-column layout (desktop)
  * ------------------------------------------------------------------ */
 
@@ -266,7 +289,7 @@
 .kdna-checkout-strip__subtotal-label {
 	display: block;
 	font-size: var(--kdna-checkout-strip-subtotal-label-size, 12px);
-	color: var(--kdna-checkout-strip-subtotal-label-colour, #7c848b);
+	color: var(--kdna-checkout-strip-subtotal-label-colour, #565d66);
 }
 
 .kdna-checkout-strip__subtotal-amount {
@@ -414,7 +437,7 @@
 .kdna-checkout-express__divider-text {
 	flex: 0 0 auto;
 	font-size: var(--kdna-checkout-express-divider-text-size, 13px);
-	color: var(--kdna-checkout-express-divider-text-colour, #7c848b);
+	color: var(--kdna-checkout-express-divider-text-colour, #565d66);
 }
 
 /* Editor skeleton buttons. */

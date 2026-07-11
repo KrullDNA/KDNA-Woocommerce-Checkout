@@ -63,17 +63,23 @@ class KDNA_Checkout_Admin {
 	}
 
 	/**
-	 * Enqueue Alpine.js and the admin assets, on this screen only.
+	 * Enqueue the admin assets, on the plugin's own screens only.
 	 *
-	 * The admin app registers its Alpine components on the alpine:init
-	 * event, so it is declared as a dependency of Alpine to guarantee it
-	 * executes first.
+	 * The stylesheet loads on the settings page and the Captured Carts
+	 * list (which uses the shared status-badge styling). Alpine.js and
+	 * the admin app load only on the settings page, where the secret
+	 * field reveal lives. The admin app registers its Alpine components
+	 * on the alpine:init event, so it is declared as a dependency of
+	 * Alpine to guarantee it executes first.
 	 *
 	 * @param string $hook_suffix Current admin page hook suffix.
 	 * @return void
 	 */
 	public function enqueue_assets( $hook_suffix ) {
-		if ( $hook_suffix !== $this->hook_suffix ) {
+		$is_settings = ( $hook_suffix === $this->hook_suffix );
+		$is_carts    = ( 'settings_page_kdna-checkout-carts' === $hook_suffix );
+
+		if ( ! $is_settings && ! $is_carts ) {
 			return;
 		}
 
@@ -83,6 +89,10 @@ class KDNA_Checkout_Admin {
 			array(),
 			KDNA_CHECKOUT_VERSION
 		);
+
+		if ( ! $is_settings ) {
+			return;
+		}
 
 		wp_enqueue_script(
 			'kdna-checkout-admin-app',
