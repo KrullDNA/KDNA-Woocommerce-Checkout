@@ -331,6 +331,39 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Inline field validation (Stage 6)
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-field-error {
+	display: block;
+	margin-top: 4px;
+	font-size: var(--kdna-checkout-error-size, 12px);
+	line-height: 1.4;
+	color: var(--kdna-checkout-error-colour, #d63638);
+}
+
+.kdna-checkout .form-row.woocommerce-invalid .input-text,
+.kdna-checkout .form-row.woocommerce-invalid select,
+.kdna-checkout .form-row.woocommerce-invalid .select2-container .select2-selection--single {
+	border-color: var(--kdna-checkout-error-colour, #d63638);
+}
+
+/* Fallback for themes without a screen-reader-text rule, scoped to the
+ * widget so placeholders-as-labels stays accessible everywhere. */
+.kdna-checkout label.screen-reader-text {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	border: 0;
+	white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ *
  * Express payment row (Stage 5)
  *
  * Hidden until the widget JS relocates at least one visible gateway

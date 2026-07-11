@@ -9,13 +9,25 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 3 | Checkout styling controls | **Complete** (v0.3.0, 2026-07-11) |
 | Stage 4 | Cart strip (mini-cart) | **Complete** (v0.4.0, 2026-07-11) |
 | Stage 5 | Express payment row + styling | **Complete** (v0.5.0, 2026-07-11) |
-| Stage 6 | Field optimisation & guest checkout | Not started |
+| Stage 6 | Field optimisation & guest checkout | **Complete** (v0.6.0, 2026-07-11) |
 | Stage 7 | Order bumps | Not started |
 | Stage 8 | Trust signals block | Not started |
 | Stage 9 | Google Places address autocomplete | Not started |
 | Stage 10 | Abandoned-cart capture (data layer) | Not started |
 | Stage 11 | Recovery email sequence (admin-built + branded template) | Not started |
 | Stage 12 | Polish, compatibility & packaging | Not started |
+
+## Stage 6 session notes
+
+- `includes/class-kdna-checkout-fields.php` owns field behaviour. The widget hands its settings over via `KDNA_Checkout_Fields::set_config()` right before the shortcode runs, and the config is also persisted to the `kdna_checkout_fields_config` option (autoload off, written only when changed, never from the editor) because WooCommerce re-applies `woocommerce_checkout_fields` during AJAX order processing where the widget never runs. Same config both times keeps render and validation consistent.
+- Guest checkout: `woocommerce_checkout_registration_required` is filtered to false whenever the config is active, so an account is never forced; `woocommerce_checkout_registration_enabled` reflects the widget's "create an account" switch (default on), which renders WooCommerce's native optional checkbox near the end of the details form.
+- Field editor: an Elementor repeater (drag to reorder) with per-row field select, show/hide switch and custom label. Priorities are assigned from row order ((index+1)*10) and mirrored onto the matching shipping fields so both sections stay consistent. Order notes are handled in the order section.
+- Fail-safes baked into `sanitise_config`: unknown keys dropped, duplicates collapsed, email forced visible (order, customer record and Stage 10 capture depend on it), and any standard field missing from the list is appended as shown, so deleting a repeater row can never lose data. A hidden country field submits the store base country via `woocommerce_checkout_posted_data`; hidden fields are removed from the same filtered list WooCommerce validates against, so no orphaned "required" errors.
+- Combined name: last-name fields removed, first-name relabelled (custom label respected, default "Full name") and made full-width; on submit the value is split back into first/last (last word becomes the last name) so order data stays complete.
+- Placeholders as labels: each field label becomes its placeholder and the label gets `screen-reader-text` (scoped CSS fallback included), keeping accessibility intact.
+- Inline validation: a delegated JS module (active only when the wrapper has `--validate`, default on) validates on blur and clears live on input: required, email format, country-aware postcode patterns (GB/AU/NZ/US/CA), and phone shape. It appends a `.kdna-checkout-field-error` message, toggles WooCommerce's own invalid/validated row classes and sets `aria-invalid`; messages are localised. It never blocks submission, WooCommerce still owns submit-time validation.
+- Style additions in the Input Fields section: validation error colour (message + invalid border via CSS variable) and error message typography.
+- Verified by a Stage 6 smoke test (sanitisation rules, hide/reorder/relabel with shipping mirroring, combine + split, placeholders, hidden-country default, registration filters, persistence, repeater defaults, editor never writing options) plus a jsdom validation test and the full Stage 2-5 regression suite.
 
 ## Stage 5 session notes
 

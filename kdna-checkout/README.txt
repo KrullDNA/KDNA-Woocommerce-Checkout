@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.5.0
+Stable tag: 0.6.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 5 of 12, express payment row.
+Current build stage: Stage 6 of 12, field optimisation and guest checkout.
 
 * KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
 * The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
@@ -49,6 +49,14 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.6.0 =
+* Stage 6: field optimisation and guest checkout.
+* Guest checkout by default with an optional, controllable "create an account" checkbox near the end of the form.
+* Drag-to-reorder checkout field editor in Elementor: show/hide, reorder and relabel the standard fields via the woocommerce_checkout_fields filter.
+* Optional combined full-name field (the order still receives first and last name) and optional placeholders-as-labels (labels stay available to screen readers).
+* Lightweight inline validation: required, email, postcode (country-aware) and phone errors show per field as the shopper goes.
+* Fail-safe: the email field can never be hidden, deleted rows fall back to shown, and a hidden country field still submits the store base country.
 
 = 0.5.0 =
 * Stage 5: the express payment row.

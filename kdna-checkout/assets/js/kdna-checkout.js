@@ -409,3 +409,119 @@
 		boot();
 	}
 }() );
+
+/**
+ * Stage 6: lightweight inline field validation.
+ *
+ * Errors show per field as the shopper leaves each one, instead of
+ * only on submit. WooCommerce's own checkout script keeps handling
+ * submit-time validation; this layer only adds early, per-field
+ * feedback and never blocks anything (fail-safe). Active only when
+ * the widget wrapper carries the --validate modifier.
+ */
+( function () {
+	'use strict';
+
+	var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	var PHONE_PATTERN = /^[+0-9()\-\s.]{7,20}$/;
+	var POSTCODES = {
+		GB: /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/,
+		AU: /^\d{4}$/,
+		NZ: /^\d{4}$/,
+		US: /^\d{5}(-\d{4})?$/,
+		CA: /^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/
+	};
+
+	function messages() {
+		return window.kdnaCheckoutFields || {};
+	}
+
+	function fieldCountry( input ) {
+		var form = input.closest( 'form' );
+		if ( ! form ) {
+			return '';
+		}
+		var prefix  = 0 === ( input.id || '' ).indexOf( 'shipping_' ) ? 'shipping' : 'billing';
+		var country = form.querySelector( '#' + prefix + '_country' );
+		return country ? String( country.value || '' ).toUpperCase() : '';
+	}
+
+	function validationMessage( row, input ) {
+		var value = String( input.value || '' ).trim();
+		var texts = messages();
+
+		if ( row.classList.contains( 'validate-required' ) && '' === value ) {
+			return texts.required || 'This field is required.';
+		}
+		if ( '' === value ) {
+			return '';
+		}
+		if ( ( row.classList.contains( 'validate-email' ) || 'email' === input.type ) && ! EMAIL_PATTERN.test( value ) ) {
+			return texts.email || 'Please enter a valid email address.';
+		}
+		if ( row.classList.contains( 'validate-postcode' ) ) {
+			var pattern = POSTCODES[ fieldCountry( input ) ];
+			if ( pattern && ! pattern.test( value.toUpperCase() ) ) {
+				return texts.postcode || 'Please enter a valid postcode.';
+			}
+		}
+		if ( row.classList.contains( 'validate-phone' ) && ! PHONE_PATTERN.test( value ) ) {
+			return texts.phone || 'Please enter a valid phone number.';
+		}
+		return '';
+	}
+
+	function setFieldState( row, input, message ) {
+		var existing = row.querySelector( '.kdna-checkout-field-error' );
+		if ( existing ) {
+			existing.parentNode.removeChild( existing );
+		}
+
+		if ( message ) {
+			var error = document.createElement( 'span' );
+			error.className = 'kdna-checkout-field-error';
+			error.textContent = message;
+			row.appendChild( error );
+
+			row.classList.add( 'woocommerce-invalid' );
+			row.classList.remove( 'woocommerce-validated' );
+			input.setAttribute( 'aria-invalid', 'true' );
+		} else {
+			row.classList.remove( 'woocommerce-invalid', 'woocommerce-invalid-required-field' );
+			row.classList.add( 'woocommerce-validated' );
+			input.removeAttribute( 'aria-invalid' );
+		}
+	}
+
+	function fieldTarget( eventTarget ) {
+		if ( ! eventTarget || ! eventTarget.closest || ! eventTarget.matches ) {
+			return null;
+		}
+		if ( ! eventTarget.matches( 'input, textarea, select' ) || 'checkbox' === eventTarget.type || 'radio' === eventTarget.type ) {
+			return null;
+		}
+		if ( ! eventTarget.closest( '.kdna-checkout--validate form.woocommerce-checkout' ) ) {
+			return null;
+		}
+		var row = eventTarget.closest( '.form-row' );
+		return row ? { row: row, input: eventTarget } : null;
+	}
+
+	document.addEventListener( 'focusout', function ( event ) {
+		var target = fieldTarget( event.target );
+		if ( target ) {
+			setFieldState( target.row, target.input, validationMessage( target.row, target.input ) );
+		}
+	} );
+
+	// Clear an existing inline error the moment the field becomes valid.
+	document.addEventListener( 'input', function ( event ) {
+		var target = fieldTarget( event.target );
+		if ( target && target.row.querySelector( '.kdna-checkout-field-error' ) ) {
+			var message = validationMessage( target.row, target.input );
+			if ( ! message ) {
+				setFieldState( target.row, target.input, '' );
+			}
+		}
+	} );
+}() );

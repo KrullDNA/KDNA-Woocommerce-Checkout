@@ -159,7 +159,154 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->register_layout_controls();
 		$this->register_cart_strip_controls();
 		$this->register_express_controls();
+		$this->register_fields_controls();
 		$this->register_style_controls();
+	}
+
+	/**
+	 * The configurable checkout fields, as repeater select options.
+	 *
+	 * @return array
+	 */
+	private function field_options() {
+		return array(
+			'first_name'     => __( 'First name', 'kdna-checkout' ),
+			'last_name'      => __( 'Last name', 'kdna-checkout' ),
+			'company'        => __( 'Company', 'kdna-checkout' ),
+			'country'        => __( 'Country / Region', 'kdna-checkout' ),
+			'address_1'      => __( 'Street address', 'kdna-checkout' ),
+			'address_2'      => __( 'Address line 2', 'kdna-checkout' ),
+			'city'           => __( 'Town / City', 'kdna-checkout' ),
+			'state'          => __( 'State / County', 'kdna-checkout' ),
+			'postcode'       => __( 'Postcode', 'kdna-checkout' ),
+			'phone'          => __( 'Phone', 'kdna-checkout' ),
+			'email'          => __( 'Email (always shown)', 'kdna-checkout' ),
+			'order_comments' => __( 'Order notes', 'kdna-checkout' ),
+		);
+	}
+
+	/**
+	 * Content tab > Fields & Account (Stage 6).
+	 *
+	 * @return void
+	 */
+	private function register_fields_controls() {
+		$this->start_controls_section(
+			'section_fields',
+			array(
+				'label' => __( 'Fields & Account', 'kdna-checkout' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'show_create_account',
+			array(
+				'label'        => __( 'Offer "create an account"', 'kdna-checkout' ),
+				'description'  => __( 'Checkout is always guest by default. This adds an optional create-an-account checkbox near the end of the form.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'On', 'kdna-checkout' ),
+				'label_off'    => __( 'Off', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+
+		$this->add_control(
+			'combine_names',
+			array(
+				'label'        => __( 'Combine first and last name', 'kdna-checkout' ),
+				'description'  => __( 'One full-width name field. The order still receives first and last name.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'On', 'kdna-checkout' ),
+				'label_off'    => __( 'Off', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => '',
+			)
+		);
+
+		$this->add_control(
+			'placeholders_as_labels',
+			array(
+				'label'        => __( 'Placeholders as labels', 'kdna-checkout' ),
+				'description'  => __( 'Labels move into the fields as placeholders and stay available to screen readers.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'On', 'kdna-checkout' ),
+				'label_off'    => __( 'Off', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => '',
+			)
+		);
+
+		$this->add_control(
+			'inline_validation',
+			array(
+				'label'        => __( 'Inline field validation', 'kdna-checkout' ),
+				'description'  => __( 'Errors show per field as the shopper goes, not only on submit.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'On', 'kdna-checkout' ),
+				'label_off'    => __( 'Off', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+
+		$repeater = new \Elementor\Repeater();
+
+		$repeater->add_control(
+			'field_key',
+			array(
+				'label'   => __( 'Field', 'kdna-checkout' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
+				'options' => $this->field_options(),
+				'default' => 'first_name',
+			)
+		);
+
+		$repeater->add_control(
+			'field_show',
+			array(
+				'label'        => __( 'Show', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'kdna-checkout' ),
+				'label_off'    => __( 'Hide', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+
+		$repeater->add_control(
+			'field_label',
+			array(
+				'label'       => __( 'Custom label', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::TEXT,
+				'placeholder' => __( 'Leave blank for the default', 'kdna-checkout' ),
+				'default'     => '',
+			)
+		);
+
+		$default_rows = array();
+		foreach ( array_keys( $this->field_options() ) as $key ) {
+			$default_rows[] = array(
+				'field_key'   => $key,
+				'field_show'  => 'yes',
+				'field_label' => '',
+			);
+		}
+
+		$this->add_control(
+			'checkout_fields_list',
+			array(
+				'label'       => __( 'Checkout fields', 'kdna-checkout' ),
+				'description' => __( 'Drag to reorder. Hiding a field never loses order data: anything WooCommerce needs still submits a valid default.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::REPEATER,
+				'fields'      => $repeater->get_controls(),
+				'default'     => $default_rows,
+				'title_field' => '{{{ field_key }}}',
+			)
+		);
+
+		$this->end_controls_section();
 	}
 
 	/**
@@ -1018,6 +1165,28 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'selectors'  => array(
 					$this->input_selectors() => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; height: auto;',
 				),
+			)
+		);
+
+		$this->add_control(
+			'input_error_colour',
+			array(
+				'label'       => __( 'Validation error colour', 'kdna-checkout' ),
+				'description' => __( 'Colours the inline error message and the invalid field border.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::COLOR,
+				'separator'   => 'before',
+				'selectors'   => array(
+					'{{WRAPPER}}' => '--kdna-checkout-error-colour: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'input_error_typography',
+				'label'    => __( 'Validation error typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout-field-error',
 			)
 		);
 
@@ -2235,6 +2404,10 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			$classes[] = 'kdna-checkout--pay-icon';
 		}
 
+		if ( ! isset( $settings['inline_validation'] ) || 'yes' === $settings['inline_validation'] ) {
+			$classes[] = 'kdna-checkout--validate';
+		}
+
 		if ( $this->is_editor_context() ) {
 			$this->render_placeholder( $classes );
 			return;
@@ -2243,6 +2416,12 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		// Fail-safe: never output checkout markup without WooCommerce.
 		if ( ! function_exists( 'WC' ) ) {
 			return;
+		}
+
+		// Fields & account configuration (Stage 6) must be in place
+		// before the checkout shortcode builds its fields.
+		if ( class_exists( 'KDNA_Checkout_Fields' ) ) {
+			KDNA_Checkout_Fields::set_config( $this->fields_config( $settings ) );
 		}
 
 		printf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
@@ -2276,6 +2455,34 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	 */
 	private function show_cart_strip( array $settings ) {
 		return isset( $settings['show_cart_strip'] ) && 'yes' === $settings['show_cart_strip'];
+	}
+
+	/**
+	 * Map widget settings to the checkout fields configuration.
+	 *
+	 * @param array $settings Widget settings.
+	 * @return array
+	 */
+	private function fields_config( array $settings ) {
+		$rows = array();
+		foreach ( (array) ( $settings['checkout_fields_list'] ?? array() ) as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+			$rows[] = array(
+				'key'   => $row['field_key'] ?? '',
+				'show'  => 'yes' === ( $row['field_show'] ?? 'yes' ),
+				'label' => $row['field_label'] ?? '',
+			);
+		}
+
+		return array(
+			'enabled'                => true,
+			'create_account'         => 'yes' === ( $settings['show_create_account'] ?? 'yes' ),
+			'combine_names'          => 'yes' === ( $settings['combine_names'] ?? '' ),
+			'placeholders_as_labels' => 'yes' === ( $settings['placeholders_as_labels'] ?? '' ),
+			'fields'                 => $rows,
+		);
 	}
 
 	/**

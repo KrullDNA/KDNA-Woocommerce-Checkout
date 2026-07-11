@@ -50,6 +50,13 @@ final class KDNA_Checkout {
 	public $cart_strip;
 
 	/**
+	 * Checkout fields component (Stage 6).
+	 *
+	 * @var KDNA_Checkout_Fields
+	 */
+	public $fields;
+
+	/**
 	 * Return the single plugin instance, creating it on first call.
 	 *
 	 * @return KDNA_Checkout
@@ -81,6 +88,7 @@ final class KDNA_Checkout {
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-assets.php';
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-cart-strip.php';
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-express.php';
+		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-fields.php';
 
 		// Stage 2: Elementor bootstrap, registers its hooks at file-load time.
 		require_once KDNA_CHECKOUT_PATH . 'elementor/class-kdna-checkout-elementor.php';
@@ -99,6 +107,7 @@ final class KDNA_Checkout {
 		$this->cpt        = new KDNA_Checkout_CPT();
 		$this->assets     = new KDNA_Checkout_Assets();
 		$this->cart_strip = new KDNA_Checkout_Cart_Strip();
+		$this->fields     = new KDNA_Checkout_Fields();
 
 		if ( is_admin() ) {
 			$this->admin = new KDNA_Checkout_Admin();
