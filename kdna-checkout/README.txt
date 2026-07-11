@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.10.0
+Stable tag: 0.11.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 10 of 12, abandoned-cart capture (data layer).
+Current build stage: Stage 11 of 12, recovery email sequence.
 
 * KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
 * The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
@@ -49,6 +49,14 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.11.0 =
+* Stage 11: the admin-built recovery email sequence.
+* Recovery-email steps (Settings > Recovery Emails): each stores a subject, a body written in the WordPress editor with merge tags, a delay from cart abandonment, and an optional coupon; add unlimited steps, sent in order of their delay.
+* Branded HTML email template (templates/emails/recovery-email.php) with logo, brand colour, button colour and footer controls in Settings > KDNA Checkout, styled to match the checkout.
+* Merge tags: {customer_name}, {cart_items}, {cart_total}, {recovery_link}, {coupon_code}, {store_name}, {unsubscribe}. The recovery link restores the exact saved cart from its token and lands the customer on the checkout, applying the step coupon.
+* A 15-minute cron loop sends each due step to abandoned carts and records what was sent; the sequence stops immediately when the customer buys (cart flips to recovered) or clicks unsubscribe.
+* "Send test to me" button, configurable From name/email, and the capture-consent flag is respected (only captured carts are ever emailed).
 
 = 0.10.0 =
 * Stage 10: the abandoned-cart capture data layer, fully separate from the display layer.

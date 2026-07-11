@@ -78,6 +78,20 @@ final class KDNA_Checkout {
 	public $cart_capture;
 
 	/**
+	 * Recovery email branding and template (Stage 11).
+	 *
+	 * @var KDNA_Checkout_Emails
+	 */
+	public $emails;
+
+	/**
+	 * Recovery email sequence engine (Stage 11).
+	 *
+	 * @var KDNA_Checkout_Recovery
+	 */
+	public $recovery;
+
+	/**
 	 * Return the single plugin instance, creating it on first call.
 	 *
 	 * @return KDNA_Checkout
@@ -113,6 +127,8 @@ final class KDNA_Checkout {
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-order-bump.php';
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-autocomplete.php';
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-cart-capture.php';
+		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-emails.php';
+		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-recovery.php';
 
 		// Stage 2: Elementor bootstrap, registers its hooks at file-load time.
 		require_once KDNA_CHECKOUT_PATH . 'elementor/class-kdna-checkout-elementor.php';
@@ -135,6 +151,8 @@ final class KDNA_Checkout {
 		$this->order_bump   = new KDNA_Checkout_Order_Bump();
 		$this->autocomplete = new KDNA_Checkout_Autocomplete();
 		$this->cart_capture = new KDNA_Checkout_Cart_Capture();
+		$this->emails       = new KDNA_Checkout_Emails();
+		$this->recovery     = new KDNA_Checkout_Recovery();
 
 		if ( is_admin() ) {
 			$this->admin = new KDNA_Checkout_Admin();
