@@ -37,3 +37,9 @@
 	font-size: 12px;
 	line-height: 1.6;
 }
+
+.kdna-checkout-admin__key-field {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}

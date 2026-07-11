@@ -12,10 +12,19 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 6 | Field optimisation & guest checkout | **Complete** (v0.6.0, 2026-07-11) |
 | Stage 7 | Order bumps | **Complete** (v0.7.0, 2026-07-11) |
 | Stage 8 | Trust signals block | **Complete** (v0.8.0, 2026-07-11) |
-| Stage 9 | Google Places address autocomplete | Not started |
+| Stage 9 | Google Places address autocomplete | **Complete** (v0.9.0, 2026-07-11) |
 | Stage 10 | Abandoned-cart capture (data layer) | Not started |
 | Stage 11 | Recovery email sequence (admin-built + branded template) | Not started |
 | Stage 12 | Polish, compatibility & packaging | Not started |
+
+## Stage 9 session notes
+
+- `includes/class-kdna-checkout-autocomplete.php` registers two options through the WordPress Settings API under the shared `kdna_checkout` group: `kdna_checkout_autocomplete_enabled` (strict yes/no) and `kdna_checkout_google_api_key` (stripped to `[A-Za-z0-9_-]`, capped at 128 chars). Both are covered by the Stage 1 uninstall (kdna_checkout_* prefix sweep).
+- The Stage 1 admin shell became a real settings form: `settings_fields('kdna_checkout')` + `do_settings_sections('kdna-checkout')` + submit button, so Stages 10/11 can add their own sections without touching the admin class again. The key field is `type="password"` by default with an Alpine.js show/hide toggle (`kdnaCheckoutSecretField` registered additively in admin-app.js).
+- Conditional loading is exact: the Google script (maps.googleapis.com, `libraries=places&loading=async&callback=kdnaCheckoutPlacesInit&v=weekly`, key rawurlencoded) is only *registered* when `is_enabled()` (toggle on AND key present), and only *loads* because the checkout widget adds the handle to `get_script_depends()` when enabled, i.e. only on pages containing the widget. The Places script depends on the shared handle so `kdnaCheckoutPlacesInit` exists before Google calls it.
+- The JS module binds `google.maps.places.Autocomplete` (restricted to `address_components`) to `#billing_address_1` and `#shipping_address_1`, with a data-attribute double-bind guard. On selection it maps: street_number+route to address_1, subpremise to address_2, locality/postal_town/sublocality to city, administrative_area_level_1 short code to state, postal_code to postcode, country short code to country. Country is set first (via jQuery so select2 stays in sync) and the state applied on 50/400 ms ticks because WooCommerce rebuilds the state field after a country change; `update_checkout` fires at the end, plus a `kdna:address-autocompleted` event. Enter is suppressed while the suggestion list is open so it cannot submit the form.
+- Fail-safes: toggle on but key blank stays off; Google absent/blocked means init is a no-op; a place with no components changes nothing; standard fields always remain functional. The key appears only in the Places script address (how Google browser keys work); the settings screen advises HTTP referrer restriction.
+- Verified by the Stage 9 smoke test (sanitisation, gating including enabled-without-key, script URL and dependency chain, settings group/section registration, admin form render including the masked field, widget deps flipping with the toggle) and a jsdom test with a faked Google API (billing+shipping binding, AU and UK component mapping including postal_town, delayed state, empty-place no-op, double-init guard, no-Google safety), plus the full Stage 2-8 regression suite.
 
 ## Stage 8 session notes
 

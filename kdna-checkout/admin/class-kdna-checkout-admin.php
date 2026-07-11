@@ -118,8 +118,13 @@ class KDNA_Checkout_Admin {
 			<h1><?php echo esc_html__( 'KDNA Checkout', 'kdna-checkout' ); ?></h1>
 
 			<div class="kdna-checkout-admin__card" x-data="kdnaCheckoutAdmin" x-cloak>
-				<h2><?php echo esc_html__( 'Coming soon', 'kdna-checkout' ); ?></h2>
-				<p><?php echo esc_html__( 'The KDNA Checkout settings will appear here as the build progresses. Stage 1 (foundation and data layer) is installed and active.', 'kdna-checkout' ); ?></p>
+				<form method="post" action="options.php">
+					<?php
+					settings_fields( 'kdna_checkout' );
+					do_settings_sections( 'kdna-checkout' );
+					submit_button( __( 'Save settings', 'kdna-checkout' ) );
+					?>
+				</form>
 				<p>
 					<span class="kdna-checkout-admin__badge" x-show="ready">
 						<?php echo esc_html__( 'Admin interface loaded, Alpine.js is running.', 'kdna-checkout' ); ?>

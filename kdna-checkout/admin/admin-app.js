@@ -11,6 +11,10 @@
 	'use strict';
 
 	document.addEventListener( 'alpine:init', function () {
+		window.Alpine.data( 'kdnaCheckoutSecretField', function () {
+			return { show: false };
+		} );
+
 		window.Alpine.data( 'kdnaCheckoutAdmin', function () {
 			return {
 				ready: false,

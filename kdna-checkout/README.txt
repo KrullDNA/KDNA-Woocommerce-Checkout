@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.8.0
+Stable tag: 0.9.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 8 of 12, trust signals block.
+Current build stage: Stage 9 of 12, Google Places address autocomplete.
 
 * KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
 * The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
@@ -49,6 +49,13 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.9.0 =
+* Stage 9: optional Google Places address autocomplete.
+* Settings > KDNA Checkout gains a real settings form: an autocomplete on/off toggle and a Google API key field (masked by default, Alpine.js show/hide, strictly sanitised).
+* When enabled with a key, typing in the address field suggests full addresses; selecting one fills street, suburb/city, postcode, state and country correctly for WooCommerce (billing and shipping, country set before state so WooCommerce can rebuild the state field).
+* The Places script loads only when the feature is enabled and only on pages containing the checkout widget, via the widget script dependencies.
+* Fail-safe: feature off, key missing or Google unreachable means standard address fields with no errors.
 
 = 0.8.0 =
 * Stage 8: trust signals block.

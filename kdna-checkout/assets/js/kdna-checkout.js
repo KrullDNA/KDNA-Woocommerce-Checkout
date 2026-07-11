@@ -651,3 +651,145 @@
 		boot();
 	}
 }() );
+
+/**
+ * Stage 9: Google Places address autocomplete.
+ *
+ * The Google script only loads when the feature is enabled in
+ * Settings > KDNA Checkout and a key is stored, and only on pages
+ * containing the checkout widget. It calls kdnaCheckoutPlacesInit
+ * when ready; this module then attaches autocomplete to the billing
+ * and shipping address fields and maps the selected place back onto
+ * the WooCommerce fields. Without Google (feature off, key missing or
+ * blocked) nothing here runs and the standard fields stand untouched.
+ */
+( function () {
+	'use strict';
+
+	function component( components, type, useShortName ) {
+		for ( var i = 0; i < components.length; i++ ) {
+			if ( components[ i ].types && -1 !== components[ i ].types.indexOf( type ) ) {
+				return useShortName ? components[ i ].short_name : components[ i ].long_name;
+			}
+		}
+		return '';
+	}
+
+	function setField( form, id, value ) {
+		var field = form.querySelector( '#' + id );
+		if ( ! field ) {
+			return;
+		}
+		if ( window.jQuery ) {
+			// jQuery keeps select2 (country/state boxes) in sync.
+			window.jQuery( field ).val( value ).trigger( 'change' );
+		} else {
+			field.value = value;
+			field.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+		}
+	}
+
+	function applyPlace( form, prefix, place ) {
+		var components = place && place.address_components ? place.address_components : null;
+		if ( ! components ) {
+			return; // Fail-safe: nothing selected, nothing changed.
+		}
+
+		var streetNumber = component( components, 'street_number', false );
+		var route        = component( components, 'route', false );
+		var subpremise   = component( components, 'subpremise', false );
+		var city         = component( components, 'locality', false )
+			|| component( components, 'postal_town', false )
+			|| component( components, 'sublocality_level_1', false );
+		var state        = component( components, 'administrative_area_level_1', true );
+		var postcode     = component( components, 'postal_code', false );
+		var country      = component( components, 'country', true );
+
+		var addressLine = ( ( streetNumber ? streetNumber + ' ' : '' ) + route ).trim();
+
+		// Country first: WooCommerce rebuilds the state field when the
+		// country changes, so the state is set on a later tick.
+		if ( country ) {
+			setField( form, prefix + '_country', country );
+		}
+		if ( addressLine ) {
+			setField( form, prefix + '_address_1', addressLine );
+		}
+		if ( subpremise ) {
+			setField( form, prefix + '_address_2', subpremise );
+		}
+		if ( city ) {
+			setField( form, prefix + '_city', city );
+		}
+		if ( postcode ) {
+			setField( form, prefix + '_postcode', postcode );
+		}
+
+		if ( state ) {
+			[ 50, 400 ].forEach( function ( delay ) {
+				window.setTimeout( function () {
+					setField( form, prefix + '_state', state );
+				}, delay );
+			} );
+		}
+
+		if ( window.jQuery ) {
+			window.jQuery( document.body ).trigger( 'update_checkout' );
+		}
+
+		form.dispatchEvent( new CustomEvent( 'kdna:address-autocompleted', {
+			bubbles: true,
+			detail: { prefix: prefix },
+		} ) );
+	}
+
+	function bind( form, prefix ) {
+		var input = form.querySelector( '#' + prefix + '_address_1' );
+		if ( ! input || input.getAttribute( 'data-kdna-places-bound' ) ) {
+			return;
+		}
+
+		var autocomplete = new window.google.maps.places.Autocomplete( input, {
+			types: [ 'address' ],
+			fields: [ 'address_components' ],
+		} );
+
+		autocomplete.addListener( 'place_changed', function () {
+			applyPlace( form, prefix, autocomplete.getPlace() );
+		} );
+
+		input.setAttribute( 'data-kdna-places-bound', '1' );
+
+		// Stop Enter submitting the checkout while the suggestion list is open.
+		input.addEventListener( 'keydown', function ( event ) {
+			if ( 'Enter' === event.key ) {
+				var pac = document.querySelector( '.pac-container' );
+				if ( pac && null !== pac.offsetParent ) {
+					event.preventDefault();
+				}
+			}
+		} );
+	}
+
+	function init() {
+		if ( ! window.google || ! window.google.maps || ! window.google.maps.places ) {
+			return; // Fail-safe: Google absent, standard fields stand.
+		}
+
+		Array.prototype.slice.call( document.querySelectorAll( '.kdna-checkout form.woocommerce-checkout' ) ).forEach( function ( form ) {
+			bind( form, 'billing' );
+			bind( form, 'shipping' );
+		} );
+	}
+
+	// Google's loading=async callback.
+	window.kdnaCheckoutPlacesInit = init;
+
+	// Fallback when the script was already loaded (for example cached
+	// without the async callback firing after us).
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', init );
+	} else {
+		init();
+	}
+}() );

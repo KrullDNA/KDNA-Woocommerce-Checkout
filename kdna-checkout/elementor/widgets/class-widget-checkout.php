@@ -87,11 +87,19 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 
 	/**
 	 * Script handles Elementor enqueues only on pages containing the widget.
+	 * The Google Places script rides along only when the autocomplete
+	 * feature is enabled and a key is stored (Stage 9).
 	 *
 	 * @return array
 	 */
 	public function get_script_depends() {
-		return array( 'kdna-checkout' );
+		$depends = array( 'kdna-checkout' );
+
+		if ( class_exists( 'KDNA_Checkout_Autocomplete' ) && KDNA_Checkout_Autocomplete::is_enabled() ) {
+			$depends[] = KDNA_Checkout_Autocomplete::SCRIPT_HANDLE;
+		}
+
+		return $depends;
 	}
 
 	/**
