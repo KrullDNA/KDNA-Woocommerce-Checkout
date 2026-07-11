@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.7.0
+Stable tag: 0.8.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 7 of 12, order bumps.
+Current build stage: Stage 8 of 12, trust signals block.
 
 * KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
 * The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
@@ -49,6 +49,14 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.8.0 =
+* Stage 8: trust signals block.
+* Trust block inside the checkout widget: payment-method icons (Visa, Mastercard, American Express, PayPal, Apple Pay, Google Pay) plus a secure-checkout reassurance message.
+* Each default badge toggles on/off individually; custom badge images can be uploaded (for example Afterpay, Zip or an SSL seal).
+* Positionable: in the order summary card below the pay button (default), below the customer details, or full width below the checkout, always outside the AJAX fragments so it survives totals refreshes.
+* Full Style controls: alignment, icon size/spacing/colour, message typography and colour, message position and spacing, background, full border group, radius, box-shadow, padding and margin.
+* New standalone "KDNA Trust Badges" Elementor widget with the identical controls, placeable anywhere on the page.
 
 = 0.7.0 =
 * Stage 7: order bumps.

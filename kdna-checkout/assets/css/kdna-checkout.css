@@ -520,6 +520,64 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Trust signals block (Stage 8)
+ *
+ * Payment icons plus a reassurance message. Shared by the checkout
+ * widget and the standalone KDNA Trust Badges widget.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-trust {
+	display: flex;
+	flex-direction: column;
+	gap: var(--kdna-checkout-trust-message-gap, 8px);
+	margin: var(--kdna-checkout-trust-margin-top, 16px) 0 0;
+	text-align: center;
+}
+
+.kdna-checkout-trust--message-above .kdna-checkout-trust__message {
+	order: -1;
+}
+
+.kdna-checkout-trust__icons {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: var(--kdna-checkout-trust-align, center);
+	gap: var(--kdna-checkout-trust-gap, 10px);
+}
+
+.kdna-checkout-trust__icon {
+	display: inline-flex;
+	line-height: 1;
+	font-size: var(--kdna-checkout-trust-icon-size, 28px);
+	color: var(--kdna-checkout-trust-icon-colour, #50575e);
+}
+
+.kdna-checkout-trust__icon svg {
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
+}
+
+.kdna-checkout-trust__badge {
+	display: block;
+	height: var(--kdna-checkout-trust-icon-size, 28px);
+	width: auto;
+}
+
+.kdna-checkout-trust__message {
+	margin: 0;
+	font-size: var(--kdna-checkout-trust-message-size, 13px);
+	line-height: 1.5;
+	color: var(--kdna-checkout-trust-message-colour, #50575e);
+}
+
+/* Standalone widget: no default top margin outside the checkout. */
+.elementor-widget-kdna-trust-badges .kdna-checkout-trust {
+	margin: 0;
+}
+
+/* ------------------------------------------------------------------ *
  * Elementor editor placeholder
  * ------------------------------------------------------------------ */
 

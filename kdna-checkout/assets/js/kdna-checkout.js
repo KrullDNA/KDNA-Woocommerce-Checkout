@@ -600,3 +600,54 @@
 			} );
 	} );
 }() );
+
+/**
+ * Stage 8: trust block positioning.
+ *
+ * The trust block renders after the checkout form, outside every AJAX
+ * fragment, so it can never be wiped by a totals refresh. This module
+ * then moves it into the position chosen in Elementor (summary card or
+ * below the customer details) once the Stage 2 reflow has built those
+ * regions. "Full width below the checkout" stays where it rendered.
+ */
+( function () {
+	'use strict';
+
+	function place( root ) {
+		var trust = root.querySelector( '.kdna-checkout-trust[data-position]' );
+		if ( ! trust ) {
+			return;
+		}
+
+		var position = trust.getAttribute( 'data-position' );
+		var target   = null;
+
+		if ( 'summary' === position ) {
+			target = root.querySelector( '.kdna-checkout__summary' );
+		} else if ( 'main' === position ) {
+			target = root.querySelector( '.kdna-checkout__main' );
+		}
+
+		if ( target && trust.parentNode !== target ) {
+			target.appendChild( trust );
+		}
+	}
+
+	// Roots that reflow after this module loads.
+	document.addEventListener( 'kdna:checkout-ready', function ( event ) {
+		if ( event.target && event.target.classList && event.target.classList.contains( 'kdna-checkout' ) ) {
+			place( event.target );
+		}
+	} );
+
+	// Roots that were already reflowed (script order within this file).
+	function boot() {
+		Array.prototype.slice.call( document.querySelectorAll( '.kdna-checkout--ready' ) ).forEach( place );
+	}
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', boot );
+	} else {
+		boot();
+	}
+}() );

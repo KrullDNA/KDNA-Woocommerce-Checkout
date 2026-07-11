@@ -11,11 +11,22 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 5 | Express payment row + styling | **Complete** (v0.5.0, 2026-07-11) |
 | Stage 6 | Field optimisation & guest checkout | **Complete** (v0.6.0, 2026-07-11) |
 | Stage 7 | Order bumps | **Complete** (v0.7.0, 2026-07-11) |
-| Stage 8 | Trust signals block | Not started |
+| Stage 8 | Trust signals block | **Complete** (v0.8.0, 2026-07-11) |
 | Stage 9 | Google Places address autocomplete | Not started |
 | Stage 10 | Abandoned-cart capture (data layer) | Not started |
 | Stage 11 | Recovery email sequence (admin-built + branded template) | Not started |
 | Stage 12 | Polish, compatibility & packaging | Not started |
+
+## Stage 8 session notes
+
+- `elementor/class-kdna-checkout-trust.php` is the single source of truth: the default badge set, the shared Content controls (message, message position, per-badge switches, custom badge gallery) and Style controls (alignment, icon size/spacing/colour, message typography/colour/spacing, background, full border group, separate radius, box-shadow, padding, margin), plus the renderer. Both widgets consume it, so the checkout trust block and the standalone widget can never drift apart.
+- Default badges render through Elementor's icon system (Font Awesome brand icons: cc-visa, cc-mastercard, cc-amex, cc-paypal, cc-apple-pay, google-pay), so nothing ships as hard-coded artwork and icons scale/recolour like text. Each badge span carries `role="img"` with an aria-label. Custom badges render via `wp_get_attachment_image` (URL fallback), so uploads keep their alt text.
+- DOM is minimal: one wrapper div, an icons row and a message paragraph; if every badge is off and the message is blank, nothing renders at all.
+- Inside the checkout widget the block renders after the form, deliberately outside every WooCommerce AJAX fragment, so totals refreshes can never wipe it; a small JS module then relocates it per the Position control (order summary card below the pay button (default), below the customer details, or full width below the checkout) once the Stage 2 reflow has built those regions. No-JS fallback: full width below the checkout.
+- The standalone `KDNA_Checkout_Widget_Trust` ("KDNA Trust Badges", `kdna-trust-badges`) registers alongside the checkout widget in the Stage 2 bootstrap (additive lines only), is Atomic-compliant, style-depends on the shared stylesheet and renders the same single-wrapper block with no position attribute.
+- The checkout widget's editor placeholder renders the real trust block, so badge toggles, message and all styling preview live in the editor.
+- Stage 8 controls are condition-gated on `show_trust` inside the checkout widget and un-gated in the standalone widget (verified by test).
+- Verified by the Stage 8 smoke test (renderer toggles/escaping/empty-output/custom badges, both widgets' controls and registration, render order after the form, single wrapper, hygiene sweep) and a jsdom positioning test (summary/main/bottom/none, one scenario per document since duplicate WooCommerce IDs across documents are a jsdom-only artifact), plus the full Stage 2-7 regression suite.
 
 ## Stage 7 session notes
 

@@ -59,9 +59,12 @@ final class KDNA_Checkout_Elementor {
 	 * @return void
 	 */
 	public static function register_widgets( $widgets_manager ) {
+		require_once KDNA_CHECKOUT_PATH . 'elementor/class-kdna-checkout-trust.php';
 		require_once KDNA_CHECKOUT_PATH . 'elementor/widgets/class-widget-checkout.php';
+		require_once KDNA_CHECKOUT_PATH . 'elementor/widgets/class-widget-trust.php';
 
 		$widgets_manager->register( new KDNA_Checkout_Widget_Checkout() );
+		$widgets_manager->register( new KDNA_Checkout_Widget_Trust() );
 	}
 }
 

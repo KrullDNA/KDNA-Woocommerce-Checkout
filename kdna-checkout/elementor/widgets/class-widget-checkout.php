@@ -160,7 +160,55 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->register_cart_strip_controls();
 		$this->register_express_controls();
 		$this->register_fields_controls();
+		$this->register_trust_controls();
 		$this->register_style_controls();
+	}
+
+	/**
+	 * Content tab > Trust Signals (Stage 8).
+	 *
+	 * @return void
+	 */
+	private function register_trust_controls() {
+		$this->start_controls_section(
+			'section_trust',
+			array(
+				'label' => __( 'Trust Signals', 'kdna-checkout' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'show_trust',
+			array(
+				'label'        => __( 'Show trust block', 'kdna-checkout' ),
+				'description'  => __( 'Payment method icons and a secure-checkout reassurance message.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'kdna-checkout' ),
+				'label_off'    => __( 'Hide', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+
+		$this->add_control(
+			'trust_position',
+			array(
+				'label'     => __( 'Position', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::SELECT,
+				'options'   => array(
+					'summary' => __( 'In the order summary card, below the pay button', 'kdna-checkout' ),
+					'main'    => __( 'Below the customer details', 'kdna-checkout' ),
+					'bottom'  => __( 'Full width, below the checkout', 'kdna-checkout' ),
+				),
+				'default'   => 'summary',
+				'condition' => array( 'show_trust' => 'yes' ),
+			)
+		);
+
+		KDNA_Checkout_Trust::register_content_controls( $this, array( 'show_trust' => 'yes' ) );
+
+		$this->end_controls_section();
 	}
 
 	/**
@@ -539,6 +587,27 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->style_section_express_row();
 		$this->style_section_express_divider();
 		$this->style_section_order_bump();
+		$this->style_section_trust();
+	}
+
+	/**
+	 * Style > Trust Block (Stage 8, shared controls).
+	 *
+	 * @return void
+	 */
+	private function style_section_trust() {
+		$this->start_controls_section(
+			'style_trust',
+			array(
+				'label'     => __( 'Trust Block', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array( 'show_trust' => 'yes' ),
+			)
+		);
+
+		KDNA_Checkout_Trust::register_style_controls( $this );
+
+		$this->end_controls_section();
 	}
 
 	/**
@@ -2648,7 +2717,29 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 
 		// Native WooCommerce classic shortcode checkout, reflowed by the widget CSS/JS.
 		echo do_shortcode( '[woocommerce_checkout]' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce renders and escapes its own checkout markup.
+
+		// Trust signals block (Stage 8): rendered after the form (outside
+		// every AJAX fragment, so it always survives totals refreshes) and
+		// relocated into the chosen position by the widget JS.
+		if ( $this->show_trust( $settings ) && class_exists( 'KDNA_Checkout_Trust' ) ) {
+			$position = $settings['trust_position'] ?? 'summary';
+			if ( ! in_array( $position, array( 'summary', 'main', 'bottom' ), true ) ) {
+				$position = 'summary';
+			}
+			echo KDNA_Checkout_Trust::render( $settings, $position ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trust markup is escaped where it is built.
+		}
+
 		echo '</div>';
+	}
+
+	/**
+	 * Whether the trust block is enabled in the widget settings.
+	 *
+	 * @param array $settings Widget settings.
+	 * @return bool
+	 */
+	private function show_trust( array $settings ) {
+		return ! isset( $settings['show_trust'] ) || 'yes' === $settings['show_trust'];
 	}
 
 	/**
@@ -2854,6 +2945,9 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 							</label>
 						</div>
 						<div class="kdna-checkout__ph-button"></div>
+						<?php if ( $this->show_trust( $settings ) && class_exists( 'KDNA_Checkout_Trust' ) ) : ?>
+							<?php echo KDNA_Checkout_Trust::render( $settings ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trust markup is escaped where it is built. ?>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
