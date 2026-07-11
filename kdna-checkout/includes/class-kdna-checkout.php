@@ -71,6 +71,13 @@ final class KDNA_Checkout {
 	public $autocomplete;
 
 	/**
+	 * Abandoned-cart capture component (Stage 10).
+	 *
+	 * @var KDNA_Checkout_Cart_Capture
+	 */
+	public $cart_capture;
+
+	/**
 	 * Return the single plugin instance, creating it on first call.
 	 *
 	 * @return KDNA_Checkout
@@ -105,6 +112,7 @@ final class KDNA_Checkout {
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-fields.php';
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-order-bump.php';
 		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-autocomplete.php';
+		require_once KDNA_CHECKOUT_PATH . 'includes/class-kdna-checkout-cart-capture.php';
 
 		// Stage 2: Elementor bootstrap, registers its hooks at file-load time.
 		require_once KDNA_CHECKOUT_PATH . 'elementor/class-kdna-checkout-elementor.php';
@@ -126,6 +134,7 @@ final class KDNA_Checkout {
 		$this->fields     = new KDNA_Checkout_Fields();
 		$this->order_bump   = new KDNA_Checkout_Order_Bump();
 		$this->autocomplete = new KDNA_Checkout_Autocomplete();
+		$this->cart_capture = new KDNA_Checkout_Cart_Capture();
 
 		if ( is_admin() ) {
 			$this->admin = new KDNA_Checkout_Admin();

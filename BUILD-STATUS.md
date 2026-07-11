@@ -13,9 +13,20 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 7 | Order bumps | **Complete** (v0.7.0, 2026-07-11) |
 | Stage 8 | Trust signals block | **Complete** (v0.8.0, 2026-07-11) |
 | Stage 9 | Google Places address autocomplete | **Complete** (v0.9.0, 2026-07-11) |
-| Stage 10 | Abandoned-cart capture (data layer) | Not started |
+| Stage 10 | Abandoned-cart capture (data layer) | **Complete** (v0.10.0, 2026-07-11) |
 | Stage 11 | Recovery email sequence (admin-built + branded template) | Not started |
 | Stage 12 | Polish, compatibility & packaging | Not started |
+
+## Stage 10 session notes
+
+- `includes/class-kdna-checkout-cart-capture.php` is pure data layer. Capture: the front-end module posts `kdna_checkout_capture` (nonce-checked, guest-capable) on email blur; the server validates with `is_email`, then inserts a row into the Stage 1 `kdna_checkout_carts` table with a 32-hex-char token (`random_bytes`), a restorable JSON snapshot (`{items:[{product_id, variation_id, quantity, variation}]}`), `get_total('edit')`, the store currency and status `active`. The token is kept in the WooCommerce session so later captures update the same row (email changes included) rather than inserting duplicates.
+- The snapshot stays current via `woocommerce_cart_updated` (session-token lookup); a returning shopper flips an abandoned row back to `active`; `completed`/`recovered` rows are final.
+- On `woocommerce_checkout_order_processed`: session-token row (email fallback: newest open row for the order's billing email) transitions `active -> completed` or `abandoned -> recovered`, and the session token clears. "Recovered" therefore means "was abandoned, then purchased", ready for Stage 11's stop-on-purchase rule.
+- Cron: a custom 15-minute interval sweep (`kdna_checkout_mark_abandoned`) marks active rows abandoned once `updated_at` passes the configurable idle period (default 60 minutes, clamped 5 min-7 days), so marking lands close to the setting rather than up to an hour late; a daily sweep (`kdna_checkout_purge_carts`) deletes rows older than the purge age (default 90 days, 0 = never). Scheduling is self-healing on `init`, and both hooks clear on the Stage 1 `kdna_checkout_deactivated` action, exactly the additive clean-up route Stage 1 designed for.
+- Settings (new "Abandoned-cart capture" section on the shared Stage 9 form): capture toggle (default on), consent toggle (default off) with editable consent text, idle minutes and purge days, all with strict sanitisers. Consent mode is enforced server-side too: without `consent=1` the endpoint stores nothing and answers a quiet no-op.
+- The only display-layer touch is the optional consent checkbox the capture JS injects under the email field when consent mode is on, styled via `--kdna-checkout-consent-*` variables.
+- Settings > Captured Carts: paginated (20/page), status-filterable list showing email, item count (from the snapshot), cart value (`wc_price` with the row currency), a colour-coded status badge, captured and last-activity timestamps, everything escaped, plus a note about the purge age.
+- Verified by the Stage 10 smoke test (insert/update/token/session behaviour, consent and disabled gating, invalid email, snapshot refresh, both status transitions including the email fallback, abandon-cutoff SQL honouring the configured minutes, purge SQL and purge-off, scheduling with the 15-minute interval, deactivation clean-up, settings registration, admin screen render with XSS check) and a jsdom capture test (blur capture, invalid-email guard, consent injection/gating/immediate capture on tick, disabled inertness), plus the full Stage 2-9 regression suite (18 tests).
 
 ## Stage 9 session notes
 

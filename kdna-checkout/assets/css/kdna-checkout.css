@@ -578,6 +578,23 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Cart capture consent (Stage 10)
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-consent {
+	margin-top: 4px;
+}
+
+.kdna-checkout-consent__label {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 6px;
+	font-size: var(--kdna-checkout-consent-size, 13px);
+	color: var(--kdna-checkout-consent-colour, #50575e);
+	cursor: pointer;
+}
+
+/* ------------------------------------------------------------------ *
  * Elementor editor placeholder
  * ------------------------------------------------------------------ */
 

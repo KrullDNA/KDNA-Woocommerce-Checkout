@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.9.0
+Stable tag: 0.10.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Requirements:
 * WooCommerce (active), the plugin pauses with an admin notice if WooCommerce is missing.
 * Elementor, for the checkout widget (arrives in a later build stage).
 
-Current build stage: Stage 9 of 12, Google Places address autocomplete.
+Current build stage: Stage 10 of 12, abandoned-cart capture (data layer).
 
 * KDNA widget category and KDNA Checkout widget registered with Elementor (Atomic architecture).
 * The widget renders the native WooCommerce classic shortcode checkout in a two-column grid, customer details left, sticky order summary card right, stacking to one column on mobile with the summary above or below per a control.
@@ -49,6 +49,15 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 0.10.0 =
+* Stage 10: the abandoned-cart capture data layer, fully separate from the display layer.
+* Entering an email on checkout captures it via AJAX into the kdna_checkout_carts table with a unique recovery token, a JSON cart snapshot, the total and currency, and an "active" status; the snapshot refreshes as the cart changes.
+* Completing the matching order flips the row to "completed", or "recovered" when it had been abandoned.
+* A 15-minute WP Cron sweep marks stale active carts "abandoned" after a configurable idle period (default 60 minutes); a daily sweep auto-purges old rows for privacy (default 90 days, 0 keeps forever).
+* Capture-consent mode: an optional shopper opt-in checkbox under the email field; nothing is stored without the tick.
+* Settings > Captured Carts admin screen listing email, item count, cart value, status and timestamps, filterable by status and paginated.
+* No recovery emails are sent yet, that arrives in Stage 11.
 
 = 0.9.0 =
 * Stage 9: optional Google Places address autocomplete.

@@ -793,3 +793,131 @@
 		init();
 	}
 }() );
+
+/**
+ * Stage 10: abandoned-cart capture.
+ *
+ * Data layer only: when the shopper enters their email (and grants
+ * consent, when consent mode is on), the email plus a cart snapshot is
+ * captured via AJAX. The display layer is untouched apart from the
+ * optional consent checkbox this module injects under the email field.
+ */
+( function () {
+	'use strict';
+
+	var captureTimer = null;
+	var EMAIL_SHAPE  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+	function cfg() {
+		return window.kdnaCheckoutCapture || null;
+	}
+
+	function consentGranted( form ) {
+		var config = cfg();
+		if ( ! config || '1' !== config.consentRequired ) {
+			return true;
+		}
+		var box = form.querySelector( '#kdna_checkout_consent' );
+		return !! ( box && box.checked );
+	}
+
+	function ensureConsentBox( form ) {
+		var config = cfg();
+		if ( ! config || '1' !== config.consentRequired || form.querySelector( '#kdna_checkout_consent' ) ) {
+			return;
+		}
+
+		var email = form.querySelector( '#billing_email' );
+		if ( ! email ) {
+			return;
+		}
+		var emailRow = email.closest( '.form-row' ) || email;
+
+		var row = document.createElement( 'p' );
+		row.className = 'form-row form-row-wide kdna-checkout-consent';
+
+		var label = document.createElement( 'label' );
+		label.className = 'kdna-checkout-consent__label';
+
+		var box = document.createElement( 'input' );
+		box.type = 'checkbox';
+		box.id = 'kdna_checkout_consent';
+		box.className = 'kdna-checkout-consent__checkbox';
+
+		label.appendChild( box );
+		label.appendChild( document.createTextNode( ' ' + ( config.consentText || '' ) ) );
+		row.appendChild( label );
+
+		emailRow.parentNode.insertBefore( row, emailRow.nextSibling );
+	}
+
+	function capture( form ) {
+		var config = cfg();
+		if ( ! config || '1' !== config.enabled || ! window.fetch ) {
+			return;
+		}
+
+		var email = form.querySelector( '#billing_email' );
+		var value = email ? String( email.value || '' ).trim() : '';
+		if ( '' === value || ! EMAIL_SHAPE.test( value ) || ! consentGranted( form ) ) {
+			return;
+		}
+
+		var data = new window.FormData();
+		data.append( 'action', 'kdna_checkout_capture' );
+		data.append( 'nonce', config.nonce );
+		data.append( 'email', value );
+		data.append( 'consent', consentGranted( form ) ? '1' : '0' );
+
+		window.fetch( config.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: data } )
+			.then( function ( response ) {
+				return response.json();
+			} )
+			.then( function ( result ) {
+				if ( result && result.success && result.data && result.data.captured ) {
+					form.dispatchEvent( new CustomEvent( 'kdna:cart-captured', { bubbles: true } ) );
+				}
+			} )
+			.catch( function () {
+				// Quiet by design: capture must never disturb the checkout.
+			} );
+	}
+
+	function formFor( el ) {
+		return el.closest ? el.closest( '.kdna-checkout form.woocommerce-checkout' ) : null;
+	}
+
+	document.addEventListener( 'focusout', function ( event ) {
+		if ( ! event.target || 'billing_email' !== event.target.id ) {
+			return;
+		}
+		var form = formFor( event.target );
+		if ( ! form ) {
+			return;
+		}
+		window.clearTimeout( captureTimer );
+		captureTimer = window.setTimeout( function () {
+			capture( form );
+		}, 250 );
+	} );
+
+	document.addEventListener( 'change', function ( event ) {
+		if ( ! event.target || 'kdna_checkout_consent' !== event.target.id ) {
+			return;
+		}
+		var form = formFor( event.target );
+		if ( form && event.target.checked ) {
+			capture( form );
+		}
+	} );
+
+	function boot() {
+		Array.prototype.slice.call( document.querySelectorAll( '.kdna-checkout form.woocommerce-checkout' ) ).forEach( ensureConsentBox );
+	}
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', boot );
+	} else {
+		boot();
+	}
+}() );
