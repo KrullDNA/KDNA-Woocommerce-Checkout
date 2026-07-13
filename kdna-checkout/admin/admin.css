@@ -1,0 +1,74 @@
+/**
+ * KDNA Checkout admin styles.
+ *
+ * Loaded only on Settings > KDNA Checkout and the plugin's own screens.
+ */
+
+:root {
+	--kdna-checkout-admin-card-bg: #ffffff;
+	--kdna-checkout-admin-card-border: #c3c4c7;
+	--kdna-checkout-admin-accent: #2271b1;
+}
+
+[x-cloak] {
+	display: none !important;
+}
+
+.kdna-checkout-admin__card {
+	max-width: 640px;
+	margin-top: 16px;
+	padding: 24px;
+	background: var(--kdna-checkout-admin-card-bg);
+	border: 1px solid var(--kdna-checkout-admin-card-border);
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.kdna-checkout-admin__card h2 {
+	margin-top: 0;
+}
+
+.kdna-checkout-admin__badge {
+	display: inline-block;
+	padding: 4px 10px;
+	border: 1px solid var(--kdna-checkout-admin-accent);
+	border-radius: 3px;
+	color: var(--kdna-checkout-admin-accent);
+	font-size: 12px;
+	line-height: 1.6;
+}
+
+.kdna-checkout-admin__key-field {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.kdna-checkout-admin__status {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 3px;
+	font-size: 12px;
+	background: #eceef0;
+	color: #3c434a;
+}
+
+.kdna-checkout-admin__status--active {
+	background: #e5f1f8;
+	color: #2271b1;
+}
+
+.kdna-checkout-admin__status--abandoned {
+	background: #fcf0f1;
+	color: #d63638;
+}
+
+.kdna-checkout-admin__status--recovered {
+	background: #edf7ed;
+	color: #00753d;
+}
+
+.kdna-checkout-admin__status--completed {
+	background: #f0f0f1;
+	color: #50575e;
+}

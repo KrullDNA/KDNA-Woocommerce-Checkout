@@ -1,0 +1,701 @@
+/**
+ * KDNA Checkout front-end styles. Stage 2: structure only.
+ *
+ * Every value runs through a --kdna-checkout- custom property so nothing
+ * is hard-coded beyond override, and no selector relies on Elementor
+ * wrapper divs (.elementor-widget-container is never targeted).
+ *
+ * The two-column grid only engages once the widget JS has wrapped the
+ * form into main/summary regions and added the --ready modifier. Without
+ * JS the native single-column checkout renders untouched (fail-safe).
+ */
+
+.kdna-checkout {
+	display: block;
+}
+
+/* ------------------------------------------------------------------ *
+ * Accessibility: a consistent, visible keyboard focus ring on every
+ * interactive element in the widget (Stage 12). Uses :focus-visible so
+ * it appears for keyboard users without ringing on mouse clicks, and
+ * layers on top of the per-element focus styling from earlier stages.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout a:focus-visible,
+.kdna-checkout button:focus-visible,
+.kdna-checkout input:focus-visible,
+.kdna-checkout select:focus-visible,
+.kdna-checkout textarea:focus-visible,
+.kdna-checkout-strip a:focus-visible,
+.kdna-checkout-strip button:focus-visible,
+.kdna-checkout-strip input:focus-visible,
+.kdna-checkout-strip__edit-link:focus-visible,
+.kdna-checkout-bump__checkbox:focus-visible,
+.kdna-checkout-express a:focus-visible,
+.kdna-checkout-express button:focus-visible {
+	outline: 2px solid var(--kdna-checkout-focus-colour, #1a4d80);
+	outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Two-column layout (desktop)
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout--ready form.woocommerce-checkout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, var(--kdna-checkout-summary-width, 400px));
+	column-gap: var(--kdna-checkout-column-gap, 48px);
+	row-gap: var(--kdna-checkout-row-gap, 24px);
+	align-items: start;
+}
+
+.kdna-checkout__main {
+	grid-column: 1;
+	grid-row: 1;
+	min-width: 0;
+}
+
+.kdna-checkout__summary {
+	grid-column: 2;
+	grid-row: 1;
+	min-width: 0;
+	background: var(--kdna-checkout-summary-bg, #ffffff);
+	border-style: var(--kdna-checkout-summary-border-style, solid);
+	border-width: var(--kdna-checkout-summary-border-width, 1px);
+	border-color: var(--kdna-checkout-summary-border-colour, #e2e4e7);
+	border-radius: var(--kdna-checkout-summary-radius, 8px);
+	box-shadow: var(--kdna-checkout-summary-shadow, 0 1px 2px rgba(0, 0, 0, 0.04));
+	padding: var(--kdna-checkout-summary-padding, 24px);
+}
+
+.kdna-checkout__summary #order_review_heading {
+	margin-top: 0;
+}
+
+.kdna-checkout__summary .shop_table {
+	width: 100%;
+}
+
+@media (min-width: 768px) {
+	.kdna-checkout--sticky .kdna-checkout__summary {
+		position: sticky;
+		top: var(--kdna-checkout-sticky-offset, 32px);
+		align-self: start;
+	}
+}
+
+/* ------------------------------------------------------------------ *
+ * Single column (mobile)
+ * ------------------------------------------------------------------ */
+
+@media (max-width: 767px) {
+	.kdna-checkout--ready form.woocommerce-checkout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.kdna-checkout__main,
+	.kdna-checkout__summary {
+		grid-column: 1;
+		grid-row: auto;
+	}
+
+	/* Summary above the details when the control says so. */
+	.kdna-checkout--summary-above .kdna-checkout__summary {
+		order: -1;
+	}
+}
+
+/* ------------------------------------------------------------------ *
+ * Pay button icon (Stage 3)
+ *
+ * The icon is cloned into #place_order by the widget JS from an inert
+ * template, and re-applied after WooCommerce fragment refreshes.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout--pay-icon #place_order {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.kdna-checkout__pay-icon {
+	display: inline-flex;
+	align-items: center;
+	line-height: 1;
+}
+
+.kdna-checkout__pay-icon--before {
+	margin-right: var(--kdna-checkout-pay-icon-gap, 8px);
+}
+
+.kdna-checkout__pay-icon--after {
+	margin-left: var(--kdna-checkout-pay-icon-gap, 8px);
+}
+
+.kdna-checkout__pay-icon svg {
+	width: var(--kdna-checkout-pay-icon-size, 1em);
+	height: var(--kdna-checkout-pay-icon-size, 1em);
+	fill: currentColor;
+}
+
+.kdna-checkout__pay-icon i {
+	font-size: var(--kdna-checkout-pay-icon-size, 1em);
+}
+
+/* ------------------------------------------------------------------ *
+ * Cart strip (Stage 4)
+ *
+ * Square product tiles in a sideways-scrolling row with the subtotal
+ * on the right. Every hard value routes through a --kdna-checkout-
+ * variable or is overridden by the instance-scoped Elementor controls.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-strip {
+	display: flex;
+	align-items: stretch;
+	gap: var(--kdna-checkout-strip-gap, 16px);
+	background: var(--kdna-checkout-strip-bg, #f7f8f9);
+	border-style: var(--kdna-checkout-strip-border-style, solid);
+	border-width: var(--kdna-checkout-strip-border-width, 1px);
+	border-color: var(--kdna-checkout-strip-border-colour, #e2e4e7);
+	border-radius: var(--kdna-checkout-strip-radius, 8px);
+	padding: var(--kdna-checkout-strip-padding, 12px);
+	margin: 0 0 var(--kdna-checkout-strip-margin-bottom, 24px);
+}
+
+.kdna-checkout-strip--busy {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.kdna-checkout-strip__items {
+	display: flex;
+	flex: 1 1 auto;
+	min-width: 0;
+	gap: var(--kdna-checkout-strip-tile-gap, 12px);
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	padding-bottom: 2px;
+}
+
+.kdna-checkout-strip__tile {
+	flex: 0 0 auto;
+	width: var(--kdna-checkout-strip-tile-size, 96px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	background: var(--kdna-checkout-strip-tile-bg, #ffffff);
+	border-style: var(--kdna-checkout-strip-tile-border-style, solid);
+	border-width: var(--kdna-checkout-strip-tile-border-width, 1px);
+	border-color: var(--kdna-checkout-strip-tile-border-colour, #e2e4e7);
+	border-radius: var(--kdna-checkout-strip-tile-radius, 8px);
+	padding: var(--kdna-checkout-strip-tile-padding, 8px);
+}
+
+.kdna-checkout-strip__image {
+	display: block;
+	width: 100%;
+}
+
+.kdna-checkout-strip__image img,
+.kdna-checkout-strip__image-ph {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: var(--kdna-checkout-strip-image-radius, 6px);
+}
+
+.kdna-checkout-strip__image-ph {
+	background: #dfe3e7;
+}
+
+.kdna-checkout-strip__name {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	width: 100%;
+	margin-top: 6px;
+	font-size: var(--kdna-checkout-strip-name-size, 12px);
+	line-height: 1.3;
+}
+
+.kdna-checkout-strip__controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+.kdna-checkout-strip__qty {
+	width: var(--kdna-checkout-strip-qty-width, 48px);
+	text-align: center;
+	font-size: var(--kdna-checkout-strip-qty-size, 12px);
+	padding: 2px 4px;
+	background: var(--kdna-checkout-strip-qty-bg, #ffffff);
+	border-style: var(--kdna-checkout-strip-qty-border-style, solid);
+	border-width: var(--kdna-checkout-strip-qty-border-width, 1px);
+	border-color: var(--kdna-checkout-strip-qty-border-colour, #d5d9dd);
+	border-radius: var(--kdna-checkout-strip-qty-radius, 4px);
+}
+
+.kdna-checkout-strip__qty-static {
+	display: none;
+	margin-top: 6px;
+	font-size: var(--kdna-checkout-strip-qty-size, 12px);
+}
+
+.kdna-checkout-strip__remove {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	padding: 0;
+	font-size: var(--kdna-checkout-strip-remove-size, 14px);
+	line-height: 1;
+	color: var(--kdna-checkout-strip-remove-colour, #7c848b);
+	background: var(--kdna-checkout-strip-remove-bg, transparent);
+	border: 0 solid transparent;
+	border-radius: var(--kdna-checkout-strip-remove-radius, 50%);
+	cursor: pointer;
+}
+
+.kdna-checkout-strip__remove:hover,
+.kdna-checkout-strip__remove:focus {
+	color: var(--kdna-checkout-strip-remove-hover-colour, #d63638);
+	background: var(--kdna-checkout-strip-remove-hover-bg, #eceef0);
+}
+
+.kdna-checkout-strip__meta {
+	flex: 0 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+	gap: 6px;
+	padding-left: var(--kdna-checkout-strip-subtotal-gap, 12px);
+}
+
+.kdna-checkout-strip__subtotal {
+	text-align: right;
+	white-space: nowrap;
+}
+
+.kdna-checkout-strip__subtotal-label {
+	display: block;
+	font-size: var(--kdna-checkout-strip-subtotal-label-size, 12px);
+	color: var(--kdna-checkout-strip-subtotal-label-colour, #565d66);
+}
+
+.kdna-checkout-strip__subtotal-amount {
+	display: block;
+	font-weight: 600;
+}
+
+.kdna-checkout-strip__edit-link {
+	background: transparent;
+	border: 0 solid transparent;
+	padding: 0;
+	font-size: var(--kdna-checkout-strip-edit-size, 12px);
+	color: var(--kdna-checkout-strip-edit-colour, #2271b1);
+	text-decoration: underline;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.kdna-checkout-strip__empty {
+	margin: 0;
+	padding: 4px 0;
+}
+
+/* Item-controls modes. Full shows everything (default). */
+
+.kdna-checkout-strip--controls-subtle .kdna-checkout-strip__remove {
+	opacity: var(--kdna-checkout-strip-remove-subtle-opacity, 0.45);
+	font-size: calc(var(--kdna-checkout-strip-remove-size, 14px) * 0.85);
+}
+
+.kdna-checkout-strip--controls-subtle .kdna-checkout-strip__remove:hover,
+.kdna-checkout-strip--controls-subtle .kdna-checkout-strip__remove:focus {
+	opacity: 1;
+}
+
+.kdna-checkout-strip--controls-edit:not(.kdna-checkout-strip--editing) .kdna-checkout-strip__controls,
+.kdna-checkout-strip--controls-locked .kdna-checkout-strip__controls {
+	display: none;
+}
+
+.kdna-checkout-strip--controls-edit:not(.kdna-checkout-strip--editing) .kdna-checkout-strip__qty-static,
+.kdna-checkout-strip--controls-locked .kdna-checkout-strip__qty-static {
+	display: block;
+}
+
+/* Sticky, independently per device. */
+
+@media (min-width: 768px) {
+	.kdna-checkout-strip--sticky-desktop {
+		position: sticky;
+		top: var(--kdna-checkout-strip-sticky-offset, 0px);
+		z-index: 20;
+	}
+}
+
+@media (max-width: 767px) {
+	.kdna-checkout-strip--sticky-mobile {
+		position: sticky;
+		top: var(--kdna-checkout-strip-sticky-offset, 0px);
+		z-index: 20;
+	}
+}
+
+/* ------------------------------------------------------------------ *
+ * Inline field validation (Stage 6)
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-field-error {
+	display: block;
+	margin-top: 4px;
+	font-size: var(--kdna-checkout-error-size, 12px);
+	line-height: 1.4;
+	color: var(--kdna-checkout-error-colour, #d63638);
+}
+
+.kdna-checkout .form-row.woocommerce-invalid .input-text,
+.kdna-checkout .form-row.woocommerce-invalid select,
+.kdna-checkout .form-row.woocommerce-invalid .select2-container .select2-selection--single {
+	border-color: var(--kdna-checkout-error-colour, #d63638);
+}
+
+/* Fallback for themes without a screen-reader-text rule, scoped to the
+ * widget so placeholders-as-labels stays accessible everywhere. */
+.kdna-checkout label.screen-reader-text {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	border: 0;
+	white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ *
+ * Express payment row (Stage 5)
+ *
+ * Hidden until the widget JS relocates at least one visible gateway
+ * express button into it, so an inactive gateway leaves no gap.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-express {
+	display: none;
+	margin: 0 0 var(--kdna-checkout-express-margin-bottom, 24px);
+}
+
+.kdna-checkout-express--active {
+	display: block;
+}
+
+.kdna-checkout-express__buttons {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--kdna-checkout-express-gap, 12px);
+}
+
+.kdna-checkout-express__buttons > * {
+	flex: 1 1 var(--kdna-checkout-express-min-width, 240px);
+	min-width: 0;
+	margin: 0;
+}
+
+/* Gateway-rendered separators are replaced by our own divider. */
+.kdna-checkout-express-hide {
+	display: none !important;
+}
+
+.kdna-checkout-express__divider {
+	display: flex;
+	align-items: center;
+	gap: var(--kdna-checkout-express-divider-gap, 16px);
+	margin-top: var(--kdna-checkout-express-divider-spacing, 16px);
+}
+
+.kdna-checkout-express__divider::before,
+.kdna-checkout-express__divider::after {
+	content: '';
+	flex: 1 1 auto;
+	border-top: var(--kdna-checkout-express-divider-thickness, 1px) solid var(--kdna-checkout-express-divider-colour, #e2e4e7);
+}
+
+.kdna-checkout-express__divider-text {
+	flex: 0 0 auto;
+	font-size: var(--kdna-checkout-express-divider-text-size, 13px);
+	color: var(--kdna-checkout-express-divider-text-colour, #565d66);
+}
+
+/* Editor skeleton buttons. */
+.kdna-checkout-express__ph-button {
+	display: block;
+	height: 44px;
+	border-radius: 6px;
+	background: #c6ccd2;
+}
+
+/* ------------------------------------------------------------------ *
+ * Order bump (Stage 7)
+ *
+ * Tick-to-add offer box rendered above the pay button. Defaults are
+ * neutral and every value is overridable from the Elementor controls.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-bump {
+	display: block;
+	margin: 0 0 var(--kdna-checkout-bump-margin-bottom, 16px);
+	background: var(--kdna-checkout-bump-bg, #f7f8f9);
+	border-style: var(--kdna-checkout-bump-border-style, dashed);
+	border-width: var(--kdna-checkout-bump-border-width, 2px);
+	border-color: var(--kdna-checkout-bump-border-colour, #cfd4d9);
+	border-radius: var(--kdna-checkout-bump-radius, 8px);
+	padding: var(--kdna-checkout-bump-padding, 14px);
+}
+
+.kdna-checkout-bump--busy {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.kdna-checkout-bump__label {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	cursor: pointer;
+	margin: 0;
+}
+
+.kdna-checkout-bump__checkbox {
+	flex: 0 0 auto;
+	margin: 2px 0 0;
+	width: var(--kdna-checkout-bump-checkbox-size, 18px);
+	height: var(--kdna-checkout-bump-checkbox-size, 18px);
+	accent-color: var(--kdna-checkout-bump-accent, #2271b1);
+	cursor: pointer;
+}
+
+.kdna-checkout-bump__image {
+	flex: 0 0 auto;
+	width: var(--kdna-checkout-bump-image-size, 64px);
+}
+
+.kdna-checkout-bump__image img,
+.kdna-checkout-bump__image-ph {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: var(--kdna-checkout-bump-image-radius, 6px);
+}
+
+.kdna-checkout-bump__image-ph {
+	background: #dfe3e7;
+}
+
+.kdna-checkout-bump__text {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.kdna-checkout-bump__headline {
+	display: block;
+	font-weight: 600;
+	font-size: var(--kdna-checkout-bump-headline-size, 14px);
+	line-height: 1.4;
+}
+
+.kdna-checkout-bump__description {
+	display: block;
+	margin-top: 2px;
+	font-size: var(--kdna-checkout-bump-body-size, 13px);
+	line-height: 1.45;
+	color: var(--kdna-checkout-bump-body-colour, #50575e);
+}
+
+.kdna-checkout-bump__price {
+	display: block;
+	margin-top: 4px;
+	font-size: var(--kdna-checkout-bump-price-size, 13px);
+}
+
+.kdna-checkout-bump__price del {
+	opacity: 0.6;
+	margin-right: 6px;
+}
+
+.kdna-checkout-bump__price ins {
+	text-decoration: none;
+	font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ *
+ * Trust signals block (Stage 8)
+ *
+ * Payment icons plus a reassurance message. Shared by the checkout
+ * widget and the standalone KDNA Trust Badges widget.
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-trust {
+	display: flex;
+	flex-direction: column;
+	gap: var(--kdna-checkout-trust-message-gap, 8px);
+	margin: var(--kdna-checkout-trust-margin-top, 16px) 0 0;
+	text-align: center;
+}
+
+.kdna-checkout-trust--message-above .kdna-checkout-trust__message {
+	order: -1;
+}
+
+.kdna-checkout-trust__icons {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: var(--kdna-checkout-trust-align, center);
+	gap: var(--kdna-checkout-trust-gap, 10px);
+}
+
+.kdna-checkout-trust__icon {
+	display: inline-flex;
+	line-height: 1;
+	font-size: var(--kdna-checkout-trust-icon-size, 28px);
+	color: var(--kdna-checkout-trust-icon-colour, #50575e);
+}
+
+.kdna-checkout-trust__icon svg {
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
+}
+
+.kdna-checkout-trust__badge {
+	display: block;
+	height: var(--kdna-checkout-trust-icon-size, 28px);
+	width: auto;
+}
+
+.kdna-checkout-trust__message {
+	margin: 0;
+	font-size: var(--kdna-checkout-trust-message-size, 13px);
+	line-height: 1.5;
+	color: var(--kdna-checkout-trust-message-colour, #50575e);
+}
+
+/* Standalone widget: no default top margin outside the checkout. */
+.elementor-widget-kdna-trust-badges .kdna-checkout-trust {
+	margin: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Cart capture consent (Stage 10)
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout-consent {
+	margin-top: 4px;
+}
+
+.kdna-checkout-consent__label {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 6px;
+	font-size: var(--kdna-checkout-consent-size, 13px);
+	color: var(--kdna-checkout-consent-colour, #50575e);
+	cursor: pointer;
+}
+
+/* ------------------------------------------------------------------ *
+ * Elementor editor placeholder
+ * ------------------------------------------------------------------ */
+
+.kdna-checkout__placeholder {
+	padding: 28px;
+	background: var(--kdna-checkout-ph-bg, #f7f8f9);
+	border: 1px dashed var(--kdna-checkout-ph-border, #bfc7cf);
+	border-radius: 8px;
+	color: #3c434a;
+}
+
+.kdna-checkout__ph-header {
+	margin-bottom: 24px;
+}
+
+.kdna-checkout__ph-header strong {
+	display: block;
+	font-size: 15px;
+	margin-bottom: 4px;
+}
+
+.kdna-checkout__ph-header span {
+	font-size: 13px;
+	opacity: 0.75;
+}
+
+.kdna-checkout__ph-columns {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
+	gap: 32px;
+	align-items: start;
+}
+
+@media (max-width: 767px) {
+	.kdna-checkout__ph-columns {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.kdna-checkout__ph-line {
+	height: 12px;
+	border-radius: 6px;
+	background: #dfe3e7;
+	margin-bottom: 12px;
+}
+
+.kdna-checkout__ph-line--title {
+	width: 45%;
+	height: 16px;
+	margin-bottom: 16px;
+	background: #d3d8dd;
+}
+
+.kdna-checkout__ph-line--total {
+	width: 60%;
+	height: 16px;
+	background: #cdd3d9;
+}
+
+.kdna-checkout__ph-field {
+	height: 40px;
+	border-radius: 6px;
+	background: #eef0f2;
+	border: 1px solid #dfe3e7;
+	margin-bottom: 14px;
+}
+
+.kdna-checkout__ph-summary {
+	background: #ffffff;
+	border: 1px solid #dfe3e7;
+	border-radius: 8px;
+	padding: 20px;
+}
+
+.kdna-checkout__ph-button {
+	height: 46px;
+	border-radius: 6px;
+	background: #c6ccd2;
+	margin-top: 18px;
+	margin-bottom: 0;
+}
