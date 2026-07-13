@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Requirements:
 * Elementor, for the checkout and trust-badge widgets.
 * Classic (shortcode) checkout, which is the reliable, controllable base this plugin styles.
 
-Version 1.0.0, feature-complete. The plugin includes:
+Version 1.1.0, feature-complete. The plugin includes:
 
 * Elementor "KDNA Checkout" widget: the native WooCommerce classic checkout reflowed into a two-column layout with a sticky order summary, fully styleable in Elementor.
 * Cart strip (mini-cart) with live AJAX quantity/remove, four editing modes and independent desktop/mobile sticky.
@@ -53,6 +53,12 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 1.1.0 =
+* New standalone "KDNA Cart Strip" widget: the same mini-cart strip, placeable anywhere (for example a full-width section at the very top of the page), with the same content and style controls and live AJAX quantity/remove.
+* Cart strip sticky now works reliably on desktop and mobile: driven by JavaScript (fixed positioning with an in-flow spacer) instead of CSS position: sticky, so it holds even when an Elementor ancestor clips overflow or the strip sits in its own short top section.
+* Cart strip tiles are equal height and their quantity fields bottom-align across all tiles, even when one product name wraps onto more lines than its neighbours.
+* Cart strip controls refactored into a shared helper so the in-checkout strip and the standalone widget stay identical; existing styling is preserved (same control IDs and selectors).
 
 = 1.0.0 =
 * Stage 12: polish and packaging. First public release.

@@ -922,3 +922,152 @@
 		boot();
 	}
 }() );
+
+/**
+ * Stage 12 (1.1.0): cart strip sticky.
+ *
+ * Makes the cart strip stick to the top of the viewport when the
+ * desktop or mobile sticky toggle is on. Uses position: fixed with an
+ * in-flow spacer rather than CSS position: sticky, so it works even
+ * when an Elementor ancestor clips overflow or the strip sits alone in
+ * a short top-of-page section (the standalone KDNA Cart Strip widget).
+ * The strip node is replaced on every AJAX update, so it re-registers
+ * on the kdna:strip-updated event.
+ */
+( function () {
+	'use strict';
+
+	var instances  = [];
+	var rafPending = false;
+
+	function stickyActive( strip ) {
+		var isDesktop = ! window.matchMedia || window.matchMedia( '(min-width: 768px)' ).matches;
+		return isDesktop
+			? 'yes' === strip.getAttribute( 'data-sticky-desktop' )
+			: 'yes' === strip.getAttribute( 'data-sticky-mobile' );
+	}
+
+	function stickyOffset( strip ) {
+		var raw = window.getComputedStyle( strip ).getPropertyValue( '--kdna-checkout-strip-sticky-offset' );
+		var n   = parseInt( raw, 10 );
+		return isNaN( n ) ? 0 : n;
+	}
+
+	function register( strip ) {
+		if ( ! strip || strip.__kdnaStickyInit || strip.classList.contains( 'kdna-checkout-strip--skeleton' ) ) {
+			return;
+		}
+		if ( 'yes' !== strip.getAttribute( 'data-sticky-desktop' ) && 'yes' !== strip.getAttribute( 'data-sticky-mobile' ) ) {
+			return; // Sticky not requested for this strip.
+		}
+		strip.__kdnaStickyInit = true;
+
+		var spacer = document.createElement( 'div' );
+		spacer.className = 'kdna-checkout-strip__sticky-spacer';
+		spacer.setAttribute( 'aria-hidden', 'true' );
+		spacer.style.display = 'none';
+		strip.parentNode.insertBefore( spacer, strip );
+
+		instances.push( { strip: strip, spacer: spacer, stuck: false } );
+	}
+
+	function unstick( inst ) {
+		if ( ! inst.stuck ) {
+			return;
+		}
+		inst.stuck = false;
+		var s = inst.strip.style;
+		s.position = '';
+		s.top = '';
+		s.left = '';
+		s.width = '';
+		s.zIndex = '';
+		inst.strip.classList.remove( 'kdna-checkout-strip--stuck' );
+		inst.spacer.style.display = 'none';
+		inst.spacer.style.height = '';
+	}
+
+	function stick( inst, rect, offset ) {
+		inst.stuck = true;
+		inst.spacer.style.height = rect.height + 'px';
+		inst.spacer.style.display = 'block';
+		var s = inst.strip.style;
+		s.position = 'fixed';
+		s.top = offset + 'px';
+		s.left = rect.left + 'px';
+		s.width = rect.width + 'px';
+		s.zIndex = '100';
+		inst.strip.classList.add( 'kdna-checkout-strip--stuck' );
+	}
+
+	function evaluate() {
+		instances.forEach( function ( inst ) {
+			if ( ! inst.strip.isConnected ) {
+				return;
+			}
+
+			if ( ! stickyActive( inst.strip ) ) {
+				unstick( inst );
+				return;
+			}
+
+			var offset = stickyOffset( inst.strip );
+
+			if ( inst.stuck ) {
+				var spacerRect = inst.spacer.getBoundingClientRect();
+				if ( spacerRect.top > offset ) {
+					unstick( inst );
+				} else {
+					// Keep alignment in sync as the layout shifts.
+					inst.strip.style.left = spacerRect.left + 'px';
+					inst.strip.style.width = spacerRect.width + 'px';
+				}
+			} else {
+				var rect = inst.strip.getBoundingClientRect();
+				if ( rect.top <= offset ) {
+					stick( inst, rect, offset );
+				}
+			}
+		} );
+	}
+
+	function onScrollResize() {
+		if ( rafPending ) {
+			return;
+		}
+		rafPending = true;
+		window.requestAnimationFrame( function () {
+			rafPending = false;
+			evaluate();
+		} );
+	}
+
+	function boot() {
+		Array.prototype.slice.call( document.querySelectorAll( '.kdna-checkout-strip' ) ).forEach( register );
+		evaluate();
+		window.addEventListener( 'scroll', onScrollResize, { passive: true } );
+		window.addEventListener( 'resize', onScrollResize );
+	}
+
+	// Re-register after the strip node is swapped by an AJAX update.
+	document.addEventListener( 'kdna:strip-updated', function ( event ) {
+		for ( var i = instances.length - 1; i >= 0; i-- ) {
+			if ( ! instances[ i ].strip.isConnected ) {
+				if ( instances[ i ].spacer && instances[ i ].spacer.parentNode ) {
+					instances[ i ].spacer.parentNode.removeChild( instances[ i ].spacer );
+				}
+				instances.splice( i, 1 );
+			}
+		}
+		if ( event.target && event.target.classList ) {
+			register( event.target );
+		}
+		evaluate();
+	} );
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', boot );
+	} else {
+		boot();
+	}
+}() );

@@ -17,6 +17,14 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 11 | Recovery email sequence (admin-built + branded template) | **Complete** (v0.11.0, 2026-07-11) |
 | Stage 12 | Polish, compatibility & packaging | **Complete** (v1.0.0, 2026-07-11) |
 
+## 1.1.0 session notes (post-release enhancements)
+
+- New standalone "KDNA Cart Strip" widget (`kdna-cart-strip`) registered alongside the checkout and trust widgets. Renders the shared `KDNA_Checkout_Cart_Strip::render()` with a static editor skeleton, Atomic-compliant single wrapper, style/script-depends on the shared handle. Intended for a full-width top-of-page section.
+- Extracted the cart strip's content + style controls into a shared `KDNA_Checkout_Strip_Controls` helper (mirrors the Trust helper pattern). The checkout widget delegates to it with a `show_cart_strip => yes` condition; the standalone widget uses it with no condition and no show toggle. Control IDs and selectors are byte-identical to 1.0.0, so saved Elementor styling is preserved. Removed ~760 lines of inline strip control definitions from the checkout widget.
+- Sticky reworked: replaced CSS `position: sticky` (which failed under Elementor ancestor overflow / short top sections) with a JS module using `position: fixed` plus an in-flow spacer, gated by the per-device `data-sticky-*` attributes and the `--kdna-checkout-strip-sticky-offset` variable. Re-registers on `kdna:strip-updated` after AJAX strip replacement and cleans up stale spacers.
+- Tile quantity alignment: `.kdna-checkout-strip__items { align-items: stretch }` for equal-height tiles and `margin-top: auto` on the controls / static-qty so quantity fields bottom-align regardless of product-name line count.
+- Version 1.1.0. Full suite green (11 PHP + 10 jsdom = 21 tests), including a new standalone-widget test and a sticky DOM test; the Stage 4 test validates the checkout widget kept every strip control after the refactor.
+
 ## Stage 12 session notes
 
 - Final polish and packaging; version bumped to 1.0.0. No agreed behaviour changed, only additive polish and one conditional-loading fix.
