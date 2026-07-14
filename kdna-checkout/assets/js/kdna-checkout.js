@@ -77,6 +77,99 @@
 }() );
 
 /**
+ * Coupon position.
+ *
+ * WooCommerce renders the "Have a coupon?" toggle and its form at the top of
+ * the checkout form. This module wraps them in a slot and moves the slot to
+ * the position chosen in the widget: top of the billing column (default), full
+ * width at the top of the checkout, or between the order summary and the
+ * payment methods. It re-applies after each updated_checkout so the "between"
+ * position survives WooCommerce refreshing the order-review fragment.
+ */
+( function () {
+	'use strict';
+
+	function getSlot( root ) {
+		if ( root.__kdnaCouponSlot ) {
+			return root.__kdnaCouponSlot;
+		}
+		var toggle = root.querySelector( '.woocommerce-form-coupon-toggle' );
+		var form   = root.querySelector( 'form.checkout_coupon' );
+		if ( ! toggle && ! form ) {
+			return null;
+		}
+		var slot = document.createElement( 'div' );
+		slot.className = 'kdna-checkout__coupon-slot';
+		if ( toggle ) {
+			slot.appendChild( toggle );
+		}
+		if ( form ) {
+			slot.appendChild( form );
+		}
+		root.__kdnaCouponSlot = slot;
+		return slot;
+	}
+
+	function place( root ) {
+		if ( ! root.classList.contains( 'kdna-checkout--ready' ) ) {
+			return;
+		}
+		var slot = getSlot( root );
+		if ( ! slot ) {
+			return;
+		}
+		var position = root.getAttribute( 'data-coupon-position' ) || 'top';
+		var form     = root.querySelector( 'form.woocommerce-checkout' );
+		var main     = root.querySelector( '.kdna-checkout__main' );
+		var summary  = root.querySelector( '.kdna-checkout__summary' );
+
+		if ( 'payment' === position && summary ) {
+			var payment = summary.querySelector( '#payment' );
+			if ( payment && payment.parentNode && payment.previousElementSibling !== slot ) {
+				payment.parentNode.insertBefore( slot, payment );
+			}
+			return;
+		}
+
+		if ( 'billing' === position && main ) {
+			if ( main.firstElementChild !== slot ) {
+				main.insertBefore( slot, main.firstChild );
+			}
+			return;
+		}
+
+		// Default 'top': full width just above the two-column form (this is
+		// where WooCommerce renders it, so it stays put unless moved back).
+		if ( form && form.parentNode && form.previousElementSibling !== slot ) {
+			form.parentNode.insertBefore( slot, form );
+		}
+	}
+
+	function placeAll() {
+		Array.prototype.slice.call( document.querySelectorAll( '.kdna-checkout--ready' ) ).forEach( place );
+	}
+
+	document.addEventListener( 'kdna:checkout-ready', function ( event ) {
+		if ( event.target && event.target.classList && event.target.classList.contains( 'kdna-checkout' ) ) {
+			place( event.target );
+		}
+	} );
+
+	function boot() {
+		placeAll();
+		if ( window.jQuery ) {
+			window.jQuery( document.body ).on( 'updated_checkout', placeAll );
+		}
+	}
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', boot );
+	} else {
+		boot();
+	}
+}() );
+
+/**
  * Stage 3: pay button icon.
  *
  * The widget renders the chosen icon into an inert <template> so the

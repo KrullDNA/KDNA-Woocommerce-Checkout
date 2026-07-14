@@ -282,7 +282,7 @@
  * (vertical stepper beside the input) and none (native spinner, no buttons). */
 .kdna-checkout-strip__stepper {
 	display: inline-flex;
-	align-items: stretch;
+	align-items: center;
 }
 
 .kdna-checkout-strip__step {
@@ -290,9 +290,9 @@
 	align-items: center;
 	justify-content: center;
 	box-sizing: border-box;
-	width: var(--kdna-checkout-strip-step-size, 22px);
-	min-width: var(--kdna-checkout-strip-step-size, 22px);
-	padding: 0;
+	/* Size follows the symbol + padding by default, so 0 padding is a tight
+	   button. Set "Button size" for a fixed (square) button instead. */
+	padding: var(--kdna-checkout-strip-step-pad-y, 3px) var(--kdna-checkout-strip-step-pad-x, 8px);
 	font-size: var(--kdna-checkout-strip-step-font-size, 15px);
 	line-height: 1;
 	color: var(--kdna-checkout-strip-step-colour, #33383d);
@@ -341,8 +341,9 @@
 .kdna-strip-qty-stacked .kdna-checkout-strip__stepper {
 	display: inline-grid;
 	grid-template-columns: auto auto;
-	grid-template-rows: 1fr 1fr;
-	align-items: stretch;
+	grid-template-rows: auto auto;
+	align-items: center;
+	justify-items: center;
 }
 
 .kdna-strip-qty-stacked .kdna-checkout-strip__qty {
@@ -538,6 +539,19 @@
  * when the widget's toggle is off. */
 .kdna-checkout--hide-available-coupons .kdna-sc-available-coupons {
 	display: none !important;
+}
+
+/* Coupon position: the JS wraps the native coupon toggle + form in a
+ * .kdna-checkout__coupon-slot and moves it to the chosen spot. "top" leaves
+ * it full width just above the two columns (where WooCommerce renders it);
+ * "billing" moves it into the left column; "payment" moves it between the
+ * order summary and the payment methods. */
+.kdna-checkout__coupon-slot {
+	margin-bottom: var(--kdna-checkout-coupon-gap, 16px);
+}
+
+.kdna-checkout--coupon-pos-payment .kdna-checkout__coupon-slot {
+	margin: var(--kdna-checkout-coupon-gap, 16px) 0;
 }
 
 /* Coupon-bar icon. The "Have a coupon?" bar (.woocommerce-info) carries a

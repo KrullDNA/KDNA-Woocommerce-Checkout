@@ -450,6 +450,22 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
+			'coupon_position',
+			array(
+				'label'       => __( 'Coupon position', 'kdna-checkout' ),
+				'description' => __( 'Where the "Have a coupon?" section sits in the checkout.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::SELECT,
+				'options'     => array(
+					'top'     => __( 'Top of checkout (full width)', 'kdna-checkout' ),
+					'billing' => __( 'Top of billing details', 'kdna-checkout' ),
+					'payment' => __( 'Between order summary and payment', 'kdna-checkout' ),
+				),
+				'default'     => 'top',
+				'condition'   => array( 'show_coupon' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
 			'show_available_coupons',
 			array(
 				'label'        => __( 'Show available coupons', 'kdna-checkout' ),
@@ -2218,6 +2234,14 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			$classes[] = 'kdna-checkout--coupon-icon-custom';
 		}
 
+		$coupon_position = $settings['coupon_position'] ?? 'top';
+		if ( ! in_array( $coupon_position, array( 'top', 'billing', 'payment' ), true ) ) {
+			$coupon_position = 'top';
+		}
+		if ( $show_coupon_field ) {
+			$classes[] = 'kdna-checkout--coupon-pos-' . $coupon_position;
+		}
+
 		if ( $this->is_editor_context() ) {
 			$this->render_placeholder( $classes );
 			return;
@@ -2234,7 +2258,11 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			KDNA_Checkout_Fields::set_config( $this->fields_config( $settings ) );
 		}
 
-		printf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
+		printf(
+			'<div class="%s" data-coupon-position="%s">',
+			esc_attr( implode( ' ', $classes ) ),
+			esc_attr( $coupon_position )
+		);
 
 		if ( $has_icon ) {
 			$this->render_pay_icon_template( $settings );
