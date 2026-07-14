@@ -56,8 +56,10 @@ Nothing is deleted on deactivation. All data (captured carts, recovery emails, o
 
 = 1.2.0 =
 * Coupon field toggle: the checkout widget now has a "Show coupon field" switch that hides WooCommerce's native "Have a coupon?" field when you use a separate coupon widget.
-* Coupon styling: new "Coupon Field" style section with controls for the "Have a coupon?" bar (background, border, radius, padding, link typography and colour) and the coupon input and Apply button (with a hover state).
-* Cart strip shrink-on-scroll: an optional "Shrink while stuck" mode collapses the sticky strip to just the product images as you scroll, then grows back to full height at the top of the page. It stays full height while resting at the top and shrinks only once scrolled past, with "Shrunk tile size" and "Shrink after scrolling" (how far it scrolls before shrinking) controls under Cart Strip: Container. The page reclaims the freed vertical space while shrunk.
+* Available coupons toggle: a "Show available coupons" switch hides the "Available Coupons" list that the KDNA Ecommerce Suite injects above the checkout, so it can be turned off on this checkout like any other feature with its own widget.
+* Coupon bar icon: the little icon on the "Have a coupon?" bar can be kept, swapped for a custom icon, or removed, and its colour and size are styleable.
+* Coupon styling: new "Coupon Field" style section with controls for the "Have a coupon?" bar (background, border, radius, padding, link typography and colour), the bar icon, and the coupon input and Apply button (with a hover state).
+* Cart strip shrink-on-scroll: an optional "Shrink while stuck" mode collapses the sticky strip to just the product images as you scroll, then grows back to full height at the top of the page. The shrink is animated (the tile eases to its compact size while the name and quantity fade out) rather than jumping, and the page reclaims the freed space in step with the animation. It stays full height while resting at the top and shrinks only once scrolled past, with "Shrunk tile size" and "Shrink after scrolling" (how far it scrolls before shrinking) controls under Cart Strip: Container.
 * Billing and shipping now stack vertically in the checkout's first column, so "Deliver to a different address?" sits under the billing address instead of pushing the layout into three columns.
 * Admin pages moved under the WooCommerce menu (WooCommerce > KDNA Checkout, Captured Carts, Order Bumps, Recovery Emails), keeping everything together with WooCommerce.
 

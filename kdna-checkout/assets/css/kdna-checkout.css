@@ -381,7 +381,27 @@
  * screen space. The --shrunk state is only set by JS once the strip has
  * actually been scrolled past its natural position, so a strip resting at
  * the top of the page stays full height even when it is technically
- * stuck (fixed at offset 0). It grows back to full height at the top. */
+ * stuck (fixed at offset 0). It grows back to full height at the top.
+ *
+ * The change is animated for a premium feel: the tile eases to its compact
+ * size while the name and quantity fade and collapse, instead of jumping.
+ * The JS tracks the strip's animating height into the in-flow spacer so the
+ * page reclaims the space smoothly in step with the animation. */
+.kdna-checkout-strip--shrink .kdna-checkout-strip__tile {
+	transition: width var(--kdna-checkout-strip-shrink-speed, 0.3s) ease,
+		padding var(--kdna-checkout-strip-shrink-speed, 0.3s) ease;
+}
+
+.kdna-checkout-strip--shrink .kdna-checkout-strip__name,
+.kdna-checkout-strip--shrink .kdna-checkout-strip__controls,
+.kdna-checkout-strip--shrink .kdna-checkout-strip__qty-static {
+	max-height: 4em;
+	transition: opacity calc(var(--kdna-checkout-strip-shrink-speed, 0.3s) * 0.7) ease,
+		max-height var(--kdna-checkout-strip-shrink-speed, 0.3s) ease,
+		margin var(--kdna-checkout-strip-shrink-speed, 0.3s) ease,
+		padding var(--kdna-checkout-strip-shrink-speed, 0.3s) ease;
+}
+
 .kdna-checkout-strip--shrink.kdna-checkout-strip--shrunk .kdna-checkout-strip__tile {
 	width: var(--kdna-checkout-strip-compact-size, 56px);
 	padding: var(--kdna-checkout-strip-compact-padding, 4px);
@@ -390,7 +410,21 @@
 .kdna-checkout-strip--shrink.kdna-checkout-strip--shrunk .kdna-checkout-strip__name,
 .kdna-checkout-strip--shrink.kdna-checkout-strip--shrunk .kdna-checkout-strip__controls,
 .kdna-checkout-strip--shrink.kdna-checkout-strip--shrunk .kdna-checkout-strip__qty-static {
-	display: none;
+	max-height: 0;
+	margin-top: 0;
+	padding-top: 0;
+	opacity: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.kdna-checkout-strip--shrink .kdna-checkout-strip__tile,
+	.kdna-checkout-strip--shrink .kdna-checkout-strip__name,
+	.kdna-checkout-strip--shrink .kdna-checkout-strip__controls,
+	.kdna-checkout-strip--shrink .kdna-checkout-strip__qty-static {
+		transition: none;
+	}
 }
 
 /* Hide the native WooCommerce coupon field when the widget's coupon
@@ -398,6 +432,35 @@
 .kdna-checkout--hide-coupon .woocommerce-form-coupon-toggle,
 .kdna-checkout--hide-coupon .checkout_coupon {
 	display: none !important;
+}
+
+/* Hide the "Available Coupons" list injected by the KDNA Ecommerce Suite
+ * when the widget's toggle is off. */
+.kdna-checkout--hide-available-coupons .kdna-sc-available-coupons {
+	display: none !important;
+}
+
+/* Coupon-bar icon. The "Have a coupon?" bar (.woocommerce-info) carries a
+ * default ::before icon from WooCommerce/the theme. Hide it when the icon is
+ * removed or replaced by a custom one, and style the injected replacement. */
+.kdna-checkout--coupon-icon-hidden .woocommerce-form-coupon-toggle .woocommerce-info::before,
+.kdna-checkout--coupon-icon-custom .woocommerce-form-coupon-toggle .woocommerce-info::before {
+	content: none !important;
+	display: none !important;
+}
+
+.kdna-checkout-coupon-icon {
+	display: inline-flex;
+	align-items: center;
+	margin-right: 0.5em;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.kdna-checkout-coupon-icon svg {
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
 }
 
 /* ------------------------------------------------------------------ *

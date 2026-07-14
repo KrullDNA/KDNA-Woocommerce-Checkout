@@ -449,6 +449,57 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'show_available_coupons',
+			array(
+				'label'        => __( 'Show available coupons', 'kdna-checkout' ),
+				'description'  => __( 'The "Available Coupons" list that the KDNA Ecommerce Suite injects above the checkout. Turn off to hide it on this checkout.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'kdna-checkout' ),
+				'label_off'    => __( 'Hide', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+
+		$this->add_control(
+			'coupon_icon_heading',
+			array(
+				'label'     => __( 'Coupon bar icon', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => array( 'show_coupon' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'coupon_icon_mode',
+			array(
+				'label'       => __( 'Icon', 'kdna-checkout' ),
+				'description' => __( 'The little icon on the "Have a coupon?" bar. Keep the theme default, swap in your own icon, or remove it.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::SELECT,
+				'options'     => array(
+					'default' => __( 'Theme default', 'kdna-checkout' ),
+					'custom'  => __( 'Custom icon', 'kdna-checkout' ),
+					'none'    => __( 'No icon', 'kdna-checkout' ),
+				),
+				'default'     => 'default',
+				'condition'   => array( 'show_coupon' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'coupon_icon',
+			array(
+				'label'     => __( 'Choose icon', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::ICONS,
+				'condition' => array(
+					'show_coupon'      => 'yes',
+					'coupon_icon_mode' => 'custom',
+				),
+			)
+		);
+
 		$this->end_controls_section();
 	}
 
@@ -636,6 +687,41 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'selectors' => array(
 					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info a' => 'color: {{VALUE}};',
 				),
+			)
+		);
+
+		$this->add_control(
+			'coupon_icon_colour',
+			array(
+				'label'     => __( 'Icon colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info::before' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .kdna-checkout .kdna-checkout-coupon-icon'                                => 'color: {{VALUE}};',
+					'{{WRAPPER}} .kdna-checkout .kdna-checkout-coupon-icon svg'                            => 'fill: {{VALUE}};',
+				),
+				'condition' => array( 'coupon_icon_mode!' => 'none' ),
+			)
+		);
+
+		$this->add_responsive_control(
+			'coupon_icon_size',
+			array(
+				'label'      => __( 'Icon size', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 8,
+						'max' => 64,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info::before' => 'font-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .kdna-checkout .kdna-checkout-coupon-icon'                                => 'font-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .kdna-checkout .kdna-checkout-coupon-icon svg'                            => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+				),
+				'condition'  => array( 'coupon_icon_mode!' => 'none' ),
 			)
 		);
 
@@ -2096,6 +2182,20 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			$classes[] = 'kdna-checkout--hide-coupon';
 		}
 
+		if ( isset( $settings['show_available_coupons'] ) && 'yes' !== $settings['show_available_coupons'] ) {
+			$classes[] = 'kdna-checkout--hide-available-coupons';
+		}
+
+		$coupon_icon_mode  = $settings['coupon_icon_mode'] ?? 'default';
+		$has_coupon_icon   = 'custom' === $coupon_icon_mode && ! empty( $settings['coupon_icon']['value'] );
+		$show_coupon_field = ! isset( $settings['show_coupon'] ) || 'yes' === $settings['show_coupon'];
+		if ( $show_coupon_field && 'none' === $coupon_icon_mode ) {
+			$classes[] = 'kdna-checkout--coupon-icon-hidden';
+		}
+		if ( $show_coupon_field && $has_coupon_icon ) {
+			$classes[] = 'kdna-checkout--coupon-icon-custom';
+		}
+
 		if ( $this->is_editor_context() ) {
 			$this->render_placeholder( $classes );
 			return;
@@ -2116,6 +2216,15 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 
 		if ( $has_icon ) {
 			$this->render_pay_icon_template( $settings );
+		}
+
+		// Custom coupon-bar icon: rendered into a <template> and moved onto
+		// the "Have a coupon?" bar by the widget JS (the bar is native
+		// WooCommerce markup we do not render).
+		if ( $has_coupon_icon ) {
+			printf( '<template class="kdna-checkout__coupon-icon-tpl">' );
+			\Elementor\Icons_Manager::render_icon( $settings['coupon_icon'], array( 'aria-hidden' => 'true' ) );
+			echo '</template>';
 		}
 
 		// Cart strip (Stage 4): the very top of the checkout, above the

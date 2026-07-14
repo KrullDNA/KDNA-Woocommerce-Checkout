@@ -117,8 +117,34 @@
 		}
 	}
 
+	/**
+	 * Move the custom coupon-bar icon onto the native "Have a coupon?" bar.
+	 * The bar is WooCommerce markup we do not render, so the icon travels in
+	 * a <template> and is prepended to the .woocommerce-info element here.
+	 *
+	 * @param {HTMLElement} root The .kdna-checkout wrapper.
+	 */
+	function applyCouponIcon( root ) {
+		var template = root.querySelector( 'template.kdna-checkout__coupon-icon-tpl' );
+		if ( ! template || ! template.content ) {
+			return;
+		}
+
+		var bar = root.querySelector( '.woocommerce-form-coupon-toggle .woocommerce-info' );
+		if ( ! bar || bar.querySelector( '.kdna-checkout-coupon-icon' ) ) {
+			return; // No bar yet, or the icon is already in place.
+		}
+
+		var icon = document.createElement( 'span' );
+		icon.className = 'kdna-checkout-coupon-icon';
+		icon.setAttribute( 'aria-hidden', 'true' );
+		icon.appendChild( template.content.cloneNode( true ) );
+		bar.insertBefore( icon, bar.firstChild );
+	}
+
 	function applyAll() {
 		Array.prototype.slice.call( document.querySelectorAll( '.kdna-checkout--pay-icon' ) ).forEach( applyPayIcon );
+		Array.prototype.slice.call( document.querySelectorAll( '.kdna-checkout--coupon-icon-custom' ) ).forEach( applyCouponIcon );
 	}
 
 	function boot() {
@@ -983,6 +1009,7 @@
 			spacer: spacer,
 			stuck: false,
 			shrunk: false,
+			rafId: null,
 			shrinks: strip.classList.contains( 'kdna-checkout-strip--shrink' ),
 		} );
 	}
@@ -993,6 +1020,10 @@
 		}
 		inst.stuck = false;
 		inst.shrunk = false;
+		if ( inst.rafId && window.cancelAnimationFrame ) {
+			window.cancelAnimationFrame( inst.rafId );
+			inst.rafId = null;
+		}
 		var s = inst.strip.style;
 		s.position = '';
 		s.top = '';
@@ -1005,11 +1036,41 @@
 		inst.spacer.style.height = '';
 	}
 
-	// Toggle the shrunk state and re-measure the in-flow spacer, so it
-	// reserves the strip's current (compact or full) height and the page
-	// reclaims the freed space. Only strips that opted into shrink react;
-	// "shrunk" means the strip has been scrolled past its natural spot, so
-	// a strip resting at the top of the page (stuck at offset 0) stays full.
+	// Track the strip's (animating) height into the in-flow spacer for a few
+	// frames, so the page reclaims the freed space in step with the shrink /
+	// grow transition rather than snapping at the end. Stops once the height
+	// settles (stable for a few frames) or after a safety cap.
+	function trackSpacerHeight( inst ) {
+		if ( inst.rafId && window.cancelAnimationFrame ) {
+			window.cancelAnimationFrame( inst.rafId );
+		}
+		var last = -1;
+		var stable = 0;
+		var frames = 0;
+		function step() {
+			var h = inst.strip.offsetHeight;
+			inst.spacer.style.height = h + 'px';
+			if ( h === last ) {
+				stable++;
+			} else {
+				stable = 0;
+				last = h;
+			}
+			frames++;
+			if ( stable < 3 && frames < 60 ) {
+				inst.rafId = window.requestAnimationFrame( step );
+			} else {
+				inst.rafId = null;
+			}
+		}
+		step();
+	}
+
+	// Toggle the shrunk state, animating the spacer to match. Only strips that
+	// opted into shrink react; "shrunk" means the strip has been scrolled past
+	// its natural spot, so a strip resting at the top of the page (stuck at
+	// offset 0) stays full. A genuine state change animates via the tracking
+	// loop; a same-state call just re-syncs the reserved height.
 	function setShrunk( inst, shrunk ) {
 		if ( ! inst.shrinks ) {
 			return;
@@ -1017,8 +1078,10 @@
 		if ( inst.shrunk !== shrunk ) {
 			inst.shrunk = shrunk;
 			inst.strip.classList.toggle( 'kdna-checkout-strip--shrunk', shrunk );
+			trackSpacerHeight( inst );
+		} else {
+			inst.spacer.style.height = inst.strip.offsetHeight + 'px';
 		}
-		inst.spacer.style.height = inst.strip.offsetHeight + 'px';
 	}
 
 	function stick( inst, rect, offset ) {
