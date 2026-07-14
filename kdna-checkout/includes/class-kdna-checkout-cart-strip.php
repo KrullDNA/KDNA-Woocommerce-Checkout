@@ -87,6 +87,7 @@ class KDNA_Checkout_Cart_Strip {
 			'controls'       => $mode,
 			'sticky_desktop' => ! empty( $raw['sticky_desktop'] ) && 'yes' === $raw['sticky_desktop'] ? 'yes' : '',
 			'sticky_mobile'  => ! empty( $raw['sticky_mobile'] ) && 'yes' === $raw['sticky_mobile'] ? 'yes' : '',
+			'shrink'         => ! empty( $raw['shrink'] ) && 'yes' === $raw['shrink'] ? 'yes' : '',
 			'subtotal_label' => isset( $raw['subtotal_label'] ) && '' !== trim( (string) $raw['subtotal_label'] )
 				? sanitize_text_field( $raw['subtotal_label'] )
 				: __( 'Subtotal', 'kdna-checkout' ),
@@ -123,6 +124,9 @@ class KDNA_Checkout_Cart_Strip {
 		if ( 'yes' === $args['sticky_mobile'] ) {
 			$classes[] = 'kdna-checkout-strip--sticky-mobile';
 		}
+		if ( 'yes' === $args['shrink'] ) {
+			$classes[] = 'kdna-checkout-strip--shrink';
+		}
 		if ( $cart->is_empty() ) {
 			$classes[] = 'kdna-checkout-strip--empty';
 		}
@@ -135,6 +139,7 @@ class KDNA_Checkout_Cart_Strip {
 			data-controls="<?php echo esc_attr( $args['controls'] ); ?>"
 			data-sticky-desktop="<?php echo esc_attr( $args['sticky_desktop'] ); ?>"
 			data-sticky-mobile="<?php echo esc_attr( $args['sticky_mobile'] ); ?>"
+			data-shrink="<?php echo esc_attr( $args['shrink'] ); ?>"
 			data-subtotal-label="<?php echo esc_attr( $args['subtotal_label'] ); ?>"
 			data-edit-label="<?php echo esc_attr( $args['edit_label'] ); ?>"
 			data-done-label="<?php echo esc_attr( $args['done_label'] ); ?>">
@@ -235,6 +240,7 @@ class KDNA_Checkout_Cart_Strip {
 				'controls'       => isset( $_POST['controls'] ) ? sanitize_key( wp_unslash( $_POST['controls'] ) ) : 'full',
 				'sticky_desktop' => isset( $_POST['sticky_desktop'] ) ? sanitize_key( wp_unslash( $_POST['sticky_desktop'] ) ) : '',
 				'sticky_mobile'  => isset( $_POST['sticky_mobile'] ) ? sanitize_key( wp_unslash( $_POST['sticky_mobile'] ) ) : '',
+				'shrink'         => isset( $_POST['shrink'] ) ? sanitize_key( wp_unslash( $_POST['shrink'] ) ) : '',
 				'subtotal_label' => isset( $_POST['subtotal_label'] ) ? sanitize_text_field( wp_unslash( $_POST['subtotal_label'] ) ) : '',
 				'edit_label'     => isset( $_POST['edit_label'] ) ? sanitize_text_field( wp_unslash( $_POST['edit_label'] ) ) : '',
 				'done_label'     => isset( $_POST['done_label'] ) ? sanitize_text_field( wp_unslash( $_POST['done_label'] ) ) : '',

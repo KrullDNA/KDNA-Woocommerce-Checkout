@@ -282,7 +282,7 @@ class KDNA_Checkout_Recovery {
 	 */
 	public function surface_cpt_menu( $args, $post_type ) {
 		if ( self::POST_TYPE === $post_type ) {
-			$args['show_in_menu'] = 'options-general.php';
+			$args['show_in_menu'] = 'woocommerce';
 		}
 		return $args;
 	}
@@ -831,7 +831,7 @@ class KDNA_Checkout_Recovery {
 
 		$sent = KDNA_Checkout_Emails::send( $to, '[' . __( 'Test', 'kdna-checkout' ) . '] ' . $subject, $body, $context['unsubscribe'], self::from_headers() );
 
-		wp_safe_redirect( add_query_arg( 'kdna_test', $sent ? 'sent' : 'failed', admin_url( 'options-general.php?page=kdna-checkout' ) ) );
+		wp_safe_redirect( add_query_arg( 'kdna_test', $sent ? 'sent' : 'failed', admin_url( 'admin.php?page=kdna-checkout' ) ) );
 		exit;
 	}
 

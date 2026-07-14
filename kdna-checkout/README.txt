@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Requirements:
 * Elementor, for the checkout and trust-badge widgets.
 * Classic (shortcode) checkout, which is the reliable, controllable base this plugin styles.
 
-Version 1.1.0, feature-complete. The plugin includes:
+Version 1.2.0, feature-complete. The plugin includes:
 
 * Elementor "KDNA Checkout" widget: the native WooCommerce classic checkout reflowed into a two-column layout with a sticky order summary, fully styleable in Elementor.
 * Cart strip (mini-cart) with live AJAX quantity/remove, four editing modes and independent desktop/mobile sticky.
@@ -38,7 +38,7 @@ Version 1.1.0, feature-complete. The plugin includes:
 1. Upload the `kdna-checkout` folder to `/wp-content/plugins/`, or install the ZIP via Plugins > Add New > Upload Plugin.
 2. Make sure WooCommerce is installed and active.
 3. Activate KDNA Checkout through the Plugins screen.
-4. Visit Settings > KDNA Checkout to confirm the admin screen loads.
+4. Visit WooCommerce > KDNA Checkout to confirm the admin screen loads.
 
 After every plugin update: regenerate Elementor CSS and data (Elementor > Tools), clear any page cache, then hard refresh the browser.
 
@@ -53,6 +53,13 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 1.2.0 =
+* Coupon field toggle: the checkout widget now has a "Show coupon field" switch that hides WooCommerce's native "Have a coupon?" field when you use a separate coupon widget.
+* Coupon styling: new "Coupon Field" style section with controls for the "Have a coupon?" bar (background, border, radius, padding, link typography and colour) and the coupon input and Apply button (with a hover state).
+* Cart strip shrink-on-scroll: an optional "Shrink while stuck" mode collapses the sticky strip to just the product images as you scroll, then grows back to full height at the top of the page, with a "Shrunk tile size" control under Cart Strip: Container. The page reclaims the freed vertical space while shrunk.
+* Billing and shipping now stack vertically in the checkout's first column, so "Deliver to a different address?" sits under the billing address instead of pushing the layout into three columns.
+* Admin pages moved under the WooCommerce menu (WooCommerce > KDNA Checkout, Captured Carts, Order Bumps, Recovery Emails), keeping everything together with WooCommerce.
 
 = 1.1.0 =
 * New standalone "KDNA Cart Strip" widget: the same mini-cart strip, placeable anywhere (for example a full-width section at the very top of the page), with the same content and style controls and live AJAX quantity/remove.
@@ -69,8 +76,8 @@ Nothing is deleted on deactivation. All data (captured carts, recovery emails, o
 
 = 0.11.0 =
 * Stage 11: the admin-built recovery email sequence.
-* Recovery-email steps (Settings > Recovery Emails): each stores a subject, a body written in the WordPress editor with merge tags, a delay from cart abandonment, and an optional coupon; add unlimited steps, sent in order of their delay.
-* Branded HTML email template (templates/emails/recovery-email.php) with logo, brand colour, button colour and footer controls in Settings > KDNA Checkout, styled to match the checkout.
+* Recovery-email steps (WooCommerce > Recovery Emails): each stores a subject, a body written in the WordPress editor with merge tags, a delay from cart abandonment, and an optional coupon; add unlimited steps, sent in order of their delay.
+* Branded HTML email template (templates/emails/recovery-email.php) with logo, brand colour, button colour and footer controls in WooCommerce > KDNA Checkout, styled to match the checkout.
 * Merge tags: {customer_name}, {cart_items}, {cart_total}, {recovery_link}, {coupon_code}, {store_name}, {unsubscribe}. The recovery link restores the exact saved cart from its token and lands the customer on the checkout, applying the step coupon.
 * A 15-minute cron loop sends each due step to abandoned carts and records what was sent; the sequence stops immediately when the customer buys (cart flips to recovered) or clicks unsubscribe.
 * "Send test to me" button, configurable From name/email, and the capture-consent flag is respected (only captured carts are ever emailed).
@@ -81,12 +88,12 @@ Nothing is deleted on deactivation. All data (captured carts, recovery emails, o
 * Completing the matching order flips the row to "completed", or "recovered" when it had been abandoned.
 * A 15-minute WP Cron sweep marks stale active carts "abandoned" after a configurable idle period (default 60 minutes); a daily sweep auto-purges old rows for privacy (default 90 days, 0 keeps forever).
 * Capture-consent mode: an optional shopper opt-in checkbox under the email field; nothing is stored without the tick.
-* Settings > Captured Carts admin screen listing email, item count, cart value, status and timestamps, filterable by status and paginated.
+* WooCommerce > Captured Carts admin screen listing email, item count, cart value, status and timestamps, filterable by status and paginated.
 * No recovery emails are sent yet, that arrives in Stage 11.
 
 = 0.9.0 =
 * Stage 9: optional Google Places address autocomplete.
-* Settings > KDNA Checkout gains a real settings form: an autocomplete on/off toggle and a Google API key field (masked by default, Alpine.js show/hide, strictly sanitised).
+* WooCommerce > KDNA Checkout gains a real settings form: an autocomplete on/off toggle and a Google API key field (masked by default, Alpine.js show/hide, strictly sanitised).
 * When enabled with a key, typing in the address field suggests full addresses; selecting one fills street, suburb/city, postcode, state and country correctly for WooCommerce (billing and shipping, country set before state so WooCommerce can rebuild the state field).
 * The Places script loads only when the feature is enabled and only on pages containing the checkout widget, via the widget script dependencies.
 * Fail-safe: feature off, key missing or Google unreachable means standard address fields with no errors.
@@ -101,7 +108,7 @@ Nothing is deleted on deactivation. All data (captured carts, recovery emails, o
 
 = 0.7.0 =
 * Stage 7: order bumps.
-* Order bump editor under Settings > Order Bumps: product search, optional percentage or fixed discount, description, optional image (featured image, falls back to the product image) and which checkout the bump applies to; the entry title is the headline.
+* Order bump editor under WooCommerce > Order Bumps: product search, optional percentage or fixed discount, description, optional image (featured image, falls back to the product image) and which checkout the bump applies to; the entry title is the headline.
 * Tick-to-add bump box above the pay button, showing the original and discounted price.
 * Ticking adds the product at the discounted price via AJAX with no reload and updates the totals; unticking removes it cleanly.
 * Fail-safe: default unticked and full price; deleted, unpublished, unbuyable or out-of-stock bump products never render or discount; discounts never compound across recalculations.
@@ -154,5 +161,5 @@ Nothing is deleted on deactivation. All data (captured carts, recovery emails, o
 * Main plugin file with HPOS compatibility declaration and WooCommerce-active guard.
 * Activation creates the captured-carts table (kdna_checkout_carts).
 * Registered kdna_recovery_email and kdna_order_bump custom post types (admin-only).
-* Settings > KDNA Checkout placeholder screen running Alpine.js.
+* WooCommerce > KDNA Checkout placeholder screen running Alpine.js.
 * uninstall.php removes the table, custom post type content and all plugin options.

@@ -55,6 +55,27 @@
 	min-width: 0;
 }
 
+/* Keep the customer details a single stacked column: billing, then the
+ * "ship to a different address" block and its fields below it, rather
+ * than WooCommerce's side-by-side two-column set (which would read as a
+ * third column next to the order summary). */
+.kdna-checkout__main .col2-set {
+	display: block;
+	width: 100%;
+}
+
+.kdna-checkout__main .col2-set .col-1,
+.kdna-checkout__main .col2-set .col-2 {
+	float: none;
+	width: 100%;
+	max-width: 100%;
+	padding: 0;
+}
+
+.kdna-checkout__main .col2-set .col-2 {
+	margin-top: var(--kdna-checkout-shipping-gap, 24px);
+}
+
 .kdna-checkout__summary {
 	grid-column: 2;
 	grid-row: 1;
@@ -354,6 +375,27 @@
 
 .kdna-checkout-strip__sticky-spacer {
 	flex: none;
+}
+
+/* Shrink while stuck: collapse to just the product images to save
+ * screen space; grows back to full height the moment it unsticks at
+ * the top of the page. */
+.kdna-checkout-strip--shrink.kdna-checkout-strip--stuck .kdna-checkout-strip__tile {
+	width: var(--kdna-checkout-strip-compact-size, 56px);
+	padding: var(--kdna-checkout-strip-compact-padding, 4px);
+}
+
+.kdna-checkout-strip--shrink.kdna-checkout-strip--stuck .kdna-checkout-strip__name,
+.kdna-checkout-strip--shrink.kdna-checkout-strip--stuck .kdna-checkout-strip__controls,
+.kdna-checkout-strip--shrink.kdna-checkout-strip--stuck .kdna-checkout-strip__qty-static {
+	display: none;
+}
+
+/* Hide the native WooCommerce coupon field when the widget's coupon
+ * toggle is off (for example when a separate coupon widget is used). */
+.kdna-checkout--hide-coupon .woocommerce-form-coupon-toggle,
+.kdna-checkout--hide-coupon .checkout_coupon {
+	display: none !important;
 }
 
 /* ------------------------------------------------------------------ *

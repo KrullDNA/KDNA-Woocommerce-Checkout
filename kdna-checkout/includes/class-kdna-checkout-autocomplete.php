@@ -2,7 +2,7 @@
 /**
  * Google Places address autocomplete for KDNA Checkout.
  *
- * Settings > KDNA Checkout gains an on/off toggle and a Google API key
+ * WooCommerce > KDNA Checkout gains an on/off toggle and a Google API key
  * field (registered through the WordPress Settings API, strictly
  * sanitised). When enabled and a key is present, the Google Places
  * script is registered and the checkout widget declares it as a script
@@ -42,7 +42,7 @@ class KDNA_Checkout_Autocomplete {
 	const SETTINGS_GROUP = 'kdna_checkout';
 
 	/**
-	 * Settings page slug (Settings > KDNA Checkout).
+	 * Settings page slug (WooCommerce > KDNA Checkout).
 	 *
 	 * @var string
 	 */
@@ -118,7 +118,7 @@ class KDNA_Checkout_Autocomplete {
 
 	/**
 	 * Register the settings, section and fields on the shared
-	 * Settings > KDNA Checkout page.
+	 * WooCommerce > KDNA Checkout page.
 	 *
 	 * @return void
 	 */
