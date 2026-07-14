@@ -673,6 +673,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->style_section_address_boxes();
 		$this->style_section_summary_card();
 		$this->style_section_summary_content();
+		$this->style_section_payment_area();
 		$this->style_section_pay_button();
 		// Shared strip Style sections, gated behind the show toggle. Same
 		// IDs/selectors as the standalone widget, so saved data matches.
@@ -1534,6 +1535,9 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 					),
 				),
 				'selectors'   => array(
+					// Fixed layout so the specified column width is actually honoured
+					// (auto layout treats it only as a hint and ignores it here).
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table' => 'table-layout: fixed; width: 100%;',
 					'{{WRAPPER}} .kdna-checkout__summary .shop_table th:last-child, {{WRAPPER}} .kdna-checkout__summary .shop_table td:last-child' => 'width: {{SIZE}}{{UNIT}};',
 				),
 			)
@@ -1927,10 +1931,92 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	}
 
 	/**
+	 * Add a reusable "box" group of style controls (background, border, radius,
+	 * padding and box-shadow) for a given selector. Keeps every boxed area of
+	 * the checkout consistent and fully styleable.
+	 *
+	 * @param string $prefix   Unique control-id prefix.
+	 * @param string $selector CSS selector the controls target.
+	 * @return void
+	 */
+	private function add_box_controls( $prefix, $selector ) {
+		$this->add_control(
+			$prefix . '_background',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					$selector => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => $prefix . '_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => $selector,
+			)
+		);
+
+		$this->add_responsive_control(
+			$prefix . '_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					$selector => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			$prefix . '_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					$selector => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Box_Shadow::get_type(),
+			array(
+				'name'     => $prefix . '_shadow',
+				'label'    => __( 'Box shadow', 'kdna-checkout' ),
+				'selector' => $selector,
+			)
+		);
+	}
+
+	/**
+	 * Add a heading control to break a style section into labelled groups.
+	 *
+	 * @param string $id    Control id.
+	 * @param string $label Heading label.
+	 * @return void
+	 */
+	private function add_style_heading( $id, $label ) {
+		$this->add_control(
+			$id,
+			array(
+				'label'     => $label,
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			)
+		);
+	}
+
+	/**
 	 * Style > Address Boxes.
 	 *
-	 * Optional card/box around the billing, shipping and order-notes areas in
-	 * the left column, so the address sections can be boxed like the order
+	 * Independent card/box styling for the billing, shipping and order-notes
+	 * areas in the left column, so each can have its own border like the order
 	 * summary card. Off by default (no border/background) until styled.
 	 *
 	 * @return void
@@ -1944,59 +2030,80 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			)
 		);
 
-		$box = '{{WRAPPER}} .kdna-checkout__main .woocommerce-billing-fields, {{WRAPPER}} .kdna-checkout__main .woocommerce-shipping-fields, {{WRAPPER}} .kdna-checkout__main .woocommerce-additional-fields';
+		$this->add_control(
+			'billing_box_heading',
+			array(
+				'label' => __( 'Billing details box', 'kdna-checkout' ),
+				'type'  => \Elementor\Controls_Manager::HEADING,
+			)
+		);
+		$this->add_box_controls( 'billing_box', '{{WRAPPER}} .kdna-checkout__main .woocommerce-billing-fields' );
+
+		$this->add_style_heading( 'shipping_box_heading', __( 'Shipping details box', 'kdna-checkout' ) );
+		$this->add_box_controls( 'shipping_box', '{{WRAPPER}} .kdna-checkout__main .woocommerce-shipping-fields' );
+
+		$this->add_style_heading( 'notes_box_heading', __( 'Order notes box', 'kdna-checkout' ) );
+		$this->add_box_controls( 'notes_box', '{{WRAPPER}} .kdna-checkout__main .woocommerce-additional-fields' );
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Style > Payment Area.
+	 *
+	 * Box styling around the payment methods block plus the terms, privacy and
+	 * "no payment methods" copy that sits with it.
+	 *
+	 * @return void
+	 */
+	private function style_section_payment_area() {
+		$this->start_controls_section(
+			'style_payment_area',
+			array(
+				'label' => __( 'Payment Area', 'kdna-checkout' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			)
+		);
 
 		$this->add_control(
-			'address_box_background',
+			'payment_box_heading',
 			array(
-				'label'       => __( 'Background colour', 'kdna-checkout' ),
-				'description' => __( 'Puts a box around the billing, shipping and order-notes areas. Leave the border and background empty for no box.', 'kdna-checkout' ),
-				'type'        => \Elementor\Controls_Manager::COLOR,
-				'selectors'   => array(
-					$box => 'background-color: {{VALUE}};',
-				),
+				'label' => __( 'Payment box', 'kdna-checkout' ),
+				'type'  => \Elementor\Controls_Manager::HEADING,
 			)
 		);
+		$this->add_box_controls( 'payment_box', '{{WRAPPER}} .kdna-checkout__summary #payment' );
+
+		$this->add_style_heading( 'payment_text_heading', __( 'Text', 'kdna-checkout' ) );
 
 		$this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
+			\Elementor\Group_Control_Typography::get_type(),
 			array(
-				'name'     => 'address_box_border',
-				'label'    => __( 'Border', 'kdna-checkout' ),
-				'selector' => $box,
+				'name'     => 'payment_text_typography',
+				'label'    => __( 'Typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout__summary #payment, {{WRAPPER}} .kdna-checkout__summary .woocommerce-privacy-policy-text, {{WRAPPER}} .kdna-checkout__summary .woocommerce-terms-and-conditions-wrapper',
 			)
 		);
 
-		$this->add_responsive_control(
-			'address_box_radius',
+		$this->add_control(
+			'payment_text_colour',
 			array(
-				'label'      => __( 'Border radius', 'kdna-checkout' ),
-				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', '%', 'em' ),
-				'selectors'  => array(
-					$box => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				'label'     => __( 'Text colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout__summary #payment, {{WRAPPER}} .kdna-checkout__summary .woocommerce-privacy-policy-text, {{WRAPPER}} .kdna-checkout__summary .woocommerce-terms-and-conditions-wrapper' => 'color: {{VALUE}};',
 				),
 			)
 		);
 
-		$this->add_responsive_control(
-			'address_box_padding',
+		$this->add_control(
+			'payment_link_colour',
 			array(
-				'label'      => __( 'Padding', 'kdna-checkout' ),
-				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
-				'size_units' => array( 'px', 'em' ),
-				'selectors'  => array(
-					$box => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				'label'     => __( 'Link colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout__summary #payment a, {{WRAPPER}} .kdna-checkout__summary .woocommerce-privacy-policy-text a, {{WRAPPER}} .kdna-checkout__summary .woocommerce-terms-and-conditions-wrapper a' => 'color: {{VALUE}};',
 				),
-			)
-		);
-
-		$this->add_group_control(
-			\Elementor\Group_Control_Box_Shadow::get_type(),
-			array(
-				'name'     => 'address_box_shadow',
-				'label'    => __( 'Box shadow', 'kdna-checkout' ),
-				'selector' => $box,
 			)
 		);
 
@@ -2172,6 +2279,21 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				),
 			)
 		);
+
+		$this->add_responsive_control(
+			'summary_cell_padding',
+			array(
+				'label'      => __( 'Cell padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table td, {{WRAPPER}} .kdna-checkout__summary .shop_table th' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_style_heading( 'order_table_box_heading', __( 'Order table box', 'kdna-checkout' ) );
+		$this->add_box_controls( 'order_table_box', '{{WRAPPER}} .kdna-checkout__summary .shop_table' );
 
 		$this->end_controls_section();
 	}

@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.10
+Stable tag: 1.2.11
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Requirements:
 * Elementor, for the checkout and trust-badge widgets.
 * Classic (shortcode) checkout, which is the reliable, controllable base this plugin styles.
 
-Version 1.2.10, feature-complete. The plugin includes:
+Version 1.2.11, feature-complete. The plugin includes:
 
 * Elementor "KDNA Checkout" widget: the native WooCommerce classic checkout reflowed into a two-column layout with a sticky order summary, fully styleable in Elementor.
 * Cart strip (mini-cart) with live AJAX quantity/remove, four editing modes and independent desktop/mobile sticky.
@@ -53,6 +53,12 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 1.2.11 =
+* Address boxes are now independent: the billing, shipping and order-notes areas each have their own background, border, radius, padding and shadow controls, so billing and shipping can be boxed separately.
+* New "Payment Area" style section: box the payment methods block (background, border, radius, padding, shadow) and style the terms / privacy / notice text and links.
+* New "Order table box" controls and cell padding under Order Summary Text & Totals, so the order table can be its own bordered box.
+* Fixed the "Order table price column width" control — the table now uses a fixed layout so the width actually applies.
 
 = 1.2.10 =
 * Editor live preview now shows the real two-column layout: the checkout is reflowed server-side for the editor (Elementor does not reliably run the front-end reflow script in the editing canvas), so the address column and order summary sit side by side as they do on the front end.
