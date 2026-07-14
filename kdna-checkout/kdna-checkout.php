@@ -3,7 +3,7 @@
  * Plugin Name:       KDNA Checkout
  * Plugin URI:        https://krulldna.com/
  * Description:       Streamlined WooCommerce checkout and abandoned-cart recovery, fully styled in Elementor.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /*
  * Constants.
  */
-define( 'KDNA_CHECKOUT_VERSION', '1.0.0' );
+define( 'KDNA_CHECKOUT_VERSION', '1.1.0' );
 define( 'KDNA_CHECKOUT_FILE', __FILE__ );
 define( 'KDNA_CHECKOUT_PATH', plugin_dir_path( __FILE__ ) );
 define( 'KDNA_CHECKOUT_URL', plugin_dir_url( __FILE__ ) );

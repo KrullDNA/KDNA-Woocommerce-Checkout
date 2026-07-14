@@ -172,6 +172,7 @@
 	display: flex;
 	flex: 1 1 auto;
 	min-width: 0;
+	align-items: stretch; /* Tiles share the tallest tile's height. */
 	gap: var(--kdna-checkout-strip-tile-gap, 12px);
 	overflow-x: auto;
 	-webkit-overflow-scrolling: touch;
@@ -228,7 +229,10 @@
 	align-items: center;
 	justify-content: center;
 	gap: 6px;
-	margin-top: 6px;
+	/* Push to the tile's base so quantity fields line up across all tiles,
+	   even when a product name wraps onto more lines than its neighbours. */
+	margin-top: auto;
+	padding-top: 6px;
 }
 
 .kdna-checkout-strip__qty {
@@ -245,7 +249,8 @@
 
 .kdna-checkout-strip__qty-static {
 	display: none;
-	margin-top: 6px;
+	margin-top: auto;
+	padding-top: 6px;
 	font-size: var(--kdna-checkout-strip-qty-size, 12px);
 }
 
@@ -335,22 +340,20 @@
 	display: block;
 }
 
-/* Sticky, independently per device. */
+/* Sticky (independently per device).
+ *
+ * Driven by JS (position: fixed with an in-flow spacer) rather than CSS
+ * position: sticky, so it works reliably even when an Elementor ancestor
+ * clips overflow or the strip sits in its own short top section. The
+ * data-sticky-desktop / data-sticky-mobile attributes gate it per device.
+ */
 
-@media (min-width: 768px) {
-	.kdna-checkout-strip--sticky-desktop {
-		position: sticky;
-		top: var(--kdna-checkout-strip-sticky-offset, 0px);
-		z-index: 20;
-	}
+.kdna-checkout-strip--stuck {
+	box-shadow: var(--kdna-checkout-strip-stuck-shadow, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-@media (max-width: 767px) {
-	.kdna-checkout-strip--sticky-mobile {
-		position: sticky;
-		top: var(--kdna-checkout-strip-sticky-offset, 0px);
-		z-index: 20;
-	}
+.kdna-checkout-strip__sticky-spacer {
+	flex: none;
 }
 
 /* ------------------------------------------------------------------ *
