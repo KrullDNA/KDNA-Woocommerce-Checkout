@@ -554,6 +554,31 @@
 	margin: var(--kdna-checkout-coupon-gap, 16px) 0;
 }
 
+/* Combined: one box around the toggle + the (expanded) coupon form, instead
+ * of two separate boxes. The slot becomes the box; the inner WooCommerce
+ * notice and coupon form are flattened so they read as one. Box appearance is
+ * driven by CSS variables the "Coupon box" controls set, with sensible
+ * defaults here. */
+.kdna-checkout--coupon-combined .kdna-checkout__coupon-slot {
+	border: 1px solid var(--kdna-checkout-coupon-box-border, #d5d9dd);
+	border-radius: var(--kdna-checkout-coupon-box-radius, 8px);
+	background: var(--kdna-checkout-coupon-box-bg, transparent);
+	padding: var(--kdna-checkout-coupon-box-padding, 20px 24px);
+}
+
+.kdna-checkout--coupon-combined .woocommerce-form-coupon-toggle,
+.kdna-checkout--coupon-combined .woocommerce-form-coupon-toggle .woocommerce-info,
+.kdna-checkout--coupon-combined .checkout_coupon {
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+	background: transparent !important;
+}
+
+.kdna-checkout--coupon-combined .checkout_coupon {
+	margin-top: var(--kdna-checkout-coupon-box-gap, 14px) !important;
+}
+
 /* Coupon-bar icon. The "Have a coupon?" bar (.woocommerce-info) carries a
  * default ::before icon from WooCommerce/the theme. Hide it when the icon is
  * removed or replaced by a custom one, and style the injected replacement. */
