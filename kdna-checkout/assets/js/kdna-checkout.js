@@ -74,6 +74,8 @@
 	} else {
 		boot();
 	}
+	// Re-run when the Elementor editor re-renders the widget (live preview).
+	document.addEventListener( 'kdna:boot', boot );
 }() );
 
 /**
@@ -167,6 +169,8 @@
 	} else {
 		boot();
 	}
+	// Re-run (without re-binding) when the editor re-renders the widget.
+	document.addEventListener( 'kdna:boot', placeAll );
 }() );
 
 /**
@@ -255,6 +259,8 @@
 	} else {
 		boot();
 	}
+	// Re-run (without re-binding) when the editor re-renders the widget.
+	document.addEventListener( 'kdna:boot', applyAll );
 }() );
 
 /**
@@ -1305,5 +1311,39 @@
 		document.addEventListener( 'DOMContentLoaded', boot );
 	} else {
 		boot();
+	}
+}() );
+
+/**
+ * Elementor editor: live preview re-init.
+ *
+ * When "Live checkout in the editor" is on, Elementor renders the real
+ * checkout, but re-rendering the widget after a content change does not re-run
+ * the front-end boot. Hook Elementor's element-ready action (editor only) and
+ * dispatch kdna:boot so the reflow, coupon position and icon modules re-apply
+ * to the freshly rendered markup. Style changes are injected as CSS and need
+ * no re-render, so they already preview live.
+ */
+( function () {
+	'use strict';
+
+	function refresh() {
+		var ef = window.elementorFrontend;
+		if ( ef && ef.isEditMode && ef.isEditMode() ) {
+			document.dispatchEvent( new CustomEvent( 'kdna:boot' ) );
+		}
+	}
+
+	function register() {
+		var ef = window.elementorFrontend;
+		if ( ef && ef.hooks && ef.hooks.addAction ) {
+			ef.hooks.addAction( 'frontend/element_ready/kdna-checkout.default', refresh );
+		}
+	}
+
+	if ( window.elementorFrontend ) {
+		register();
+	} else {
+		window.addEventListener( 'elementor/frontend/init', register );
 	}
 }() );
