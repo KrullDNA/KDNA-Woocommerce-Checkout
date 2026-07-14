@@ -670,6 +670,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->style_section_headings();
 		$this->style_section_field_labels();
 		$this->style_section_input_fields();
+		$this->style_section_address_boxes();
 		$this->style_section_summary_card();
 		$this->style_section_summary_content();
 		$this->style_section_pay_button();
@@ -1516,6 +1517,29 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		);
 
 		$this->add_responsive_control(
+			'summary_price_column_width',
+			array(
+				'label'       => __( 'Order table price column width', 'kdna-checkout' ),
+				'description' => __( 'Narrow the price column in the order table so the product names on the left get more room.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'size_units'  => array( 'px', '%' ),
+				'range'       => array(
+					'px' => array(
+						'min' => 60,
+						'max' => 320,
+					),
+					'%'  => array(
+						'min' => 12,
+						'max' => 50,
+					),
+				),
+				'selectors'   => array(
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table th:last-child, {{WRAPPER}} .kdna-checkout__summary .shop_table td:last-child' => 'width: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
 			'column_gap',
 			array(
 				'label'      => __( 'Gap between the columns', 'kdna-checkout' ),
@@ -1896,6 +1920,83 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'name'     => 'input_error_typography',
 				'label'    => __( 'Validation error typography', 'kdna-checkout' ),
 				'selector' => '{{WRAPPER}} .kdna-checkout-field-error',
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Style > Address Boxes.
+	 *
+	 * Optional card/box around the billing, shipping and order-notes areas in
+	 * the left column, so the address sections can be boxed like the order
+	 * summary card. Off by default (no border/background) until styled.
+	 *
+	 * @return void
+	 */
+	private function style_section_address_boxes() {
+		$this->start_controls_section(
+			'style_address_boxes',
+			array(
+				'label' => __( 'Address Boxes', 'kdna-checkout' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			)
+		);
+
+		$box = '{{WRAPPER}} .kdna-checkout__main .woocommerce-billing-fields, {{WRAPPER}} .kdna-checkout__main .woocommerce-shipping-fields, {{WRAPPER}} .kdna-checkout__main .woocommerce-additional-fields';
+
+		$this->add_control(
+			'address_box_background',
+			array(
+				'label'       => __( 'Background colour', 'kdna-checkout' ),
+				'description' => __( 'Puts a box around the billing, shipping and order-notes areas. Leave the border and background empty for no box.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::COLOR,
+				'selectors'   => array(
+					$box => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'address_box_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => $box,
+			)
+		);
+
+		$this->add_responsive_control(
+			'address_box_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					$box => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'address_box_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					$box => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Box_Shadow::get_type(),
+			array(
+				'name'     => 'address_box_shadow',
+				'label'    => __( 'Box shadow', 'kdna-checkout' ),
+				'selector' => $box,
 			)
 		);
 
@@ -2382,6 +2483,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			$classes[] = 'kdna-checkout--coupon-combined';
 		}
 
+		$editor_live = false;
 		if ( $this->is_editor_context() ) {
 			$live_wanted = isset( $settings['editor_live_preview'] ) && 'yes' === $settings['editor_live_preview'];
 			$cart_ready  = $live_wanted && function_exists( 'WC' ) && WC() && WC()->cart && ! WC()->cart->is_empty();
@@ -2391,7 +2493,13 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				$this->render_placeholder( $classes, $live_wanted && ! $cart_ready );
 				return;
 			}
-			// Otherwise fall through and render the real checkout below.
+			// Live editor preview: Elementor does not reliably run the front-end
+			// reflow script in the editor canvas, so reflow the checkout markup
+			// server-side and flag the wrapper ready so the two-column CSS
+			// engages immediately (and the front-end JS leaves it alone).
+			$editor_live = true;
+			$classes[]   = 'kdna-checkout--ready';
+			$classes[]   = 'kdna-checkout--editor-live';
 		}
 
 		// Fail-safe: never output checkout markup without WooCommerce.
@@ -2441,7 +2549,11 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$coupon_filters = $show_coupon_field ? $this->add_coupon_copy_filters( $settings ) : array();
 
 		// Native WooCommerce classic shortcode checkout, reflowed by the widget CSS/JS.
-		echo do_shortcode( '[woocommerce_checkout]' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce renders and escapes its own checkout markup.
+		$checkout_html = do_shortcode( '[woocommerce_checkout]' );
+		if ( $editor_live ) {
+			$checkout_html = $this->reflow_html_for_editor( $checkout_html );
+		}
+		echo $checkout_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce renders and escapes its own checkout markup.
 
 		$this->remove_coupon_copy_filters( $coupon_filters );
 
@@ -2509,6 +2621,83 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		if ( isset( $filters['gettext'] ) ) {
 			remove_filter( 'gettext', $filters['gettext'], 10 );
 		}
+	}
+
+	/**
+	 * Reflow the checkout markup into the two-column structure server-side.
+	 *
+	 * The front-end JS does this on the live site, but Elementor does not
+	 * reliably run front-end scripts in the editor canvas, so for the live
+	 * editor preview we rearrange the DOM here: everything in the form except
+	 * the order-review heading and table moves into .kdna-checkout__main, and
+	 * the heading + review move into .kdna-checkout__summary. On any parsing
+	 * problem it returns the markup untouched (fail-safe).
+	 *
+	 * @param string $html The checkout shortcode output.
+	 * @return string
+	 */
+	private function reflow_html_for_editor( $html ) {
+		$html = (string) $html;
+		if ( '' === trim( $html ) || ! class_exists( 'DOMDocument' ) ) {
+			return $html;
+		}
+
+		$wrapped = '<div id="kdna-reflow-root">' . $html . '</div>';
+		// Keep UTF-8 intact under libxml's ISO-8859-1 assumption.
+		if ( function_exists( 'mb_encode_numericentity' ) ) {
+			$wrapped = mb_encode_numericentity( $wrapped, array( 0x80, 0x10FFFF, 0, 0xFFFFFF ), 'UTF-8' );
+		}
+
+		$prev = libxml_use_internal_errors( true );
+		$doc  = new DOMDocument();
+		$ok   = $doc->loadHTML( $wrapped, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+		libxml_clear_errors();
+		libxml_use_internal_errors( $prev );
+		if ( ! $ok ) {
+			return $html;
+		}
+
+		$xpath = new DOMXPath( $doc );
+		$forms = $xpath->query( "//form[contains(concat(' ', normalize-space(@class), ' '), ' woocommerce-checkout ')]" );
+		$form  = $forms->length ? $forms->item( 0 ) : null;
+		if ( ! $form ) {
+			return $html;
+		}
+
+		$review  = $xpath->query( ".//*[@id='order_review']", $form )->item( 0 );
+		$heading = $xpath->query( ".//*[@id='order_review_heading']", $form )->item( 0 );
+		if ( ! $review ) {
+			return $html;
+		}
+
+		$main = $doc->createElement( 'div' );
+		$main->setAttribute( 'class', 'kdna-checkout__main' );
+		$summary = $doc->createElement( 'div' );
+		$summary->setAttribute( 'class', 'kdna-checkout__summary' );
+
+		foreach ( iterator_to_array( $form->childNodes ) as $node ) {
+			if ( $node === $heading || $node === $review ) {
+				continue;
+			}
+			$main->appendChild( $node );
+		}
+		if ( $heading ) {
+			$summary->appendChild( $heading );
+		}
+		$summary->appendChild( $review );
+		$form->appendChild( $main );
+		$form->appendChild( $summary );
+
+		$root = $xpath->query( "//*[@id='kdna-reflow-root']" )->item( 0 );
+		if ( ! $root ) {
+			return $html;
+		}
+
+		$out = '';
+		foreach ( $root->childNodes as $child ) {
+			$out .= $doc->saveHTML( $child );
+		}
+		return $out;
 	}
 
 	/**
