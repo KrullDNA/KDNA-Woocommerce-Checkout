@@ -17,6 +17,15 @@ Companion to `KDNA-Checkout-Brief.docx` (section 8). Updated at the end of every
 | Stage 11 | Recovery email sequence (admin-built + branded template) | **Complete** (v0.11.0, 2026-07-11) |
 | Stage 12 | Polish, compatibility & packaging | **Complete** (v1.0.0, 2026-07-11) |
 
+## 1.2.0 session notes (post-release enhancements)
+
+- Coupon field toggle: the checkout widget gains a `show_coupon` switch (default `yes`) in a new "Coupon" content section. When off, the render adds `kdna-checkout--hide-coupon`, which hides WooCommerce's `.woocommerce-form-coupon-toggle` / `.checkout_coupon` markup via CSS. For merchants who use a separate coupon widget.
+- Coupon styling: new "Coupon Field" style section (`style_coupon`, gated on `show_coupon => yes`) with controls for the "Have a coupon?" bar (`.woocommerce-form-coupon-toggle .woocommerce-info`: background, border, radius, padding, link typography/colour) and the coupon input + Apply button (`.checkout_coupon .input-text`, `.checkout_coupon button`, with a hover tab).
+- Cart strip shrink-on-scroll: `strip_shrink_sticky` content toggle + `strip_compact_size` slider (writes `--kdna-checkout-strip-compact-size`) in the shared `KDNA_Checkout_Strip_Controls`, so both the in-checkout strip and standalone widget get it. `sanitise_args()` carries a `shrink` flag through to a `kdna-checkout-strip--shrink` class and `data-shrink` attribute (round-tripped through the AJAX update). CSS collapses stuck+shrunk tiles to just the image; `stick()` measures `offsetHeight` after applying the stuck class so the spacer reserves only the compact height and the page reclaims the freed space.
+- Billing/shipping stacking: `.col2-set`/`.col-1`/`.col-2` overridden to `display: block; width: 100%` so "Deliver to a different address?" sits under the billing address (two columns, not three).
+- Admin relocation: settings, Captured Carts, Order Bumps and Recovery Emails moved from Settings/`options-general.php` to the WooCommerce menu (`add_submenu_page('woocommerce', ...)` / `show_in_menu => 'woocommerce'`, `manage_woocommerce` cap, with a fallback to Settings if the WooCommerce menu is unavailable). Enqueue hook-suffix checks and copy strings updated accordingly.
+- Version 1.2.0. Full suite green (11 PHP + 10 jsdom = 21 tests). Stage 4 now also asserts the coupon toggle/style section and the shrink controls; the strip DOM test round-trips `data-shrink`. Translation template regenerated (languages/kdna-checkout.pot, 348 strings).
+
 ## 1.1.0 session notes (post-release enhancements)
 
 - New standalone "KDNA Cart Strip" widget (`kdna-cart-strip`) registered alongside the checkout and trust widgets. Renders the shared `KDNA_Checkout_Cart_Strip::render()` with a static editor skeleton, Atomic-compliant single wrapper, style/script-depends on the shared handle. Intended for a full-width top-of-page section.

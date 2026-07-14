@@ -111,7 +111,7 @@ class KDNA_Checkout_CPT {
 	 * Shared arguments for admin-only, non-public post types.
 	 *
 	 * The edit screens exist for administrators but stay out of the main
-	 * admin menu, later stages surface them under Settings > KDNA Checkout.
+	 * admin menu, later stages surface them under WooCommerce > KDNA Checkout.
 	 * Nothing is queryable, searchable or exposed on the front end.
 	 *
 	 * @return array

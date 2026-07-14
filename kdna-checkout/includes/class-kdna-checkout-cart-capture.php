@@ -71,7 +71,7 @@ class KDNA_Checkout_Cart_Capture {
 	 * Hook everything in.
 	 */
 	public function __construct() {
-		// Settings (rendered by the shared Settings > KDNA Checkout form).
+		// Settings (rendered by the shared WooCommerce > KDNA Checkout form).
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		// Capture endpoints (guests included).
@@ -204,7 +204,7 @@ class KDNA_Checkout_Cart_Capture {
 	public function render_section_intro() {
 		printf(
 			'<p>%s</p>',
-			esc_html__( 'The checkout quietly captures the shopper\'s email and a snapshot of their cart so an abandoned cart can be recovered. View everything under Settings > Captured Carts. No recovery emails are sent until the recovery sequence stage is built and configured.', 'kdna-checkout' )
+			esc_html__( 'The checkout quietly captures the shopper\'s email and a snapshot of their cart so an abandoned cart can be recovered. View everything under WooCommerce > Captured Carts. No recovery emails are sent until the recovery sequence stage is built and configured.', 'kdna-checkout' )
 		);
 	}
 
@@ -580,16 +580,16 @@ class KDNA_Checkout_Cart_Capture {
 	 * ================================================================== */
 
 	/**
-	 * Register Settings > Captured Carts.
+	 * Register WooCommerce > Captured Carts.
 	 *
 	 * @return void
 	 */
 	public function register_admin_screen() {
 		add_submenu_page(
-			'options-general.php',
+			'woocommerce',
 			__( 'Captured Carts', 'kdna-checkout' ),
 			__( 'Captured Carts', 'kdna-checkout' ),
-			'manage_options',
+			'manage_woocommerce',
 			'kdna-checkout-carts',
 			array( $this, 'render_admin_screen' )
 		);
@@ -602,7 +602,7 @@ class KDNA_Checkout_Cart_Capture {
 	 * @return void
 	 */
 	public function render_admin_screen() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'kdna-checkout' ) );
 		}
 
@@ -703,7 +703,7 @@ class KDNA_Checkout_Cart_Capture {
 				<?php
 				printf(
 					/* translators: %d: purge age in days. */
-					esc_html__( 'Rows older than %d days are purged automatically (configure under Settings > KDNA Checkout).', 'kdna-checkout' ),
+					esc_html__( 'Rows older than %d days are purged automatically (configure under WooCommerce > KDNA Checkout).', 'kdna-checkout' ),
 					(int) self::purge_days()
 				);
 				?>

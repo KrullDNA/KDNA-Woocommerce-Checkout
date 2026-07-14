@@ -95,6 +95,22 @@ class KDNA_Checkout_Strip_Controls {
 		);
 
 		$widget->add_control(
+			'strip_shrink_sticky',
+			self::with_condition(
+				array(
+					'label'        => __( 'Shrink while stuck', 'kdna-checkout' ),
+					'description'  => __( 'While the strip is stuck to the top on scroll it collapses to just the product images to save space, and grows back to full height at the top of the page. Set the shrunk tile size under Cart Strip: Container.', 'kdna-checkout' ),
+					'type'         => \Elementor\Controls_Manager::SWITCHER,
+					'label_on'     => __( 'On', 'kdna-checkout' ),
+					'label_off'    => __( 'Off', 'kdna-checkout' ),
+					'return_value' => 'yes',
+					'default'      => '',
+				),
+				$condition
+			)
+		);
+
+		$widget->add_control(
 			'strip_subtotal_label',
 			self::with_condition(
 				array(
@@ -267,6 +283,25 @@ class KDNA_Checkout_Strip_Controls {
 				),
 				'selectors'   => array(
 					'{{WRAPPER}}' => '--kdna-checkout-strip-sticky-offset: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$widget->add_responsive_control(
+			'strip_compact_size',
+			array(
+				'label'       => __( 'Shrunk tile size', 'kdna-checkout' ),
+				'description' => __( 'Tile size while the strip is stuck and shrunk (only the product images show).', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'size_units'  => array( 'px', 'em' ),
+				'range'       => array(
+					'px' => array(
+						'min' => 32,
+						'max' => 120,
+					),
+				),
+				'selectors'   => array(
+					'{{WRAPPER}}' => '--kdna-checkout-strip-compact-size: {{SIZE}}{{UNIT}};',
 				),
 			)
 		);

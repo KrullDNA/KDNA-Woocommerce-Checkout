@@ -168,6 +168,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->register_cart_strip_controls();
 		$this->register_express_controls();
 		$this->register_fields_controls();
+		$this->register_coupon_controls();
 		$this->register_trust_controls();
 		$this->register_style_controls();
 	}
@@ -422,6 +423,36 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	}
 
 	/**
+	 * Content tab > Coupon.
+	 *
+	 * @return void
+	 */
+	private function register_coupon_controls() {
+		$this->start_controls_section(
+			'section_coupon',
+			array(
+				'label' => __( 'Coupon', 'kdna-checkout' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'show_coupon',
+			array(
+				'label'        => __( 'Show coupon field', 'kdna-checkout' ),
+				'description'  => __( 'The native WooCommerce "Have a coupon?" field. Turn off if you use a separate coupon widget.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'kdna-checkout' ),
+				'label_off'    => __( 'Hide', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
 	 * Content tab controls (unchanged since Stage 2).
 	 *
 	 * @return void
@@ -517,7 +548,221 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->style_section_express_row();
 		$this->style_section_express_divider();
 		$this->style_section_order_bump();
+		$this->style_section_coupon();
 		$this->style_section_trust();
+	}
+
+	/**
+	 * Style > Coupon (the native "Have a coupon?" field).
+	 *
+	 * @return void
+	 */
+	private function style_section_coupon() {
+		$this->start_controls_section(
+			'style_coupon',
+			array(
+				'label'     => __( 'Coupon Field', 'kdna-checkout' ),
+				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+				'condition' => array( 'show_coupon' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'coupon_toggle_heading',
+			array(
+				'label' => __( '"Have a coupon?" bar', 'kdna-checkout' ),
+				'type'  => \Elementor\Controls_Manager::HEADING,
+			)
+		);
+
+		$this->add_control(
+			'coupon_bar_background',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'coupon_bar_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info',
+			)
+		);
+
+		$this->add_responsive_control(
+			'coupon_bar_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'coupon_bar_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'coupon_link_typography',
+				'label'    => __( 'Link typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info a, {{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info',
+			)
+		);
+
+		$this->add_control(
+			'coupon_link_colour',
+			array(
+				'label'     => __( 'Link colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info a' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'coupon_form_heading',
+			array(
+				'label'     => __( 'Coupon form', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_control(
+			'coupon_input_background',
+			array(
+				'label'     => __( 'Input background', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .checkout_coupon .input-text' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'coupon_input_border',
+				'label'    => __( 'Input border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout .checkout_coupon .input-text',
+			)
+		);
+
+		$this->add_responsive_control(
+			'coupon_input_radius',
+			array(
+				'label'      => __( 'Input border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout .checkout_coupon .input-text' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->start_controls_tabs( 'coupon_button_tabs' );
+
+		$this->start_controls_tab(
+			'coupon_button_normal',
+			array( 'label' => __( 'Button', 'kdna-checkout' ) )
+		);
+
+		$this->add_control(
+			'coupon_button_text',
+			array(
+				'label'     => __( 'Button text colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .checkout_coupon button' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'coupon_button_bg',
+			array(
+				'label'     => __( 'Button background', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .checkout_coupon button' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'coupon_button_border',
+				'label'    => __( 'Button border', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout .checkout_coupon button',
+			)
+		);
+
+		$this->add_responsive_control(
+			'coupon_button_radius',
+			array(
+				'label'      => __( 'Button border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout .checkout_coupon button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'coupon_button_hover',
+			array( 'label' => __( 'Button hover', 'kdna-checkout' ) )
+		);
+
+		$this->add_control(
+			'coupon_button_text_hover',
+			array(
+				'label'     => __( 'Button text colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .checkout_coupon button:hover, {{WRAPPER}} .kdna-checkout .checkout_coupon button:focus' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'coupon_button_bg_hover',
+			array(
+				'label'     => __( 'Button background', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .checkout_coupon button:hover, {{WRAPPER}} .kdna-checkout .checkout_coupon button:focus' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
+
+		$this->end_controls_section();
 	}
 
 	/**
@@ -1847,6 +2092,10 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			$classes[] = 'kdna-checkout--validate';
 		}
 
+		if ( isset( $settings['show_coupon'] ) && 'yes' !== $settings['show_coupon'] ) {
+			$classes[] = 'kdna-checkout--hide-coupon';
+		}
+
 		if ( $this->is_editor_context() ) {
 			$this->render_placeholder( $classes );
 			return;
@@ -1980,6 +2229,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			'controls'       => $settings['strip_item_controls'] ?? 'full',
 			'sticky_desktop' => $settings['strip_sticky_desktop'] ?? '',
 			'sticky_mobile'  => $settings['strip_sticky_mobile'] ?? '',
+			'shrink'         => $settings['strip_shrink_sticky'] ?? '',
 			'subtotal_label' => $settings['strip_subtotal_label'] ?? '',
 			'edit_label'     => $settings['strip_edit_label'] ?? '',
 			'done_label'     => $settings['strip_done_label'] ?? '',

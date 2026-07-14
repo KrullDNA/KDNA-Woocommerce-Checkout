@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings > KDNA Checkout admin screen.
+ * WooCommerce > KDNA Checkout admin screen.
  *
  * Stage 1 ships the page shell only: Alpine.js is loaded and a
  * "Coming soon" placeholder is shown. Later stages fill the screen in.
@@ -48,11 +48,25 @@ class KDNA_Checkout_Admin {
 	}
 
 	/**
-	 * Add the page under Settings.
+	 * Add the settings page under the WooCommerce menu, so it sits with
+	 * the rest of the store's admin. Falls back to the Settings menu if
+	 * WooCommerce's menu is somehow unavailable.
 	 *
 	 * @return void
 	 */
 	public function register_menu() {
+		if ( menu_page_url( 'woocommerce', false ) || class_exists( 'WooCommerce' ) ) {
+			$this->hook_suffix = add_submenu_page(
+				'woocommerce',
+				__( 'KDNA Checkout', 'kdna-checkout' ),
+				__( 'KDNA Checkout', 'kdna-checkout' ),
+				'manage_woocommerce',
+				self::MENU_SLUG,
+				array( $this, 'render_page' )
+			);
+			return;
+		}
+
 		$this->hook_suffix = add_options_page(
 			__( 'KDNA Checkout', 'kdna-checkout' ),
 			__( 'KDNA Checkout', 'kdna-checkout' ),
@@ -77,7 +91,7 @@ class KDNA_Checkout_Admin {
 	 */
 	public function enqueue_assets( $hook_suffix ) {
 		$is_settings = ( $hook_suffix === $this->hook_suffix );
-		$is_carts    = ( 'settings_page_kdna-checkout-carts' === $hook_suffix );
+		$is_carts    = ( 'woocommerce_page_kdna-checkout-carts' === $hook_suffix || 'settings_page_kdna-checkout-carts' === $hook_suffix );
 
 		if ( ! $is_settings && ! $is_carts ) {
 			return;
@@ -120,7 +134,7 @@ class KDNA_Checkout_Admin {
 	 * @return void
 	 */
 	public function render_page() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'kdna-checkout' ) );
 		}
 		?>

@@ -127,6 +127,7 @@ class KDNA_Checkout_Widget_Cart_Strip extends \Elementor\Widget_Base {
 			'controls'       => $settings['strip_item_controls'] ?? 'full',
 			'sticky_desktop' => $settings['strip_sticky_desktop'] ?? '',
 			'sticky_mobile'  => $settings['strip_sticky_mobile'] ?? '',
+			'shrink'         => $settings['strip_shrink_sticky'] ?? '',
 			'subtotal_label' => $settings['strip_subtotal_label'] ?? '',
 			'edit_label'     => $settings['strip_edit_label'] ?? '',
 			'done_label'     => $settings['strip_done_label'] ?? '',

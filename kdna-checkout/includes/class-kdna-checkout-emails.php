@@ -2,7 +2,7 @@
 /**
  * Branded recovery email template and merge tags for KDNA Checkout.
  *
- * Owns the brand controls (logo, colours) exposed in Settings > KDNA
+ * Owns the brand controls (logo, colours) exposed in WooCommerce > KDNA
  * Checkout, the merge-tag replacement engine, the branded HTML wrapper
  * (templates/emails/recovery-email.php) and the send helper. Kept
  * separate from the recovery scheduler so the two can evolve
@@ -45,7 +45,7 @@ class KDNA_Checkout_Emails {
 	 * ================================================================== */
 
 	/**
-	 * Register brand settings on the shared Settings > KDNA Checkout page.
+	 * Register brand settings on the shared WooCommerce > KDNA Checkout page.
 	 *
 	 * @return void
 	 */

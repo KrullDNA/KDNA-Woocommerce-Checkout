@@ -99,7 +99,7 @@ class KDNA_Checkout_Order_Bump {
 	 */
 	public function surface_cpt_menu( $args, $post_type ) {
 		if ( 'kdna_order_bump' === $post_type ) {
-			$args['show_in_menu'] = 'options-general.php';
+			$args['show_in_menu'] = 'woocommerce';
 		}
 		return $args;
 	}

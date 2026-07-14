@@ -176,6 +176,7 @@
 		data.append( 'controls', strip.getAttribute( 'data-controls' ) || 'full' );
 		data.append( 'sticky_desktop', strip.getAttribute( 'data-sticky-desktop' ) || '' );
 		data.append( 'sticky_mobile', strip.getAttribute( 'data-sticky-mobile' ) || '' );
+		data.append( 'shrink', strip.getAttribute( 'data-shrink' ) || '' );
 		data.append( 'subtotal_label', strip.getAttribute( 'data-subtotal-label' ) || '' );
 		data.append( 'edit_label', strip.getAttribute( 'data-edit-label' ) || '' );
 		data.append( 'done_label', strip.getAttribute( 'data-done-label' ) || '' );
@@ -989,8 +990,6 @@
 
 	function stick( inst, rect, offset ) {
 		inst.stuck = true;
-		inst.spacer.style.height = rect.height + 'px';
-		inst.spacer.style.display = 'block';
 		var s = inst.strip.style;
 		s.position = 'fixed';
 		s.top = offset + 'px';
@@ -998,6 +997,11 @@
 		s.width = rect.width + 'px';
 		s.zIndex = '100';
 		inst.strip.classList.add( 'kdna-checkout-strip--stuck' );
+		// Reserve the strip's height in flow. Measured after the stuck
+		// class is applied, so a shrink-while-stuck strip reserves its
+		// compact height (the page reclaims the freed space).
+		inst.spacer.style.display = 'block';
+		inst.spacer.style.height = inst.strip.offsetHeight + 'px';
 	}
 
 	function evaluate() {
