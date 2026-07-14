@@ -486,6 +486,20 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
+			'coupon_combined',
+			array(
+				'label'        => __( 'Combine into one box', 'kdna-checkout' ),
+				'description'  => __( 'Wrap the question and the coupon field in a single box that expands when opened, instead of two separate boxes.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'One box', 'kdna-checkout' ),
+				'label_off'    => __( 'Separate', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => array( 'show_coupon' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
 			'coupon_position',
 			array(
 				'label'       => __( 'Coupon position', 'kdna-checkout' ),
@@ -670,11 +684,80 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			)
 		);
 
+		// Combined single-box styling (only when "Combine into one box" is on).
+		// These feed CSS variables the stylesheet reads, so control values win
+		// over the defaults regardless of stylesheet load order.
+		$this->add_control(
+			'coupon_box_heading',
+			array(
+				'label'     => __( 'Coupon box', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'condition' => array( 'coupon_combined' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'coupon_box_background',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--kdna-checkout-coupon-box-bg: {{VALUE}};',
+				),
+				'condition' => array( 'coupon_combined' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'coupon_box_border_colour',
+			array(
+				'label'     => __( 'Border colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}}' => '--kdna-checkout-coupon-box-border: {{VALUE}};',
+				),
+				'condition' => array( 'coupon_combined' => 'yes' ),
+			)
+		);
+
+		$this->add_responsive_control(
+			'coupon_box_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 40,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}}' => '--kdna-checkout-coupon-box-radius: {{SIZE}}{{UNIT}};',
+				),
+				'condition'  => array( 'coupon_combined' => 'yes' ),
+			)
+		);
+
+		$this->add_responsive_control(
+			'coupon_box_padding',
+			array(
+				'label'      => __( 'Padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}}' => '--kdna-checkout-coupon-box-padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition'  => array( 'coupon_combined' => 'yes' ),
+			)
+		);
+
 		$this->add_control(
 			'coupon_toggle_heading',
 			array(
-				'label' => __( '"Have a coupon?" bar', 'kdna-checkout' ),
-				'type'  => \Elementor\Controls_Manager::HEADING,
+				'label'     => __( '"Have a coupon?" bar', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'condition' => array( 'coupon_combined!' => 'yes' ),
 			)
 		);
 
@@ -686,15 +769,17 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'selectors' => array(
 					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info' => 'background-color: {{VALUE}};',
 				),
+				'condition' => array( 'coupon_combined!' => 'yes' ),
 			)
 		);
 
 		$this->add_group_control(
 			\Elementor\Group_Control_Border::get_type(),
 			array(
-				'name'     => 'coupon_bar_border',
-				'label'    => __( 'Border', 'kdna-checkout' ),
-				'selector' => '{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info',
+				'name'      => 'coupon_bar_border',
+				'label'     => __( 'Border', 'kdna-checkout' ),
+				'selector'  => '{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info',
+				'condition' => array( 'coupon_combined!' => 'yes' ),
 			)
 		);
 
@@ -707,6 +792,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
+				'condition'  => array( 'coupon_combined!' => 'yes' ),
 			)
 		);
 
@@ -719,6 +805,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
+				'condition'  => array( 'coupon_combined!' => 'yes' ),
 			)
 		);
 
@@ -2276,6 +2363,9 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		}
 		if ( $show_coupon_field ) {
 			$classes[] = 'kdna-checkout--coupon-pos-' . $coupon_position;
+		}
+		if ( $show_coupon_field && isset( $settings['coupon_combined'] ) && 'yes' === $settings['coupon_combined'] ) {
+			$classes[] = 'kdna-checkout--coupon-combined';
 		}
 
 		if ( $this->is_editor_context() ) {
