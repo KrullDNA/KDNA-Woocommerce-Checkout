@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Requirements:
 * Elementor, for the checkout and trust-badge widgets.
 * Classic (shortcode) checkout, which is the reliable, controllable base this plugin styles.
 
-Version 1.2.4, feature-complete. The plugin includes:
+Version 1.2.5, feature-complete. The plugin includes:
 
 * Elementor "KDNA Checkout" widget: the native WooCommerce classic checkout reflowed into a two-column layout with a sticky order summary, fully styleable in Elementor.
 * Cart strip (mini-cart) with live AJAX quantity/remove, four editing modes and independent desktop/mobile sticky.
@@ -53,6 +53,9 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 1.2.5 =
+* Cart strip quantity buttons: added button padding and, in the vertical layout, a spacing control between the plus and minus buttons, plus a control for the gap between the quantity field and the remove (x) button.
 
 = 1.2.4 =
 * Cart strip quantity buttons: the mini-cart quantity field now has custom minus / plus buttons with four layout options (minus and plus either side of the field, both on the right, a vertical stepper, or the native browser spinner with no buttons), and full styling controls for the buttons (size, symbol size, colour, background, border, radius and hover) under Cart Strip: Quantity Field.

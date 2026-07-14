@@ -517,6 +517,25 @@ class KDNA_Checkout_Strip_Controls {
 			)
 		);
 
+		$widget->add_responsive_control(
+			'strip_controls_gap',
+			array(
+				'label'      => __( 'Gap before remove button', 'kdna-checkout' ),
+				'description' => __( 'Space between the quantity field and the remove (x) button.', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 32,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__controls' => 'gap: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
 		$widget->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			array(
@@ -690,6 +709,39 @@ class KDNA_Checkout_Strip_Controls {
 					'{{WRAPPER}} .kdna-checkout-strip__step' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 				'condition'  => array( 'strip_qty_layout!' => 'none' ),
+			)
+		);
+
+		$widget->add_responsive_control(
+			'strip_step_padding',
+			array(
+				'label'      => __( 'Button padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__step' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition'  => array( 'strip_qty_layout!' => 'none' ),
+			)
+		);
+
+		$widget->add_responsive_control(
+			'strip_step_gap',
+			array(
+				'label'      => __( 'Spacing between buttons', 'kdna-checkout' ),
+				'description' => __( 'Gap between the plus and minus buttons in the vertical layout.', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 24,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__stepper' => 'row-gap: {{SIZE}}{{UNIT}};',
+				),
+				'condition'  => array( 'strip_qty_layout' => 'stacked' ),
 			)
 		);
 
