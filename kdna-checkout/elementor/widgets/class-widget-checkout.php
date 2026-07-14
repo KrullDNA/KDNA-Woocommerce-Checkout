@@ -609,6 +609,20 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'editor_live_preview',
+			array(
+				'label'        => __( 'Live checkout in the editor', 'kdna-checkout' ),
+				'description'  => __( 'Render the real WooCommerce checkout in the Elementor editor instead of the skeleton, so you can see your styling on the true front end. You need a product in your cart, and payment gateways may occasionally misbehave while editing. If the layout looks unstyled after a change, reload the preview.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Live', 'kdna-checkout' ),
+				'label_off'    => __( 'Skeleton', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'separator'    => 'before',
+			)
+		);
+
 		$this->end_controls_section();
 	}
 
@@ -2369,8 +2383,15 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		}
 
 		if ( $this->is_editor_context() ) {
-			$this->render_placeholder( $classes );
-			return;
+			$live_wanted = isset( $settings['editor_live_preview'] ) && 'yes' === $settings['editor_live_preview'];
+			$cart_ready  = $live_wanted && function_exists( 'WC' ) && WC() && WC()->cart && ! WC()->cart->is_empty();
+			if ( ! $live_wanted || ! $cart_ready ) {
+				// Skeleton preview. When live was requested but the cart is
+				// empty, tell the editor why so it is not a surprise.
+				$this->render_placeholder( $classes, $live_wanted && ! $cart_ready );
+				return;
+			}
+			// Otherwise fall through and render the real checkout below.
 		}
 
 		// Fail-safe: never output checkout markup without WooCommerce.
@@ -2622,18 +2643,22 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	 * controls (inputs, summary card, pay button) also target the
 	 * skeleton so restyling gives live feedback in the editor.
 	 *
-	 * @param array $classes Wrapper classes from the current settings.
+	 * @param array $classes         Wrapper classes from the current settings.
+	 * @param bool  $live_empty_cart Live preview was requested but the cart is empty.
 	 * @return void
 	 */
-	private function render_placeholder( array $classes ) {
+	private function render_placeholder( array $classes, $live_empty_cart = false ) {
 		$classes[] = 'kdna-checkout--editor';
 		$settings  = $this->get_settings_for_display();
+		$note      = $live_empty_cart
+			? __( 'Live preview is on, but your cart is empty. Add a product to your cart, then reload the preview to see the real checkout here.', 'kdna-checkout' )
+			: __( 'The live WooCommerce checkout renders here on the front end. Preview the page to see it working, or switch on "Live checkout in the editor" (Layout) with a product in your cart.', 'kdna-checkout' );
 		?>
 		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 			<div class="kdna-checkout__placeholder">
 				<div class="kdna-checkout__ph-header">
 					<strong><?php echo esc_html__( 'KDNA Checkout', 'kdna-checkout' ); ?></strong>
-					<span><?php echo esc_html__( 'The live WooCommerce checkout renders here on the front end. Preview the page to see it working.', 'kdna-checkout' ); ?></span>
+					<span><?php echo esc_html( $note ); ?></span>
 				</div>
 				<?php if ( $this->show_cart_strip( $settings ) ) : ?>
 					<?php $strip_mode = $settings['strip_item_controls'] ?? 'full'; ?>
