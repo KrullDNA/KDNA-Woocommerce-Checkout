@@ -450,6 +450,42 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
+			'coupon_question_text',
+			array(
+				'label'       => __( 'Question text', 'kdna-checkout' ),
+				'description' => __( 'The prompt before the link, e.g. "Have a coupon?". Leave blank for the WooCommerce default.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::TEXT,
+				'default'     => '',
+				'placeholder' => __( 'Have a coupon?', 'kdna-checkout' ),
+				'condition'   => array( 'show_coupon' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'coupon_link_text',
+			array(
+				'label'       => __( 'Link text', 'kdna-checkout' ),
+				'description' => __( 'The clickable link that opens the coupon field. Leave blank for the WooCommerce default.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::TEXT,
+				'default'     => '',
+				'placeholder' => __( 'Click here to enter your code', 'kdna-checkout' ),
+				'condition'   => array( 'show_coupon' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
+			'coupon_message_text',
+			array(
+				'label'       => __( 'Open message', 'kdna-checkout' ),
+				'description' => __( 'The line shown above the field once the coupon area is open. Leave blank for the WooCommerce default.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::TEXT,
+				'default'     => '',
+				'placeholder' => __( 'If you have a coupon code, please apply it below.', 'kdna-checkout' ),
+				'condition'   => array( 'show_coupon' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
 			'coupon_position',
 			array(
 				'label'       => __( 'Coupon position', 'kdna-checkout' ),
@@ -2289,8 +2325,14 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			echo KDNA_Checkout_Express::render( $this->express_args( $settings ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Express row markup is escaped where it is built.
 		}
 
+		// Custom coupon copy: filter WooCommerce's toggle message and the
+		// "apply it below" line, scoped to this checkout's shortcode only.
+		$coupon_filters = $show_coupon_field ? $this->add_coupon_copy_filters( $settings ) : array();
+
 		// Native WooCommerce classic shortcode checkout, reflowed by the widget CSS/JS.
 		echo do_shortcode( '[woocommerce_checkout]' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce renders and escapes its own checkout markup.
+
+		$this->remove_coupon_copy_filters( $coupon_filters );
 
 		// Trust signals block (Stage 8): rendered after the form (outside
 		// every AJAX fragment, so it always survives totals refreshes) and
@@ -2304,6 +2346,58 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		}
 
 		echo '</div>';
+	}
+
+	/**
+	 * Register filters that rewrite WooCommerce's coupon copy from the widget
+	 * settings, for the duration of the checkout shortcode. Returns the
+	 * callables so they can be removed again straight after.
+	 *
+	 * @param array $settings Widget settings.
+	 * @return array Callables keyed by hook ('message' and/or 'gettext').
+	 */
+	private function add_coupon_copy_filters( array $settings ) {
+		$question = isset( $settings['coupon_question_text'] ) ? trim( (string) $settings['coupon_question_text'] ) : '';
+		$link     = isset( $settings['coupon_link_text'] ) ? trim( (string) $settings['coupon_link_text'] ) : '';
+		$message  = isset( $settings['coupon_message_text'] ) ? trim( (string) $settings['coupon_message_text'] ) : '';
+
+		$filters = array();
+
+		if ( '' !== $question || '' !== $link ) {
+			$filters['message'] = static function () use ( $question, $link ) {
+				$q = '' !== $question ? $question : __( 'Have a coupon?', 'woocommerce' );
+				$l = '' !== $link ? $link : __( 'Click here to enter your code', 'woocommerce' );
+				return esc_html( $q ) . ' <a href="#" class="showcoupon">' . esc_html( $l ) . '</a>';
+			};
+			add_filter( 'woocommerce_checkout_coupon_message', $filters['message'] );
+		}
+
+		if ( '' !== $message ) {
+			$filters['gettext'] = static function ( $translated, $text, $domain ) use ( $message ) {
+				if ( 'woocommerce' === $domain && 'If you have a coupon code, please apply it below.' === $text ) {
+					return $message;
+				}
+				return $translated;
+			};
+			add_filter( 'gettext', $filters['gettext'], 10, 3 );
+		}
+
+		return $filters;
+	}
+
+	/**
+	 * Remove the coupon-copy filters registered by add_coupon_copy_filters().
+	 *
+	 * @param array $filters Callables keyed by hook, as returned above.
+	 * @return void
+	 */
+	private function remove_coupon_copy_filters( array $filters ) {
+		if ( isset( $filters['message'] ) ) {
+			remove_filter( 'woocommerce_checkout_coupon_message', $filters['message'] );
+		}
+		if ( isset( $filters['gettext'] ) ) {
+			remove_filter( 'gettext', $filters['gettext'], 10 );
+		}
 	}
 
 	/**
