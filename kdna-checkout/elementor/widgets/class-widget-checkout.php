@@ -673,9 +673,30 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			array(
+				'name'     => 'coupon_text_typography',
+				'label'    => __( 'Text typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info',
+			)
+		);
+
+		$this->add_control(
+			'coupon_text_colour',
+			array(
+				'label'     => __( 'Text colour', 'kdna-checkout' ),
+				'description' => __( 'The "Have a coupon?" prompt text.', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
 				'name'     => 'coupon_link_typography',
 				'label'    => __( 'Link typography', 'kdna-checkout' ),
-				'selector' => '{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info a, {{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info',
+				'selector' => '{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info a',
 			)
 		);
 
@@ -683,6 +704,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			'coupon_link_colour',
 			array(
 				'label'     => __( 'Link colour', 'kdna-checkout' ),
+				'description' => __( 'The "Click here to enter your code" link.', 'kdna-checkout' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .kdna-checkout .woocommerce-form-coupon-toggle .woocommerce-info a' => 'color: {{VALUE}};',
