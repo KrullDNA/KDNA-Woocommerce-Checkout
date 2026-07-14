@@ -99,7 +99,7 @@ class KDNA_Checkout_Strip_Controls {
 			self::with_condition(
 				array(
 					'label'        => __( 'Shrink while stuck', 'kdna-checkout' ),
-					'description'  => __( 'While the strip is stuck to the top on scroll it collapses to just the product images to save space, and grows back to full height at the top of the page. Set the shrunk tile size under Cart Strip: Container.', 'kdna-checkout' ),
+					'description'  => __( 'As the strip is scrolled up under the sticky offset it collapses to just the product images to save space, and grows back to full height at the top of the page. Set the shrunk tile size and how far it scrolls before shrinking under Cart Strip: Container.', 'kdna-checkout' ),
 					'type'         => \Elementor\Controls_Manager::SWITCHER,
 					'label_on'     => __( 'On', 'kdna-checkout' ),
 					'label_off'    => __( 'Off', 'kdna-checkout' ),
@@ -303,6 +303,31 @@ class KDNA_Checkout_Strip_Controls {
 				'selectors'   => array(
 					'{{WRAPPER}}' => '--kdna-checkout-strip-compact-size: {{SIZE}}{{UNIT}};',
 				),
+				'condition'   => array( 'strip_shrink_sticky' => 'yes' ),
+			)
+		);
+
+		$widget->add_control(
+			'strip_shrink_offset',
+			array(
+				'label'       => __( 'Shrink after scrolling', 'kdna-checkout' ),
+				'description' => __( 'How far past its resting position the strip must scroll before it shrinks. 0 shrinks as soon as it lifts off; a larger value keeps it full for that many pixels of scroll first.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'size_units'  => array( 'px' ),
+				'range'       => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 400,
+					),
+				),
+				'default'     => array(
+					'unit' => 'px',
+					'size' => 40,
+				),
+				'selectors'   => array(
+					'{{WRAPPER}}' => '--kdna-checkout-strip-shrink-offset: {{SIZE}}{{UNIT}};',
+				),
+				'condition'   => array( 'strip_shrink_sticky' => 'yes' ),
 			)
 		);
 

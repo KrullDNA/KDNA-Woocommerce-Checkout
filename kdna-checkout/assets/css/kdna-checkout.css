@@ -377,17 +377,19 @@
 	flex: none;
 }
 
-/* Shrink while stuck: collapse to just the product images to save
- * screen space; grows back to full height the moment it unsticks at
- * the top of the page. */
-.kdna-checkout-strip--shrink.kdna-checkout-strip--stuck .kdna-checkout-strip__tile {
+/* Shrink while scrolled: collapse to just the product images to save
+ * screen space. The --shrunk state is only set by JS once the strip has
+ * actually been scrolled past its natural position, so a strip resting at
+ * the top of the page stays full height even when it is technically
+ * stuck (fixed at offset 0). It grows back to full height at the top. */
+.kdna-checkout-strip--shrink.kdna-checkout-strip--shrunk .kdna-checkout-strip__tile {
 	width: var(--kdna-checkout-strip-compact-size, 56px);
 	padding: var(--kdna-checkout-strip-compact-padding, 4px);
 }
 
-.kdna-checkout-strip--shrink.kdna-checkout-strip--stuck .kdna-checkout-strip__name,
-.kdna-checkout-strip--shrink.kdna-checkout-strip--stuck .kdna-checkout-strip__controls,
-.kdna-checkout-strip--shrink.kdna-checkout-strip--stuck .kdna-checkout-strip__qty-static {
+.kdna-checkout-strip--shrink.kdna-checkout-strip--shrunk .kdna-checkout-strip__name,
+.kdna-checkout-strip--shrink.kdna-checkout-strip--shrunk .kdna-checkout-strip__controls,
+.kdna-checkout-strip--shrink.kdna-checkout-strip--shrunk .kdna-checkout-strip__qty-static {
 	display: none;
 }
 
