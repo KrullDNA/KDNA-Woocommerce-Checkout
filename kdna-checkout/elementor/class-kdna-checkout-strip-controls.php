@@ -654,19 +654,20 @@ class KDNA_Checkout_Strip_Controls {
 		$widget->add_responsive_control(
 			'strip_step_size',
 			array(
-				'label'      => __( 'Button size', 'kdna-checkout' ),
-				'type'       => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'em' ),
-				'range'      => array(
+				'label'       => __( 'Button size', 'kdna-checkout' ),
+				'description' => __( 'Fixed square button (handy for round buttons). Leave empty to size the button to the symbol and its padding.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'size_units'  => array( 'px', 'em' ),
+				'range'       => array(
 					'px' => array(
 						'min' => 14,
 						'max' => 64,
 					),
 				),
-				'selectors'  => array(
-					'{{WRAPPER}} .kdna-checkout-strip__step' => 'width: {{SIZE}}{{UNIT}}; min-width: {{SIZE}}{{UNIT}};',
+				'selectors'   => array(
+					'{{WRAPPER}} .kdna-checkout-strip__step' => 'width: {{SIZE}}{{UNIT}}; min-width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
 				),
-				'condition'  => array( 'strip_qty_layout!' => 'none' ),
+				'condition'   => array( 'strip_qty_layout!' => 'none' ),
 			)
 		);
 
