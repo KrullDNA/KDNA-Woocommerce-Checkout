@@ -954,6 +954,15 @@
 		return isNaN( n ) ? 0 : n;
 	}
 
+	// How far the strip must be scrolled past its natural spot before it
+	// collapses. 0 shrinks the moment it starts to lift; a larger value
+	// keeps it full for that many pixels of scroll first.
+	function shrinkThreshold( strip ) {
+		var raw = window.getComputedStyle( strip ).getPropertyValue( '--kdna-checkout-strip-shrink-offset' );
+		var n   = parseInt( raw, 10 );
+		return isNaN( n ) || n < 1 ? 1 : n;
+	}
+
 	function register( strip ) {
 		if ( ! strip || strip.__kdnaStickyInit || strip.classList.contains( 'kdna-checkout-strip--skeleton' ) ) {
 			return;
@@ -969,7 +978,13 @@
 		spacer.style.display = 'none';
 		strip.parentNode.insertBefore( spacer, strip );
 
-		instances.push( { strip: strip, spacer: spacer, stuck: false } );
+		instances.push( {
+			strip: strip,
+			spacer: spacer,
+			stuck: false,
+			shrunk: false,
+			shrinks: strip.classList.contains( 'kdna-checkout-strip--shrink' ),
+		} );
 	}
 
 	function unstick( inst ) {
@@ -977,6 +992,7 @@
 			return;
 		}
 		inst.stuck = false;
+		inst.shrunk = false;
 		var s = inst.strip.style;
 		s.position = '';
 		s.top = '';
@@ -984,8 +1000,25 @@
 		s.width = '';
 		s.zIndex = '';
 		inst.strip.classList.remove( 'kdna-checkout-strip--stuck' );
+		inst.strip.classList.remove( 'kdna-checkout-strip--shrunk' );
 		inst.spacer.style.display = 'none';
 		inst.spacer.style.height = '';
+	}
+
+	// Toggle the shrunk state and re-measure the in-flow spacer, so it
+	// reserves the strip's current (compact or full) height and the page
+	// reclaims the freed space. Only strips that opted into shrink react;
+	// "shrunk" means the strip has been scrolled past its natural spot, so
+	// a strip resting at the top of the page (stuck at offset 0) stays full.
+	function setShrunk( inst, shrunk ) {
+		if ( ! inst.shrinks ) {
+			return;
+		}
+		if ( inst.shrunk !== shrunk ) {
+			inst.shrunk = shrunk;
+			inst.strip.classList.toggle( 'kdna-checkout-strip--shrunk', shrunk );
+		}
+		inst.spacer.style.height = inst.strip.offsetHeight + 'px';
 	}
 
 	function stick( inst, rect, offset ) {
@@ -997,11 +1030,15 @@
 		s.width = rect.width + 'px';
 		s.zIndex = '100';
 		inst.strip.classList.add( 'kdna-checkout-strip--stuck' );
-		// Reserve the strip's height in flow. Measured after the stuck
-		// class is applied, so a shrink-while-stuck strip reserves its
-		// compact height (the page reclaims the freed space).
 		inst.spacer.style.display = 'block';
-		inst.spacer.style.height = inst.strip.offsetHeight + 'px';
+		// A strip that sticks exactly at its natural spot (rect.top === offset,
+		// e.g. a top-of-page strip at scroll 0) is not yet shrunk; it collapses
+		// only once scrolled past the configured threshold. setShrunk reserves
+		// the resulting height.
+		setShrunk( inst, ( offset - rect.top ) >= shrinkThreshold( inst.strip ) );
+		if ( ! inst.shrinks ) {
+			inst.spacer.style.height = inst.strip.offsetHeight + 'px';
+		}
 	}
 
 	function evaluate() {
@@ -1025,6 +1062,9 @@
 					// Keep alignment in sync as the layout shifts.
 					inst.strip.style.left = spacerRect.left + 'px';
 					inst.strip.style.width = spacerRect.width + 'px';
+					// Shrink only once scrolled past the natural spot by the
+					// configured threshold.
+					setShrunk( inst, ( offset - spacerRect.top ) >= shrinkThreshold( inst.strip ) );
 				}
 			} else {
 				var rect = inst.strip.getBoundingClientRect();
