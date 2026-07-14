@@ -2433,7 +2433,11 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 									<span class="kdna-checkout-strip__name"><?php echo esc_html__( 'Product name', 'kdna-checkout' ); ?></span>
 									<span class="kdna-checkout-strip__qty-static" aria-hidden="true">&times;&nbsp;1</span>
 									<span class="kdna-checkout-strip__controls">
-										<input class="kdna-checkout-strip__qty" type="number" value="1" min="0" readonly aria-label="<?php echo esc_attr__( 'Quantity', 'kdna-checkout' ); ?>" />
+										<span class="kdna-checkout-strip__stepper">
+											<button type="button" class="kdna-checkout-strip__step kdna-checkout-strip__step--down" aria-label="<?php echo esc_attr__( 'Decrease quantity', 'kdna-checkout' ); ?>">&minus;</button>
+											<input class="kdna-checkout-strip__qty" type="number" value="1" min="0" readonly aria-label="<?php echo esc_attr__( 'Quantity', 'kdna-checkout' ); ?>" />
+											<button type="button" class="kdna-checkout-strip__step kdna-checkout-strip__step--up" aria-label="<?php echo esc_attr__( 'Increase quantity', 'kdna-checkout' ); ?>">+</button>
+										</span>
 										<button type="button" class="kdna-checkout-strip__remove" aria-label="<?php echo esc_attr__( 'Remove', 'kdna-checkout' ); ?>">&times;</button>
 									</span>
 								</div>

@@ -275,6 +275,106 @@
 	font-size: var(--kdna-checkout-strip-qty-size, 12px);
 }
 
+/* Quantity stepper: custom minus / plus buttons around the number input.
+ * The buttons are always in the markup; the layout is chosen per widget via a
+ * wrapper class (prefix_class "kdna-strip-qty-*") and CSS arranges or hides
+ * them. Layouts: split (- input +, default), right (input - +), stacked
+ * (vertical stepper beside the input) and none (native spinner, no buttons). */
+.kdna-checkout-strip__stepper {
+	display: inline-flex;
+	align-items: stretch;
+}
+
+.kdna-checkout-strip__step {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	width: var(--kdna-checkout-strip-step-size, 22px);
+	min-width: var(--kdna-checkout-strip-step-size, 22px);
+	padding: 0;
+	font-size: var(--kdna-checkout-strip-step-font-size, 15px);
+	line-height: 1;
+	color: var(--kdna-checkout-strip-step-colour, #33383d);
+	background: var(--kdna-checkout-strip-step-bg, #f2f4f6);
+	border-style: var(--kdna-checkout-strip-step-border-style, solid);
+	border-width: var(--kdna-checkout-strip-step-border-width, 1px);
+	border-color: var(--kdna-checkout-strip-step-border-colour, #d5d9dd);
+	border-radius: var(--kdna-checkout-strip-step-radius, 4px);
+	cursor: pointer;
+	user-select: none;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.kdna-checkout-strip__step:hover,
+.kdna-checkout-strip__step:focus {
+	color: var(--kdna-checkout-strip-step-hover-colour, #111111);
+	background: var(--kdna-checkout-strip-step-hover-bg, #e6e9ec);
+}
+
+/* Hide the browser's native number spinner while custom buttons are shown. */
+.kdna-checkout-strip__stepper .kdna-checkout-strip__qty {
+	appearance: textfield;
+	-moz-appearance: textfield;
+}
+
+.kdna-checkout-strip__stepper .kdna-checkout-strip__qty::-webkit-outer-spin-button,
+.kdna-checkout-strip__stepper .kdna-checkout-strip__qty::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Right layout: input first, then the two buttons side by side. */
+.kdna-strip-qty-right .kdna-checkout-strip__qty {
+	order: 0;
+}
+
+.kdna-strip-qty-right .kdna-checkout-strip__step--down {
+	order: 1;
+}
+
+.kdna-strip-qty-right .kdna-checkout-strip__step--up {
+	order: 2;
+}
+
+/* Stacked (vertical) layout: input on the left, plus above minus on the right. */
+.kdna-strip-qty-stacked .kdna-checkout-strip__stepper {
+	display: inline-grid;
+	grid-template-columns: auto auto;
+	grid-template-rows: 1fr 1fr;
+	align-items: stretch;
+}
+
+.kdna-strip-qty-stacked .kdna-checkout-strip__qty {
+	grid-column: 1;
+	grid-row: 1 / span 2;
+}
+
+.kdna-strip-qty-stacked .kdna-checkout-strip__step--up {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.kdna-strip-qty-stacked .kdna-checkout-strip__step--down {
+	grid-column: 2;
+	grid-row: 2;
+}
+
+/* Native layout: no custom buttons, restore the browser spinner. */
+.kdna-strip-qty-none .kdna-checkout-strip__step {
+	display: none;
+}
+
+.kdna-strip-qty-none .kdna-checkout-strip__stepper .kdna-checkout-strip__qty {
+	appearance: auto;
+	-moz-appearance: auto;
+}
+
+.kdna-strip-qty-none .kdna-checkout-strip__stepper .kdna-checkout-strip__qty::-webkit-outer-spin-button,
+.kdna-strip-qty-none .kdna-checkout-strip__stepper .kdna-checkout-strip__qty::-webkit-inner-spin-button {
+	-webkit-appearance: auto;
+}
+
 .kdna-checkout-strip__remove {
 	display: inline-flex;
 	align-items: center;

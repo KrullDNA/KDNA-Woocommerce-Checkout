@@ -274,6 +274,42 @@
 			return;
 		}
 
+		var stepButton = event.target.closest( '.kdna-checkout-strip__step' );
+		if ( stepButton ) {
+			event.preventDefault();
+			var stepStrip = findStrip( stepButton );
+			var stepTile  = stepButton.closest( '.kdna-checkout-strip__tile' );
+			if ( ! stepStrip || ! stepTile || inSkeleton( stepStrip ) ) {
+				return;
+			}
+			var qtyInput = stepTile.querySelector( '.kdna-checkout-strip__qty' );
+			if ( ! qtyInput ) {
+				return;
+			}
+			var current = parseInt( qtyInput.value, 10 );
+			if ( isNaN( current ) ) {
+				current = 0;
+			}
+			var minVal = parseInt( qtyInput.getAttribute( 'min' ), 10 );
+			if ( isNaN( minVal ) ) {
+				minVal = 0;
+			}
+			var maxVal = parseInt( qtyInput.getAttribute( 'max' ), 10 );
+			if ( isNaN( maxVal ) ) {
+				maxVal = 999999;
+			}
+			var delta = stepButton.classList.contains( 'kdna-checkout-strip__step--up' ) ? 1 : -1;
+			var next  = Math.min( maxVal, Math.max( minVal, current + delta ) );
+			if ( next === current ) {
+				return;
+			}
+			// Reflect immediately, then reuse the input's debounced update path
+			// (decrementing to 0 removes the item, same as typing 0).
+			qtyInput.value = String( next );
+			qtyInput.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+			return;
+		}
+
 		var removeButton = event.target.closest( '.kdna-checkout-strip__remove' );
 		if ( removeButton ) {
 			event.preventDefault();
