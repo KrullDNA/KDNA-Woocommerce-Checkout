@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Requirements:
 * Elementor, for the checkout and trust-badge widgets.
 * Classic (shortcode) checkout, which is the reliable, controllable base this plugin styles.
 
-Version 1.2.0, feature-complete. The plugin includes:
+Version 1.2.2, feature-complete. The plugin includes:
 
 * Elementor "KDNA Checkout" widget: the native WooCommerce classic checkout reflowed into a two-column layout with a sticky order summary, fully styleable in Elementor.
 * Cart strip (mini-cart) with live AJAX quantity/remove, four editing modes and independent desktop/mobile sticky.
@@ -54,12 +54,19 @@ Nothing is deleted on deactivation. All data (captured carts, recovery emails, o
 
 == Changelog ==
 
+= 1.2.2 =
+* Available coupons toggle: a "Show available coupons" switch hides the "Available Coupons" list that the KDNA Ecommerce Suite injects above the checkout, so it can be turned off on this checkout like any other feature with its own widget.
+* Coupon bar icon: the little icon on the "Have a coupon?" bar can be kept, swapped for a custom icon, or removed, and its colour and size are styleable in the "Coupon Field" style section.
+* Cart strip shrink is now animated: the tile eases to its compact size while the name and quantity fade out, and the page reclaims the freed space in step with the animation instead of jumping. Honours the browser's reduced-motion setting.
+
+= 1.2.1 =
+* Cart strip shrink no longer stays shrunk while the strip is resting at the top of the page; it now stays full height at the top and collapses only once actually scrolled past.
+* New "Shrink after scrolling" control sets how far the strip must scroll before it shrinks.
+
 = 1.2.0 =
 * Coupon field toggle: the checkout widget now has a "Show coupon field" switch that hides WooCommerce's native "Have a coupon?" field when you use a separate coupon widget.
-* Available coupons toggle: a "Show available coupons" switch hides the "Available Coupons" list that the KDNA Ecommerce Suite injects above the checkout, so it can be turned off on this checkout like any other feature with its own widget.
-* Coupon bar icon: the little icon on the "Have a coupon?" bar can be kept, swapped for a custom icon, or removed, and its colour and size are styleable.
-* Coupon styling: new "Coupon Field" style section with controls for the "Have a coupon?" bar (background, border, radius, padding, link typography and colour), the bar icon, and the coupon input and Apply button (with a hover state).
-* Cart strip shrink-on-scroll: an optional "Shrink while stuck" mode collapses the sticky strip to just the product images as you scroll, then grows back to full height at the top of the page. The shrink is animated (the tile eases to its compact size while the name and quantity fade out) rather than jumping, and the page reclaims the freed space in step with the animation. It stays full height while resting at the top and shrinks only once scrolled past, with "Shrunk tile size" and "Shrink after scrolling" (how far it scrolls before shrinking) controls under Cart Strip: Container.
+* Coupon styling: new "Coupon Field" style section with controls for the "Have a coupon?" bar (background, border, radius, padding, link typography and colour) and the coupon input and Apply button (with a hover state).
+* Cart strip shrink-on-scroll: an optional "Shrink while stuck" mode collapses the sticky strip to just the product images as you scroll, then grows back to full height at the top of the page, with a "Shrunk tile size" control under Cart Strip: Container. The page reclaims the freed vertical space while shrunk.
 * Billing and shipping now stack vertically in the checkout's first column, so "Deliver to a different address?" sits under the billing address instead of pushing the layout into three columns.
 * Admin pages moved under the WooCommerce menu (WooCommerce > KDNA Checkout, Captured Carts, Order Bumps, Recovery Emails), keeping everything together with WooCommerce.
 
