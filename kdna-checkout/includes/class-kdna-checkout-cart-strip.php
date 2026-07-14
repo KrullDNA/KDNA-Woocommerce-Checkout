@@ -164,16 +164,24 @@ class KDNA_Checkout_Cart_Strip {
 							<span class="kdna-checkout-strip__name"><?php echo esc_html( $name ); ?></span>
 							<span class="kdna-checkout-strip__qty-static" aria-hidden="true">&times;&nbsp;<?php echo esc_html( (string) $quantity ); ?></span>
 							<span class="kdna-checkout-strip__controls">
-								<input
-									class="kdna-checkout-strip__qty"
-									type="number"
-									inputmode="numeric"
-									min="0"
-									max="<?php echo esc_attr( (string) $max ); ?>"
-									step="1"
-									value="<?php echo esc_attr( (string) $quantity ); ?>"
-									aria-label="<?php echo esc_attr( sprintf( /* translators: %s: product name. */ __( 'Quantity of %s', 'kdna-checkout' ), $name ) ); ?>"
-								/>
+								<span class="kdna-checkout-strip__stepper">
+									<button type="button"
+										class="kdna-checkout-strip__step kdna-checkout-strip__step--down"
+										aria-label="<?php echo esc_attr( sprintf( /* translators: %s: product name. */ __( 'Decrease quantity of %s', 'kdna-checkout' ), $name ) ); ?>">&minus;</button>
+									<input
+										class="kdna-checkout-strip__qty"
+										type="number"
+										inputmode="numeric"
+										min="0"
+										max="<?php echo esc_attr( (string) $max ); ?>"
+										step="1"
+										value="<?php echo esc_attr( (string) $quantity ); ?>"
+										aria-label="<?php echo esc_attr( sprintf( /* translators: %s: product name. */ __( 'Quantity of %s', 'kdna-checkout' ), $name ) ); ?>"
+									/>
+									<button type="button"
+										class="kdna-checkout-strip__step kdna-checkout-strip__step--up"
+										aria-label="<?php echo esc_attr( sprintf( /* translators: %s: product name. */ __( 'Increase quantity of %s', 'kdna-checkout' ), $name ) ); ?>">+</button>
+								</span>
 								<button type="button"
 									class="kdna-checkout-strip__remove"
 									aria-label="<?php echo esc_attr( sprintf( /* translators: %s: product name. */ __( 'Remove %s from your cart', 'kdna-checkout' ), $name ) ); ?>">&times;</button>

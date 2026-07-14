@@ -500,6 +500,23 @@ class KDNA_Checkout_Strip_Controls {
 			)
 		);
 
+		$widget->add_control(
+			'strip_qty_layout',
+			array(
+				'label'        => __( 'Button layout', 'kdna-checkout' ),
+				'description'  => __( 'Where the minus / plus buttons sit around the quantity field.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SELECT,
+				'options'      => array(
+					'split'   => __( 'Left & right ( - input + )', 'kdna-checkout' ),
+					'right'   => __( 'Both on the right', 'kdna-checkout' ),
+					'stacked' => __( 'Vertical stepper', 'kdna-checkout' ),
+					'none'    => __( 'Native (no buttons)', 'kdna-checkout' ),
+				),
+				'default'      => 'split',
+				'prefix_class' => 'kdna-strip-qty-',
+			)
+		);
+
 		$widget->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			array(
@@ -604,6 +621,147 @@ class KDNA_Checkout_Strip_Controls {
 				),
 			)
 		);
+
+		$widget->add_control(
+			'strip_step_heading',
+			array(
+				'label'     => __( 'Minus / plus buttons', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => array( 'strip_qty_layout!' => 'none' ),
+			)
+		);
+
+		$widget->add_responsive_control(
+			'strip_step_size',
+			array(
+				'label'      => __( 'Button size', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 14,
+						'max' => 64,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__step' => 'width: {{SIZE}}{{UNIT}}; min-width: {{SIZE}}{{UNIT}};',
+				),
+				'condition'  => array( 'strip_qty_layout!' => 'none' ),
+			)
+		);
+
+		$widget->add_responsive_control(
+			'strip_step_font_size',
+			array(
+				'label'      => __( 'Symbol size', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 8,
+						'max' => 40,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__step' => 'font-size: {{SIZE}}{{UNIT}};',
+				),
+				'condition'  => array( 'strip_qty_layout!' => 'none' ),
+			)
+		);
+
+		$widget->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'      => 'strip_step_border',
+				'label'     => __( 'Border', 'kdna-checkout' ),
+				'selector'  => '{{WRAPPER}} .kdna-checkout-strip__step',
+				'condition' => array( 'strip_qty_layout!' => 'none' ),
+			)
+		);
+
+		$widget->add_responsive_control(
+			'strip_step_border_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout-strip__step' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition'  => array( 'strip_qty_layout!' => 'none' ),
+			)
+		);
+
+		$widget->start_controls_tabs(
+			'strip_step_tabs',
+			array( 'condition' => array( 'strip_qty_layout!' => 'none' ) )
+		);
+
+		$widget->start_controls_tab(
+			'strip_step_normal',
+			array(
+				'label'     => __( 'Normal', 'kdna-checkout' ),
+				'condition' => array( 'strip_qty_layout!' => 'none' ),
+			)
+		);
+
+		$widget->add_control(
+			'strip_step_colour',
+			array(
+				'label'     => __( 'Symbol colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__step' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$widget->add_control(
+			'strip_step_background',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__step' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$widget->end_controls_tab();
+
+		$widget->start_controls_tab(
+			'strip_step_hover',
+			array(
+				'label'     => __( 'Hover', 'kdna-checkout' ),
+				'condition' => array( 'strip_qty_layout!' => 'none' ),
+			)
+		);
+
+		$widget->add_control(
+			'strip_step_colour_hover',
+			array(
+				'label'     => __( 'Symbol colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__step:hover, {{WRAPPER}} .kdna-checkout-strip__step:focus' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$widget->add_control(
+			'strip_step_background_hover',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout-strip__step:hover, {{WRAPPER}} .kdna-checkout-strip__step:focus' => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$widget->end_controls_tab();
+		$widget->end_controls_tabs();
 
 		$widget->end_controls_section();
 	}
