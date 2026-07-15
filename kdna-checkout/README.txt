@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.12
+Stable tag: 1.2.13
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Requirements:
 * Elementor, for the checkout and trust-badge widgets.
 * Classic (shortcode) checkout, which is the reliable, controllable base this plugin styles.
 
-Version 1.2.12, feature-complete. The plugin includes:
+Version 1.2.13, feature-complete. The plugin includes:
 
 * Elementor "KDNA Checkout" widget: the native WooCommerce classic checkout reflowed into a two-column layout with a sticky order summary, fully styleable in Elementor.
 * Cart strip (mini-cart) with live AJAX quantity/remove, four editing modes and independent desktop/mobile sticky.
@@ -53,6 +53,10 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 1.2.13 =
+* Cart strip product links: a new "Link items to product page" switch makes each tile (image and name) a link to that product's page, using WooCommerce's own cart-item permalink so hidden products stay unlinked.
+* Added an "Open in a new tab" switch for the product links (adds rel="noopener noreferrer" for safety), available on both the checkout widget and the standalone Cart Strip widget.
 
 = 1.2.12 =
 * Separate order / coupon / payment boxes: a new Layout switch splits the right column into its own cards — the order summary, the coupon and the payment area — instead of one summary box, with a gap control between them.

@@ -256,6 +256,24 @@
 	padding: var(--kdna-checkout-strip-tile-padding, 8px);
 }
 
+/* Optional product-page link wrapping the image + name. display: contents so
+ * the link does not alter the tile's flex column layout. */
+.kdna-checkout-strip__link {
+	display: contents;
+	color: inherit;
+	text-decoration: none;
+}
+
+.kdna-checkout-strip__link:hover .kdna-checkout-strip__name,
+.kdna-checkout-strip__link:focus-visible .kdna-checkout-strip__name {
+	text-decoration: underline;
+}
+
+.kdna-checkout-strip__link:focus-visible .kdna-checkout-strip__image img {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
 .kdna-checkout-strip__image {
 	display: block;
 	width: 100%;

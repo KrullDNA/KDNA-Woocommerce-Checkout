@@ -3274,6 +3274,8 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			'sticky_desktop' => $settings['strip_sticky_desktop'] ?? '',
 			'sticky_mobile'  => $settings['strip_sticky_mobile'] ?? '',
 			'shrink'         => $settings['strip_shrink_sticky'] ?? '',
+			'link_products'  => $settings['strip_link_products'] ?? '',
+			'link_new_tab'   => $settings['strip_link_new_tab'] ?? '',
 			'subtotal_label' => $settings['strip_subtotal_label'] ?? '',
 			'edit_label'     => $settings['strip_edit_label'] ?? '',
 			'done_label'     => $settings['strip_done_label'] ?? '',

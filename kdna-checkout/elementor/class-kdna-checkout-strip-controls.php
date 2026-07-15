@@ -111,6 +111,38 @@ class KDNA_Checkout_Strip_Controls {
 		);
 
 		$widget->add_control(
+			'strip_link_products',
+			self::with_condition(
+				array(
+					'label'        => __( 'Link tiles to product page', 'kdna-checkout' ),
+					'description'  => __( 'Make each cart item (image and name) a link to its product page.', 'kdna-checkout' ),
+					'type'         => \Elementor\Controls_Manager::SWITCHER,
+					'label_on'     => __( 'On', 'kdna-checkout' ),
+					'label_off'    => __( 'Off', 'kdna-checkout' ),
+					'return_value' => 'yes',
+					'default'      => '',
+				),
+				$condition
+			)
+		);
+
+		$widget->add_control(
+			'strip_link_new_tab',
+			self::with_condition(
+				array(
+					'label'        => __( 'Open in a new tab', 'kdna-checkout' ),
+					'type'         => \Elementor\Controls_Manager::SWITCHER,
+					'label_on'     => __( 'Yes', 'kdna-checkout' ),
+					'label_off'    => __( 'No', 'kdna-checkout' ),
+					'return_value' => 'yes',
+					'default'      => '',
+					'condition'    => array( 'strip_link_products' => 'yes' ),
+				),
+				$condition
+			)
+		);
+
+		$widget->add_control(
 			'strip_subtotal_label',
 			self::with_condition(
 				array(

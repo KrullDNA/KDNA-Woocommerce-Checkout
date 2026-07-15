@@ -334,6 +334,8 @@
 		data.append( 'sticky_desktop', strip.getAttribute( 'data-sticky-desktop' ) || '' );
 		data.append( 'sticky_mobile', strip.getAttribute( 'data-sticky-mobile' ) || '' );
 		data.append( 'shrink', strip.getAttribute( 'data-shrink' ) || '' );
+		data.append( 'link_products', strip.getAttribute( 'data-link-products' ) || '' );
+		data.append( 'link_new_tab', strip.getAttribute( 'data-link-new-tab' ) || '' );
 		data.append( 'subtotal_label', strip.getAttribute( 'data-subtotal-label' ) || '' );
 		data.append( 'edit_label', strip.getAttribute( 'data-edit-label' ) || '' );
 		data.append( 'done_label', strip.getAttribute( 'data-done-label' ) || '' );
