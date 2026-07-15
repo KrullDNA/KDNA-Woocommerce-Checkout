@@ -61,8 +61,40 @@
 		form.appendChild( main );
 		form.appendChild( summary );
 
+		// Optional: split the order summary, coupon and payment into their own
+		// boxes by wrapping the heading + review table in an order card and
+		// moving the payment block out to sit beside it in the column.
+		if ( 'yes' === root.getAttribute( 'data-separate-summary' ) ) {
+			separateSummary( summary, heading, review );
+		}
+
 		root.classList.add( 'kdna-checkout--ready' );
 		root.dispatchEvent( new CustomEvent( 'kdna:checkout-ready', { bubbles: true } ) );
+	}
+
+	/**
+	 * Wrap the heading + order-review table in an order card and lift the
+	 * payment block out so it becomes a sibling box in the summary column.
+	 *
+	 * @param {HTMLElement} summary The summary column.
+	 * @param {HTMLElement} heading The order-review heading (may be null).
+	 * @param {HTMLElement} review  The #order_review element.
+	 */
+	function separateSummary( summary, heading, review ) {
+		if ( summary.querySelector( '.kdna-checkout__order-card' ) ) {
+			return; // Already separated.
+		}
+		var payment   = review.querySelector( '#payment' );
+		var orderCard = document.createElement( 'div' );
+		orderCard.className = 'kdna-checkout__order-card';
+		if ( heading && heading.parentNode ) {
+			orderCard.appendChild( heading );
+		}
+		orderCard.appendChild( review );
+		summary.appendChild( orderCard );
+		if ( payment ) {
+			summary.appendChild( payment ); // Moves it out of #order_review.
+		}
 	}
 
 	function boot() {

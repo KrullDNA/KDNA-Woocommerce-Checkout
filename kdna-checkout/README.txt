@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.11
+Stable tag: 1.2.12
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Requirements:
 * Elementor, for the checkout and trust-badge widgets.
 * Classic (shortcode) checkout, which is the reliable, controllable base this plugin styles.
 
-Version 1.2.11, feature-complete. The plugin includes:
+Version 1.2.12, feature-complete. The plugin includes:
 
 * Elementor "KDNA Checkout" widget: the native WooCommerce classic checkout reflowed into a two-column layout with a sticky order summary, fully styleable in Elementor.
 * Cart strip (mini-cart) with live AJAX quantity/remove, four editing modes and independent desktop/mobile sticky.
@@ -53,6 +53,14 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 1.2.12 =
+* Separate order / coupon / payment boxes: a new Layout switch splits the right column into its own cards — the order summary, the coupon and the payment area — instead of one summary box, with a gap control between them.
+* Place Order button: new Full width switch and an alignment control.
+* New "Form Extras" style section: required-asterisk colour, country/state dropdown styling (typography, colours, border, radius, arrow), checkboxes (tick/accent colour, size, label typography) and the "Ship to a different address?" toggle row.
+* Order summary: per-row colours (product name, product price, subtotal row, shipping row) added under Order Summary Text & Totals.
+* Headings gained a "Spacing above" control, and the billing heading now lines up with the order-summary heading.
+* Editor live preview now also reflects the chosen coupon position (top / billing / between order & payment).
 
 = 1.2.11 =
 * Address boxes are now independent: the billing, shipping and order-notes areas each have their own background, border, radius, padding and shadow controls, so billing and shipping can be boxed separately.
