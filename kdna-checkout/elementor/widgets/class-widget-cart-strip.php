@@ -207,7 +207,7 @@ class KDNA_Checkout_Widget_Cart_Strip extends \Elementor\Widget_Base {
 				<?php endif; ?>
 				<div class="kdna-checkout-strip__subtotal">
 					<span class="kdna-checkout-strip__subtotal-label"><?php echo esc_html( $settings['strip_subtotal_label'] ?? __( 'Subtotal', 'kdna-checkout' ) ); ?></span>
-					<span class="kdna-checkout-strip__subtotal-amount">&#163;0.00</span>
+					<span class="kdna-checkout-strip__subtotal-amount"><?php echo function_exists( 'wc_price' ) ? wp_kses_post( wc_price( 0 ) ) : '&#163;0.00'; ?></span>
 				</div>
 			</div>
 		</div>

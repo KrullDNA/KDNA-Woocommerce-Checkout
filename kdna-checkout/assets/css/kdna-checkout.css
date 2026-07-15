@@ -116,14 +116,24 @@
 	padding: var(--kdna-checkout-summary-padding, 24px);
 }
 
-/* Sensible default boxes for the coupon and payment when separated (the
- * Coupon and Payment Area controls override these). */
-.kdna-checkout--separate-summary .kdna-checkout__summary > #payment,
-.kdna-checkout--separate-summary .kdna-checkout__summary > .kdna-checkout__coupon-slot {
+/* Sensible default box for the payment block when separated (the Payment
+ * Area controls override this). */
+.kdna-checkout--separate-summary .kdna-checkout__summary > #payment {
 	background: var(--kdna-checkout-summary-bg, #ffffff);
 	border: 1px solid var(--kdna-checkout-summary-border-colour, #e2e4e7);
 	border-radius: var(--kdna-checkout-summary-radius, 8px);
 	padding: 20px;
+}
+
+/* The coupon slot, when separated, is its own card driven by the Coupon box
+ * controls (same variables as combined mode) so those controls always apply. */
+.kdna-checkout--separate-summary .kdna-checkout__summary > .kdna-checkout__coupon-slot {
+	background: var(--kdna-checkout-coupon-box-bg, #ffffff);
+	border-width: var(--kdna-checkout-coupon-box-border-width, 1px);
+	border-style: solid;
+	border-color: var(--kdna-checkout-coupon-box-border, #e2e4e7);
+	border-radius: var(--kdna-checkout-coupon-box-radius, 8px);
+	padding: var(--kdna-checkout-coupon-box-padding, 20px);
 }
 
 /* Align the first billing heading with the order-summary heading (WooCommerce
@@ -618,7 +628,9 @@
  * driven by CSS variables the "Coupon box" controls set, with sensible
  * defaults here. */
 .kdna-checkout--coupon-combined .kdna-checkout__coupon-slot {
-	border: 1px solid var(--kdna-checkout-coupon-box-border, #d5d9dd);
+	border-width: var(--kdna-checkout-coupon-box-border-width, 1px);
+	border-style: solid;
+	border-color: var(--kdna-checkout-coupon-box-border, #d5d9dd);
 	border-radius: var(--kdna-checkout-coupon-box-radius, 8px);
 	background: var(--kdna-checkout-coupon-box-bg, transparent);
 	padding: var(--kdna-checkout-coupon-box-padding, 20px 24px);

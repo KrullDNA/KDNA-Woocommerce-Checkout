@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.13
+Stable tag: 1.2.14
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Requirements:
 * Elementor, for the checkout and trust-badge widgets.
 * Classic (shortcode) checkout, which is the reliable, controllable base this plugin styles.
 
-Version 1.2.13, feature-complete. The plugin includes:
+Version 1.2.14, feature-complete. The plugin includes:
 
 * Elementor "KDNA Checkout" widget: the native WooCommerce classic checkout reflowed into a two-column layout with a sticky order summary, fully styleable in Elementor.
 * Cart strip (mini-cart) with live AJAX quantity/remove, four editing modes and independent desktop/mobile sticky.
@@ -53,6 +53,11 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 1.2.14 =
+* Coupon box styling now applies in every mode: the coupon card's background, border colour, border radius and padding controls are wired up whether the coupon is combined into one box or split out as a separate box (previously the separate-boxes card ignored them). Added a "Border width" control so the border can be set to 0 to remove it.
+* Order summary rows: new "Product row background" and "Alternate row background" controls under Order Summary Text & Totals, so the striped row colours can be changed — or set the same/transparent to remove the striping.
+* Editor preview: the skeleton now shows the store's own currency (via WooCommerce) instead of a hardcoded pound sign, so prices in the editor match your shop.
 
 = 1.2.13 =
 * Cart strip product links: a new "Link items to product page" switch makes each tile (image and name) a link to that product's page, using WooCommerce's own cart-item permalink so hidden products stay unlinked.
