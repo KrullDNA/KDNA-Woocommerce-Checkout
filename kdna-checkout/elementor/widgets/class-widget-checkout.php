@@ -610,6 +610,38 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
+			'summary_separate_boxes',
+			array(
+				'label'        => __( 'Separate order, coupon & payment boxes', 'kdna-checkout' ),
+				'description'  => __( 'Split the right column into its own boxes: the order summary, the coupon and the payment area each become a separate card instead of sitting inside one summary box. Style each under Order Summary Card, Coupon and Payment Area.', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Separate', 'kdna-checkout' ),
+				'label_off'    => __( 'One box', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => '',
+			)
+		);
+
+		$this->add_control(
+			'summary_stack_gap',
+			array(
+				'label'      => __( 'Gap between the boxes', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 60,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}}' => '--kdna-checkout-summary-stack-gap: {{SIZE}}{{UNIT}};',
+				),
+				'condition'  => array( 'summary_separate_boxes' => 'yes' ),
+			)
+		);
+
+		$this->add_control(
 			'editor_live_preview',
 			array(
 				'label'        => __( 'Live checkout in the editor', 'kdna-checkout' ),
@@ -670,6 +702,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$this->style_section_headings();
 		$this->style_section_field_labels();
 		$this->style_section_input_fields();
+		$this->style_section_form_extras();
 		$this->style_section_address_boxes();
 		$this->style_section_summary_card();
 		$this->style_section_summary_content();
@@ -1674,6 +1707,24 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			)
 		);
 
+		$this->add_responsive_control(
+			'heading_spacing_above',
+			array(
+				'label'      => __( 'Spacing above headings', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 80,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout h3' => 'margin-top: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
 		$this->end_controls_section();
 	}
 
@@ -1752,6 +1803,194 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	 *
 	 * @return void
 	 */
+	/**
+	 * Style > Form Extras.
+	 *
+	 * Everything that is not a plain text input or heading: the required
+	 * asterisk, the country/state dropdowns, checkboxes (terms, ship-to,
+	 * create-account) and the "Ship to a different address?" toggle row.
+	 *
+	 * @return void
+	 */
+	private function style_section_form_extras() {
+		$this->start_controls_section(
+			'style_form_extras',
+			array(
+				'label' => __( 'Form Extras', 'kdna-checkout' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			)
+		);
+
+		// --- Required asterisk ---
+		$this->add_control(
+			'required_asterisk_heading',
+			array(
+				'label' => __( 'Required asterisk', 'kdna-checkout' ),
+				'type'  => \Elementor\Controls_Manager::HEADING,
+			)
+		);
+		$this->add_control(
+			'required_asterisk_colour',
+			array(
+				'label'     => __( 'Colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .required, {{WRAPPER}} .kdna-checkout abbr.required' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		// --- Dropdowns (country / state selects) ---
+		$select = '{{WRAPPER}} .kdna-checkout select, {{WRAPPER}} .kdna-checkout .select2-container .select2-selection--single';
+		$this->add_style_heading( 'select_heading', __( 'Dropdowns (country / state)', 'kdna-checkout' ) );
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'select_typography',
+				'label'    => __( 'Typography', 'kdna-checkout' ),
+				'selector' => $select . ', {{WRAPPER}} .kdna-checkout .select2-container .select2-selection__rendered',
+			)
+		);
+		$this->add_control(
+			'select_text_colour',
+			array(
+				'label'     => __( 'Text colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					$select . ', {{WRAPPER}} .kdna-checkout .select2-container .select2-selection__rendered' => 'color: {{VALUE}};',
+				),
+			)
+		);
+		$this->add_control(
+			'select_background',
+			array(
+				'label'     => __( 'Background colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					$select => 'background-color: {{VALUE}};',
+				),
+			)
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			array(
+				'name'     => 'select_border',
+				'label'    => __( 'Border', 'kdna-checkout' ),
+				'selector' => $select,
+			)
+		);
+		$this->add_responsive_control(
+			'select_radius',
+			array(
+				'label'      => __( 'Border radius', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					$select => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+		$this->add_control(
+			'select_arrow_colour',
+			array(
+				'label'     => __( 'Arrow colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .select2-container .select2-selection__arrow b' => 'border-top-color: {{VALUE}};',
+				),
+			)
+		);
+
+		// --- Checkboxes ---
+		$checkbox = '{{WRAPPER}} .kdna-checkout input[type="checkbox"]';
+		$this->add_style_heading( 'checkbox_heading', __( 'Checkboxes (terms, ship-to, account)', 'kdna-checkout' ) );
+		$this->add_control(
+			'checkbox_accent',
+			array(
+				'label'     => __( 'Tick / accent colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					$checkbox => 'accent-color: {{VALUE}};',
+				),
+			)
+		);
+		$this->add_responsive_control(
+			'checkbox_size',
+			array(
+				'label'      => __( 'Size', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 10,
+						'max' => 40,
+					),
+				),
+				'selectors'  => array(
+					$checkbox => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'checkbox_label_typography',
+				'label'    => __( 'Label typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout .woocommerce-form__label-for-checkbox, {{WRAPPER}} .kdna-checkout .woocommerce-terms-and-conditions-wrapper label, {{WRAPPER}} .kdna-checkout #ship-to-different-address label',
+			)
+		);
+		$this->add_control(
+			'checkbox_label_colour',
+			array(
+				'label'     => __( 'Label colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout .woocommerce-form__label-for-checkbox, {{WRAPPER}} .kdna-checkout .woocommerce-terms-and-conditions-wrapper label, {{WRAPPER}} .kdna-checkout #ship-to-different-address label' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		// --- "Ship to a different address?" toggle row ---
+		$this->add_style_heading( 'ship_toggle_heading', __( '"Ship to a different address?" row', 'kdna-checkout' ) );
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'ship_toggle_typography',
+				'label'    => __( 'Typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout #ship-to-different-address',
+			)
+		);
+		$this->add_control(
+			'ship_toggle_colour',
+			array(
+				'label'     => __( 'Colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout #ship-to-different-address, {{WRAPPER}} .kdna-checkout #ship-to-different-address label' => 'color: {{VALUE}};',
+				),
+			)
+		);
+		$this->add_responsive_control(
+			'ship_toggle_spacing',
+			array(
+				'label'      => __( 'Spacing below', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'em' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 60,
+					),
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout #ship-to-different-address' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
 	private function style_section_input_fields() {
 		$this->start_controls_section(
 			'style_inputs',
@@ -2132,7 +2371,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'label'     => __( 'Background colour', 'kdna-checkout' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .kdna-checkout__summary, {{WRAPPER}} .kdna-checkout__ph-summary' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .kdna-checkout__summary, {{WRAPPER}} .kdna-checkout__order-card, {{WRAPPER}} .kdna-checkout__ph-summary' => 'background-color: {{VALUE}};',
 				),
 			)
 		);
@@ -2142,7 +2381,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			array(
 				'name'     => 'summary_border',
 				'label'    => __( 'Border', 'kdna-checkout' ),
-				'selector' => '{{WRAPPER}} .kdna-checkout__summary, {{WRAPPER}} .kdna-checkout__ph-summary',
+				'selector' => '{{WRAPPER}} .kdna-checkout__summary, {{WRAPPER}} .kdna-checkout__order-card, {{WRAPPER}} .kdna-checkout__ph-summary',
 			)
 		);
 
@@ -2153,7 +2392,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .kdna-checkout__summary, {{WRAPPER}} .kdna-checkout__ph-summary' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .kdna-checkout__summary, {{WRAPPER}} .kdna-checkout__order-card, {{WRAPPER}} .kdna-checkout__ph-summary' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -2163,7 +2402,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			array(
 				'name'     => 'summary_box_shadow',
 				'label'    => __( 'Box shadow', 'kdna-checkout' ),
-				'selector' => '{{WRAPPER}} .kdna-checkout__summary, {{WRAPPER}} .kdna-checkout__ph-summary',
+				'selector' => '{{WRAPPER}} .kdna-checkout__summary, {{WRAPPER}} .kdna-checkout__order-card, {{WRAPPER}} .kdna-checkout__ph-summary',
 			)
 		);
 
@@ -2174,7 +2413,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .kdna-checkout__summary' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .kdna-checkout__summary, {{WRAPPER}} .kdna-checkout__order-card' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -2268,6 +2507,49 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			)
 		);
 
+		$this->add_style_heading( 'summary_rows_heading', __( 'Individual rows', 'kdna-checkout' ) );
+
+		$this->add_control(
+			'summary_product_colour',
+			array(
+				'label'     => __( 'Product name colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table .cart_item .product-name' => 'color: {{VALUE}};',
+				),
+			)
+		);
+		$this->add_control(
+			'summary_product_price_colour',
+			array(
+				'label'     => __( 'Product price colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table .cart_item .product-total' => 'color: {{VALUE}};',
+				),
+			)
+		);
+		$this->add_control(
+			'summary_subtotal_row_colour',
+			array(
+				'label'     => __( 'Subtotal row colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table .cart-subtotal th, {{WRAPPER}} .kdna-checkout__summary .shop_table .cart-subtotal td' => 'color: {{VALUE}};',
+				),
+			)
+		);
+		$this->add_control(
+			'summary_shipping_row_colour',
+			array(
+				'label'     => __( 'Shipping row colour', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table .woocommerce-shipping-totals th, {{WRAPPER}} .kdna-checkout__summary .shop_table .woocommerce-shipping-totals td, {{WRAPPER}} .kdna-checkout__summary .shop_table tr.shipping th, {{WRAPPER}} .kdna-checkout__summary .shop_table tr.shipping td' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
 		$this->add_control(
 			'summary_separator_colour',
 			array(
@@ -2313,6 +2595,47 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			array(
 				'label' => __( 'Pay Button', 'kdna-checkout' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			)
+		);
+
+		$this->add_control(
+			'pay_button_full_width',
+			array(
+				'label'        => __( 'Full width', 'kdna-checkout' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Yes', 'kdna-checkout' ),
+				'label_off'    => __( 'No', 'kdna-checkout' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'selectors'    => array(
+					$this->pay_button_selectors() => 'width: 100%; display: block;',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'pay_button_align',
+			array(
+				'label'     => __( 'Alignment', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::CHOOSE,
+				'options'   => array(
+					'flex-start' => array(
+						'title' => __( 'Left', 'kdna-checkout' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center'     => array(
+						'title' => __( 'Center', 'kdna-checkout' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'flex-end'   => array(
+						'title' => __( 'Right', 'kdna-checkout' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .kdna-checkout #order_review .form-row.place-order, {{WRAPPER}} .kdna-checkout .woocommerce-checkout-payment' => 'display: flex; flex-direction: column; align-items: {{VALUE}};',
+				),
+				'condition' => array( 'pay_button_full_width!' => 'yes' ),
 			)
 		);
 
@@ -2605,6 +2928,11 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			$classes[] = 'kdna-checkout--coupon-combined';
 		}
 
+		$separate_boxes = isset( $settings['summary_separate_boxes'] ) && 'yes' === $settings['summary_separate_boxes'];
+		if ( $separate_boxes ) {
+			$classes[] = 'kdna-checkout--separate-summary';
+		}
+
 		$editor_live = false;
 		if ( $this->is_editor_context() ) {
 			$live_wanted = isset( $settings['editor_live_preview'] ) && 'yes' === $settings['editor_live_preview'];
@@ -2636,9 +2964,10 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		}
 
 		printf(
-			'<div class="%s" data-coupon-position="%s">',
+			'<div class="%s" data-coupon-position="%s" data-separate-summary="%s">',
 			esc_attr( implode( ' ', $classes ) ),
-			esc_attr( $coupon_position )
+			esc_attr( $coupon_position ),
+			esc_attr( $separate_boxes ? 'yes' : '' )
 		);
 
 		if ( $has_icon ) {
@@ -2673,7 +3002,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		// Native WooCommerce classic shortcode checkout, reflowed by the widget CSS/JS.
 		$checkout_html = do_shortcode( '[woocommerce_checkout]' );
 		if ( $editor_live ) {
-			$checkout_html = $this->reflow_html_for_editor( $checkout_html );
+			$checkout_html = $this->reflow_html_for_editor( $checkout_html, $show_coupon_field ? $coupon_position : 'top', $separate_boxes );
 		}
 		echo $checkout_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce renders and escapes its own checkout markup.
 
@@ -2758,7 +3087,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 	 * @param string $html The checkout shortcode output.
 	 * @return string
 	 */
-	private function reflow_html_for_editor( $html ) {
+	private function reflow_html_for_editor( $html, $coupon_position = 'top', $separate = false ) {
 		$html = (string) $html;
 		if ( '' === trim( $html ) || ! class_exists( 'DOMDocument' ) ) {
 			return $html;
@@ -2813,6 +3142,46 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 		$root = $xpath->query( "//*[@id='kdna-reflow-root']" )->item( 0 );
 		if ( ! $root ) {
 			return $html;
+		}
+
+		// Optional: split order / coupon / payment into their own boxes by
+		// wrapping the heading + review table in an order card and lifting the
+		// payment block out to sit beside it in the column.
+		if ( $separate ) {
+			$payment    = $xpath->query( ".//*[@id='payment']", $review )->item( 0 );
+			$order_card = $doc->createElement( 'div' );
+			$order_card->setAttribute( 'class', 'kdna-checkout__order-card' );
+			if ( $heading ) {
+				$order_card->appendChild( $heading );
+			}
+			$order_card->appendChild( $review );
+			$summary->appendChild( $order_card );
+			if ( $payment ) {
+				$summary->appendChild( $payment );
+			}
+		}
+
+		// Mirror the front-end coupon positioning for the editor: wrap the
+		// native coupon toggle + form in a slot and move it to the chosen spot.
+		$toggle      = $xpath->query( ".//*[contains(concat(' ', normalize-space(@class), ' '), ' woocommerce-form-coupon-toggle ')]", $root )->item( 0 );
+		$coupon_form = $xpath->query( ".//form[contains(concat(' ', normalize-space(@class), ' '), ' checkout_coupon ')]", $root )->item( 0 );
+		if ( $toggle || $coupon_form ) {
+			$slot = $doc->createElement( 'div' );
+			$slot->setAttribute( 'class', 'kdna-checkout__coupon-slot' );
+			if ( $toggle ) {
+				$slot->appendChild( $toggle );
+			}
+			if ( $coupon_form ) {
+				$slot->appendChild( $coupon_form );
+			}
+			if ( 'billing' === $coupon_position && $main->firstChild ) {
+				$main->insertBefore( $slot, $main->firstChild );
+			} elseif ( 'payment' === $coupon_position && ( $payment = $xpath->query( ".//*[@id='payment']", $summary )->item( 0 ) ) && $payment->parentNode ) {
+				$payment->parentNode->insertBefore( $slot, $payment );
+			} elseif ( $form->parentNode ) {
+				// Default 'top': just before the two-column form.
+				$form->parentNode->insertBefore( $slot, $form );
+			}
 		}
 
 		$out = '';
@@ -2905,6 +3274,8 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			'sticky_desktop' => $settings['strip_sticky_desktop'] ?? '',
 			'sticky_mobile'  => $settings['strip_sticky_mobile'] ?? '',
 			'shrink'         => $settings['strip_shrink_sticky'] ?? '',
+			'link_products'  => $settings['strip_link_products'] ?? '',
+			'link_new_tab'   => $settings['strip_link_new_tab'] ?? '',
 			'subtotal_label' => $settings['strip_subtotal_label'] ?? '',
 			'edit_label'     => $settings['strip_edit_label'] ?? '',
 			'done_label'     => $settings['strip_done_label'] ?? '',

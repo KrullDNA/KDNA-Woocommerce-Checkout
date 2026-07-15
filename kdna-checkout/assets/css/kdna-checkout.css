@@ -93,6 +93,46 @@
 	margin-top: 0;
 }
 
+/* Separate boxes: the summary column becomes a plain stack holding the order
+ * card, the coupon and the payment block as independent boxes. The card visual
+ * moves from the column to .kdna-checkout__order-card (which the Order Summary
+ * Card controls also target). */
+.kdna-checkout--separate-summary .kdna-checkout__summary {
+	display: flex;
+	flex-direction: column;
+	gap: var(--kdna-checkout-summary-stack-gap, 20px);
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	padding: 0 !important;
+}
+
+.kdna-checkout__order-card {
+	background: var(--kdna-checkout-summary-bg, #ffffff);
+	border: 1px solid var(--kdna-checkout-summary-border-colour, #e2e4e7);
+	border-radius: var(--kdna-checkout-summary-radius, 8px);
+	box-shadow: var(--kdna-checkout-summary-shadow, 0 1px 2px rgba(0, 0, 0, 0.04));
+	padding: var(--kdna-checkout-summary-padding, 24px);
+}
+
+/* Sensible default boxes for the coupon and payment when separated (the
+ * Coupon and Payment Area controls override these). */
+.kdna-checkout--separate-summary .kdna-checkout__summary > #payment,
+.kdna-checkout--separate-summary .kdna-checkout__summary > .kdna-checkout__coupon-slot {
+	background: var(--kdna-checkout-summary-bg, #ffffff);
+	border: 1px solid var(--kdna-checkout-summary-border-colour, #e2e4e7);
+	border-radius: var(--kdna-checkout-summary-radius, 8px);
+	padding: 20px;
+}
+
+/* Align the first billing heading with the order-summary heading (WooCommerce
+ * gives it a top margin that pushes the two columns out of line). */
+.kdna-checkout__main .woocommerce-billing-fields > h3:first-child,
+.kdna-checkout__main #customer_details h3:first-child {
+	margin-top: 0;
+}
+
 .kdna-checkout__summary .shop_table {
 	width: 100%;
 }
@@ -214,6 +254,24 @@
 	border-color: var(--kdna-checkout-strip-tile-border-colour, #e2e4e7);
 	border-radius: var(--kdna-checkout-strip-tile-radius, 8px);
 	padding: var(--kdna-checkout-strip-tile-padding, 8px);
+}
+
+/* Optional product-page link wrapping the image + name. display: contents so
+ * the link does not alter the tile's flex column layout. */
+.kdna-checkout-strip__link {
+	display: contents;
+	color: inherit;
+	text-decoration: none;
+}
+
+.kdna-checkout-strip__link:hover .kdna-checkout-strip__name,
+.kdna-checkout-strip__link:focus-visible .kdna-checkout-strip__name {
+	text-decoration: underline;
+}
+
+.kdna-checkout-strip__link:focus-visible .kdna-checkout-strip__image img {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
 }
 
 .kdna-checkout-strip__image {

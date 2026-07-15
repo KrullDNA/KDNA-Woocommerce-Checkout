@@ -88,6 +88,8 @@ class KDNA_Checkout_Cart_Strip {
 			'sticky_desktop' => ! empty( $raw['sticky_desktop'] ) && 'yes' === $raw['sticky_desktop'] ? 'yes' : '',
 			'sticky_mobile'  => ! empty( $raw['sticky_mobile'] ) && 'yes' === $raw['sticky_mobile'] ? 'yes' : '',
 			'shrink'         => ! empty( $raw['shrink'] ) && 'yes' === $raw['shrink'] ? 'yes' : '',
+			'link_products'  => ! empty( $raw['link_products'] ) && 'yes' === $raw['link_products'] ? 'yes' : '',
+			'link_new_tab'   => ! empty( $raw['link_new_tab'] ) && 'yes' === $raw['link_new_tab'] ? 'yes' : '',
 			'subtotal_label' => isset( $raw['subtotal_label'] ) && '' !== trim( (string) $raw['subtotal_label'] )
 				? sanitize_text_field( $raw['subtotal_label'] )
 				: __( 'Subtotal', 'kdna-checkout' ),
@@ -140,6 +142,8 @@ class KDNA_Checkout_Cart_Strip {
 			data-sticky-desktop="<?php echo esc_attr( $args['sticky_desktop'] ); ?>"
 			data-sticky-mobile="<?php echo esc_attr( $args['sticky_mobile'] ); ?>"
 			data-shrink="<?php echo esc_attr( $args['shrink'] ); ?>"
+			data-link-products="<?php echo esc_attr( $args['link_products'] ); ?>"
+			data-link-new-tab="<?php echo esc_attr( $args['link_new_tab'] ); ?>"
 			data-subtotal-label="<?php echo esc_attr( $args['subtotal_label'] ); ?>"
 			data-edit-label="<?php echo esc_attr( $args['edit_label'] ); ?>"
 			data-done-label="<?php echo esc_attr( $args['done_label'] ); ?>">
@@ -156,12 +160,29 @@ class KDNA_Checkout_Cart_Strip {
 						$name     = $product->get_name();
 						$quantity = (int) $cart_item['quantity'];
 						$max      = $product->is_sold_individually() ? 1 : 999;
+
+						// Product page link (optional). WooCommerce only exposes a
+						// permalink for visible products; variations resolve to the
+						// parent with the chosen attributes.
+						$permalink = '';
+						if ( 'yes' === $args['link_products'] ) {
+							$permalink = apply_filters( 'woocommerce_cart_item_permalink', $product->is_visible() ? $product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
+						}
+						$link_open  = '';
+						$link_close = '';
+						if ( $permalink ) {
+							$target     = 'yes' === $args['link_new_tab'] ? ' target="_blank" rel="noopener noreferrer"' : '';
+							$link_open  = '<a class="kdna-checkout-strip__link" href="' . esc_url( $permalink ) . '"' . $target . '>';
+							$link_close = '</a>';
+						}
 						?>
 						<div class="kdna-checkout-strip__tile" data-key="<?php echo esc_attr( $cart_item_key ); ?>">
+							<?php echo $link_open; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built from esc_url above. ?>
 							<span class="kdna-checkout-strip__image">
 								<?php echo $product->get_image( 'woocommerce_thumbnail' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce escapes its own image markup. ?>
 							</span>
 							<span class="kdna-checkout-strip__name"><?php echo esc_html( $name ); ?></span>
+							<?php echo $link_close; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static closing tag. ?>
 							<span class="kdna-checkout-strip__qty-static" aria-hidden="true">&times;&nbsp;<?php echo esc_html( (string) $quantity ); ?></span>
 							<span class="kdna-checkout-strip__controls">
 								<span class="kdna-checkout-strip__stepper">
@@ -249,6 +270,8 @@ class KDNA_Checkout_Cart_Strip {
 				'sticky_desktop' => isset( $_POST['sticky_desktop'] ) ? sanitize_key( wp_unslash( $_POST['sticky_desktop'] ) ) : '',
 				'sticky_mobile'  => isset( $_POST['sticky_mobile'] ) ? sanitize_key( wp_unslash( $_POST['sticky_mobile'] ) ) : '',
 				'shrink'         => isset( $_POST['shrink'] ) ? sanitize_key( wp_unslash( $_POST['shrink'] ) ) : '',
+				'link_products'  => isset( $_POST['link_products'] ) ? sanitize_key( wp_unslash( $_POST['link_products'] ) ) : '',
+				'link_new_tab'   => isset( $_POST['link_new_tab'] ) ? sanitize_key( wp_unslash( $_POST['link_new_tab'] ) ) : '',
 				'subtotal_label' => isset( $_POST['subtotal_label'] ) ? sanitize_text_field( wp_unslash( $_POST['subtotal_label'] ) ) : '',
 				'edit_label'     => isset( $_POST['edit_label'] ) ? sanitize_text_field( wp_unslash( $_POST['edit_label'] ) ) : '',
 				'done_label'     => isset( $_POST['done_label'] ) ? sanitize_text_field( wp_unslash( $_POST['done_label'] ) ) : '',
