@@ -4,7 +4,7 @@ Tags: woocommerce, checkout, elementor, abandoned cart, cart recovery
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.14
+Stable tag: 1.2.15
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Requirements:
 * Elementor, for the checkout and trust-badge widgets.
 * Classic (shortcode) checkout, which is the reliable, controllable base this plugin styles.
 
-Version 1.2.14, feature-complete. The plugin includes:
+Version 1.2.15, feature-complete. The plugin includes:
 
 * Elementor "KDNA Checkout" widget: the native WooCommerce classic checkout reflowed into a two-column layout with a sticky order summary, fully styleable in Elementor.
 * Cart strip (mini-cart) with live AJAX quantity/remove, four editing modes and independent desktop/mobile sticky.
@@ -53,6 +53,11 @@ No. WooCommerce and the official gateway plugins (Stripe, PayPal, Afterpay/Zip) 
 Nothing is deleted on deactivation. All data (captured carts, recovery emails, order bumps and settings) is removed only when the plugin is deleted from the Plugins screen.
 
 == Changelog ==
+
+= 1.2.15 =
+* Coupon apply button: added Typography and Padding controls (it previously only had colours and border).
+* Order table price column: now defaults to 30% (instead of the theme's even 50/50) and the width is forced so it is honoured across themes — drag the "Order table price column width" slider to fine-tune.
+* Order summary card: the built-in drop shadow is gone by default, so the card is flat unless you add a shadow with the existing Box shadow control (Order Summary Card) — this makes the shadow fully removable.
 
 = 1.2.14 =
 * Coupon box styling now applies in every mode: the coupon card's background, border colour, border radius and padding controls are wired up whether the coupon is combined into one box or split out as a separate box (previously the separate-boxes card ignored them). Added a "Border width" control so the border can be set to 0 to remove it.
