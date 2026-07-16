@@ -733,39 +733,77 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			)
 		);
 
-		// Combined single-box styling (only when "Combine into one box" is on).
-		// These feed CSS variables the stylesheet reads, so control values win
-		// over the defaults regardless of stylesheet load order.
+		// Coupon-box styling. The coupon renders as its own card whenever the
+		// "Combine into one box" switch is on OR the summary is split into
+		// separate boxes; these controls drive that card in both cases. They
+		// feed CSS variables the stylesheet reads, so control values win over
+		// the defaults regardless of stylesheet load order or which mode is on.
+		$coupon_box_condition = array(
+			'relation' => 'or',
+			'terms'    => array(
+				array(
+					'name'     => 'coupon_combined',
+					'operator' => '===',
+					'value'    => 'yes',
+				),
+				array(
+					'name'     => 'summary_separate_boxes',
+					'operator' => '===',
+					'value'    => 'yes',
+				),
+			),
+		);
+
 		$this->add_control(
 			'coupon_box_heading',
 			array(
-				'label'     => __( 'Coupon box', 'kdna-checkout' ),
-				'type'      => \Elementor\Controls_Manager::HEADING,
-				'condition' => array( 'coupon_combined' => 'yes' ),
+				'label'      => __( 'Coupon box', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::HEADING,
+				'conditions' => $coupon_box_condition,
 			)
 		);
 
 		$this->add_control(
 			'coupon_box_background',
 			array(
-				'label'     => __( 'Background colour', 'kdna-checkout' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
-				'selectors' => array(
+				'label'      => __( 'Background colour', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::COLOR,
+				'selectors'  => array(
 					'{{WRAPPER}}' => '--kdna-checkout-coupon-box-bg: {{VALUE}};',
 				),
-				'condition' => array( 'coupon_combined' => 'yes' ),
+				'conditions' => $coupon_box_condition,
 			)
 		);
 
 		$this->add_control(
 			'coupon_box_border_colour',
 			array(
-				'label'     => __( 'Border colour', 'kdna-checkout' ),
-				'type'      => \Elementor\Controls_Manager::COLOR,
-				'selectors' => array(
+				'label'      => __( 'Border colour', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::COLOR,
+				'selectors'  => array(
 					'{{WRAPPER}}' => '--kdna-checkout-coupon-box-border: {{VALUE}};',
 				),
-				'condition' => array( 'coupon_combined' => 'yes' ),
+				'conditions' => $coupon_box_condition,
+			)
+		);
+
+		$this->add_responsive_control(
+			'coupon_box_border_width',
+			array(
+				'label'      => __( 'Border width', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 10,
+					),
+				),
+				'description' => __( 'Set to 0 to remove the border entirely.', 'kdna-checkout' ),
+				'selectors'  => array(
+					'{{WRAPPER}}' => '--kdna-checkout-coupon-box-border-width: {{SIZE}}{{UNIT}};',
+				),
+				'conditions' => $coupon_box_condition,
 			)
 		);
 
@@ -784,7 +822,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}}' => '--kdna-checkout-coupon-box-radius: {{SIZE}}{{UNIT}};',
 				),
-				'condition'  => array( 'coupon_combined' => 'yes' ),
+				'conditions' => $coupon_box_condition,
 			)
 		);
 
@@ -797,7 +835,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}}' => '--kdna-checkout-coupon-box-padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
-				'condition'  => array( 'coupon_combined' => 'yes' ),
+				'conditions' => $coupon_box_condition,
 			)
 		);
 
@@ -2574,6 +2612,39 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'summary_row_bg_heading',
+			array(
+				'label'     => __( 'Row backgrounds', 'kdna-checkout' ),
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_control(
+			'summary_row_bg',
+			array(
+				'label'       => __( 'Product row background', 'kdna-checkout' ),
+				'description' => __( 'Background for the product rows in the order table.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::COLOR,
+				'selectors'   => array(
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table tbody tr, {{WRAPPER}} .kdna-checkout__summary .shop_table tbody tr td' => 'background-color: {{VALUE}} !important;',
+				),
+			)
+		);
+
+		$this->add_control(
+			'summary_row_alt_bg',
+			array(
+				'label'       => __( 'Alternate row background', 'kdna-checkout' ),
+				'description' => __( 'Background for every other product row (the striped rows). Set this the same as the product row background, or transparent, to remove the striping.', 'kdna-checkout' ),
+				'type'        => \Elementor\Controls_Manager::COLOR,
+				'selectors'   => array(
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table tbody tr:nth-child(2n), {{WRAPPER}} .kdna-checkout__summary .shop_table tbody tr:nth-child(2n) td' => 'background-color: {{VALUE}} !important;',
+				),
+			)
+		);
+
 		$this->add_style_heading( 'order_table_box_heading', __( 'Order table box', 'kdna-checkout' ) );
 		$this->add_box_controls( 'order_table_box', '{{WRAPPER}} .kdna-checkout__summary .shop_table' );
 
@@ -3368,7 +3439,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 							<?php endif; ?>
 							<div class="kdna-checkout-strip__subtotal">
 								<span class="kdna-checkout-strip__subtotal-label"><?php echo esc_html( $settings['strip_subtotal_label'] ?? __( 'Subtotal', 'kdna-checkout' ) ); ?></span>
-								<span class="kdna-checkout-strip__subtotal-amount">&#163;0.00</span>
+								<span class="kdna-checkout-strip__subtotal-amount"><?php echo function_exists( 'wc_price' ) ? wp_kses_post( wc_price( 0 ) ) : '&#163;0.00'; ?></span>
 							</div>
 						</div>
 					</div>
@@ -3410,7 +3481,7 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 								<span class="kdna-checkout-bump__text">
 									<span class="kdna-checkout-bump__headline"><?php echo esc_html__( 'Order bump headline', 'kdna-checkout' ); ?></span>
 									<span class="kdna-checkout-bump__description"><?php echo esc_html__( 'Published order bumps appear here, above the pay button.', 'kdna-checkout' ); ?></span>
-									<span class="kdna-checkout-bump__price"><del>&#163;20.00</del> <ins>&#163;16.00</ins></span>
+									<span class="kdna-checkout-bump__price"><del><?php echo function_exists( 'wc_price' ) ? wp_kses_post( wc_price( 20 ) ) : '&#163;20.00'; ?></del> <ins><?php echo function_exists( 'wc_price' ) ? wp_kses_post( wc_price( 16 ) ) : '&#163;16.00'; ?></ins></span>
 								</span>
 							</label>
 						</div>
