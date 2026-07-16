@@ -23,7 +23,7 @@ msgstr ""
 msgid "\"Have a coupon?\" bar"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1992
+#: elementor/widgets/class-widget-checkout.php:2018
 msgid "\"Ship to a different address?\" row"
 msgstr ""
 
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Add a step"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2305
+#: elementor/widgets/class-widget-checkout.php:2331
 msgid "Address Boxes"
 msgstr ""
 
@@ -91,11 +91,11 @@ msgstr ""
 msgid "Admin interface loaded, Alpine.js is running."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2739
+#: elementor/widgets/class-widget-checkout.php:2765
 msgid "After the text"
 msgstr ""
 
-#: elementor/class-kdna-checkout-trust.php:170 elementor/class-kdna-checkout-strip-controls.php:1198 elementor/widgets/class-widget-checkout.php:2690
+#: elementor/class-kdna-checkout-trust.php:170 elementor/class-kdna-checkout-strip-controls.php:1198 elementor/widgets/class-widget-checkout.php:2716
 msgid "Alignment"
 msgstr ""
 
@@ -107,7 +107,7 @@ msgstr ""
 msgid "All statuses"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2639
+#: elementor/widgets/class-widget-checkout.php:2665
 msgid "Alternate row background"
 msgstr ""
 
@@ -131,7 +131,7 @@ msgstr ""
 msgid "Applies to"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1934
+#: elementor/widgets/class-widget-checkout.php:1960
 msgid "Arrow colour"
 msgstr ""
 
@@ -151,15 +151,15 @@ msgstr ""
 msgid "Background colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2640
+#: elementor/widgets/class-widget-checkout.php:2666
 msgid "Background for every other product row (the striped rows). Set this the same as the product row background, or transparent, to remove the striping."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2628
+#: elementor/widgets/class-widget-checkout.php:2654
 msgid "Background for the product rows in the order table."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2738
+#: elementor/widgets/class-widget-checkout.php:2764
 msgid "Before the text"
 msgstr ""
 
@@ -175,7 +175,7 @@ msgstr ""
 msgid "Between order summary and payment"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2313
+#: elementor/widgets/class-widget-checkout.php:2339
 msgid "Billing details box"
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr ""
 msgid "Border"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:985 elementor/class-kdna-checkout-strip-controls.php:1122 elementor/widgets/class-widget-checkout.php:781 elementor/widgets/class-widget-checkout.php:2140 elementor/widgets/class-widget-checkout.php:2863
+#: elementor/class-kdna-checkout-strip-controls.php:985 elementor/class-kdna-checkout-strip-controls.php:1122 elementor/widgets/class-widget-checkout.php:781 elementor/widgets/class-widget-checkout.php:2166 elementor/widgets/class-widget-checkout.php:2889
 msgid "Border colour"
 msgstr ""
 
@@ -199,7 +199,7 @@ msgstr ""
 msgid "Both on the right"
 msgstr ""
 
-#: elementor/class-kdna-checkout-trust.php:340 elementor/class-kdna-checkout-strip-controls.php:255 elementor/class-kdna-checkout-strip-controls.php:463 elementor/widgets/class-widget-checkout.php:1172 elementor/widgets/class-widget-checkout.php:1376 elementor/widgets/class-widget-checkout.php:2103 elementor/widgets/class-widget-checkout.php:2152 elementor/widgets/class-widget-checkout.php:2268
+#: elementor/class-kdna-checkout-trust.php:340 elementor/class-kdna-checkout-strip-controls.php:255 elementor/class-kdna-checkout-strip-controls.php:463 elementor/widgets/class-widget-checkout.php:1193 elementor/widgets/class-widget-checkout.php:1397 elementor/widgets/class-widget-checkout.php:2129 elementor/widgets/class-widget-checkout.php:2178 elementor/widgets/class-widget-checkout.php:2294
 msgid "Box shadow"
 msgstr ""
 
@@ -215,19 +215,19 @@ msgstr ""
 msgid "Build the sequence as recovery-email steps, each with its own delay and optional coupon. Steps are sent in order of their delay from abandonment. Nothing sends until this is switched on and at least one step exists."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1021
+#: elementor/widgets/class-widget-checkout.php:1042
 msgid "Button"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1038 elementor/widgets/class-widget-checkout.php:1088
+#: elementor/widgets/class-widget-checkout.php:1059 elementor/widgets/class-widget-checkout.php:1109
 msgid "Button background"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1050
+#: elementor/widgets/class-widget-checkout.php:1071
 msgid "Button border"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1058
+#: elementor/widgets/class-widget-checkout.php:1079
 msgid "Button border radius"
 msgstr ""
 
@@ -235,7 +235,7 @@ msgstr ""
 msgid "Button colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1071
+#: elementor/widgets/class-widget-checkout.php:1092
 msgid "Button hover"
 msgstr ""
 
@@ -243,11 +243,11 @@ msgstr ""
 msgid "Button layout"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1427
+#: elementor/widgets/class-widget-checkout.php:1448
 msgid "Button minimum width"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:751
+#: elementor/class-kdna-checkout-strip-controls.php:751 elementor/widgets/class-widget-checkout.php:1029
 msgid "Button padding"
 msgstr ""
 
@@ -255,11 +255,15 @@ msgstr ""
 msgid "Button size"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1027 elementor/widgets/class-widget-checkout.php:1077
+#: elementor/widgets/class-widget-checkout.php:1048 elementor/widgets/class-widget-checkout.php:1098
 msgid "Button text colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1428
+#: elementor/widgets/class-widget-checkout.php:1021
+msgid "Button typography"
+msgstr ""
+
+#: elementor/widgets/class-widget-checkout.php:1449
 msgid "Buttons narrower than this wrap onto a new line."
 msgstr ""
 
@@ -319,11 +323,11 @@ msgstr ""
 msgid "Cart value"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2606
+#: elementor/widgets/class-widget-checkout.php:2632
 msgid "Cell padding"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2698
+#: elementor/widgets/class-widget-checkout.php:2724
 msgid "Center"
 msgstr ""
 
@@ -331,15 +335,15 @@ msgstr ""
 msgid "Centre"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1265
+#: elementor/widgets/class-widget-checkout.php:1286
 msgid "Checkbox accent colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1277
+#: elementor/widgets/class-widget-checkout.php:1298
 msgid "Checkbox size"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1944
+#: elementor/widgets/class-widget-checkout.php:1970
 msgid "Checkboxes (terms, ship-to, account)"
 msgstr ""
 
@@ -355,19 +359,19 @@ msgstr ""
 msgid "Choose icon"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:471 elementor/widgets/class-widget-checkout.php:3114
+#: elementor/widgets/class-widget-checkout.php:471 elementor/widgets/class-widget-checkout.php:3140
 msgid "Click here to enter your code"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1722 elementor/widgets/class-widget-checkout.php:1795 elementor/widgets/class-widget-checkout.php:1873 elementor/widgets/class-widget-checkout.php:2004
+#: elementor/widgets/class-widget-checkout.php:1748 elementor/widgets/class-widget-checkout.php:1821 elementor/widgets/class-widget-checkout.php:1899 elementor/widgets/class-widget-checkout.php:2030
 msgid "Colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2189
+#: elementor/widgets/class-widget-checkout.php:2215
 msgid "Colours the inline error message and the invalid field border."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1564
+#: elementor/widgets/class-widget-checkout.php:1585
 msgid "Columns & Spacing"
 msgstr ""
 
@@ -431,7 +435,7 @@ msgstr ""
 msgid "Custom label"
 msgstr ""
 
-#: elementor/widgets/class-widget-cart-strip.php:195 elementor/widgets/class-widget-checkout.php:3427
+#: elementor/widgets/class-widget-cart-strip.php:195 elementor/widgets/class-widget-checkout.php:3453
 msgid "Decrease quantity"
 msgstr ""
 
@@ -447,11 +451,11 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1234
+#: elementor/widgets/class-widget-checkout.php:1255
 msgid "Description colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1226
+#: elementor/widgets/class-widget-checkout.php:1247
 msgid "Description typography"
 msgstr ""
 
@@ -463,7 +467,7 @@ msgstr ""
 msgid "Discount amount"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2475
+#: elementor/widgets/class-widget-checkout.php:2501
 msgid "Distance from the top of the screen while the card is stuck. Allow room for a fixed site header."
 msgstr ""
 
@@ -483,11 +487,11 @@ msgstr ""
 msgid "Drag to reorder. Hiding a field never loses order data: anything WooCommerce needs still submits a valid default."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1883
+#: elementor/widgets/class-widget-checkout.php:1909
 msgid "Dropdowns (country / state)"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:163 elementor/widgets/class-widget-cart-strip.php:206 elementor/widgets/class-widget-checkout.php:3438 includes/class-kdna-checkout-cart-strip.php:98
+#: elementor/class-kdna-checkout-strip-controls.php:163 elementor/widgets/class-widget-cart-strip.php:206 elementor/widgets/class-widget-checkout.php:3464 includes/class-kdna-checkout-cart-strip.php:98
 msgid "Edit"
 msgstr ""
 
@@ -535,11 +539,11 @@ msgstr ""
 msgid "Every 15 minutes (KDNA Checkout)"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1455
+#: elementor/widgets/class-widget-checkout.php:1476
 msgid "Express Divider"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1334
+#: elementor/widgets/class-widget-checkout.php:1355
 msgid "Express Payment Row"
 msgstr ""
 
@@ -559,7 +563,7 @@ msgstr ""
 msgid "Field"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1778
+#: elementor/widgets/class-widget-checkout.php:1804
 msgid "Field Labels"
 msgstr ""
 
@@ -587,7 +591,7 @@ msgstr ""
 msgid "Fixed square button (handy for round buttons). Leave empty to size the button to the symbol and its padding."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2112
+#: elementor/widgets/class-widget-checkout.php:2138
 msgid "Focus"
 msgstr ""
 
@@ -603,7 +607,7 @@ msgstr ""
 msgid "Footer text"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1857
+#: elementor/widgets/class-widget-checkout.php:1883
 msgid "Form Extras"
 msgstr ""
 
@@ -619,7 +623,7 @@ msgstr ""
 msgid "Full name"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2675
+#: elementor/widgets/class-widget-checkout.php:2701
 msgid "Full width"
 msgstr ""
 
@@ -631,7 +635,7 @@ msgstr ""
 msgid "Full: quantity editable, remove always visible"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1516
+#: elementor/widgets/class-widget-checkout.php:1537
 msgid "Gap around the text"
 msgstr ""
 
@@ -639,11 +643,11 @@ msgstr ""
 msgid "Gap before remove button"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1408
+#: elementor/widgets/class-widget-checkout.php:1429
 msgid "Gap between buttons"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1638
+#: elementor/widgets/class-widget-checkout.php:1664
 msgid "Gap between stacked areas"
 msgstr ""
 
@@ -651,7 +655,7 @@ msgstr ""
 msgid "Gap between the boxes"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1620
+#: elementor/widgets/class-widget-checkout.php:1646
 msgid "Gap between the columns"
 msgstr ""
 
@@ -675,7 +679,7 @@ msgstr ""
 msgid "Google address autocomplete"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:459 elementor/widgets/class-widget-checkout.php:3113
+#: elementor/widgets/class-widget-checkout.php:459 elementor/widgets/class-widget-checkout.php:3139
 msgid "Have a coupon?"
 msgstr ""
 
@@ -683,15 +687,15 @@ msgstr ""
 msgid "Header and accent colour (hex, for example #2271b1)."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1705
+#: elementor/widgets/class-widget-checkout.php:1731
 msgid "Headings"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1214
+#: elementor/widgets/class-widget-checkout.php:1235
 msgid "Headline colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1205
+#: elementor/widgets/class-widget-checkout.php:1226
 msgid "Headline typography"
 msgstr ""
 
@@ -703,7 +707,7 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:821 elementor/class-kdna-checkout-strip-controls.php:957 elementor/class-kdna-checkout-strip-controls.php:1094 elementor/widgets/class-widget-checkout.php:2835
+#: elementor/class-kdna-checkout-strip-controls.php:821 elementor/class-kdna-checkout-strip-controls.php:957 elementor/class-kdna-checkout-strip-controls.php:1094 elementor/widgets/class-widget-checkout.php:2861
 msgid "Hover"
 msgstr ""
 
@@ -715,7 +719,7 @@ msgstr ""
 msgid "How much editing the strip allows."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:544 elementor/widgets/class-widget-checkout.php:2725
+#: elementor/widgets/class-widget-checkout.php:544 elementor/widgets/class-widget-checkout.php:2751
 msgid "Icon"
 msgstr ""
 
@@ -723,15 +727,15 @@ msgstr ""
 msgid "Icon colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2735
+#: elementor/widgets/class-widget-checkout.php:2761
 msgid "Icon position"
 msgstr ""
 
-#: elementor/class-kdna-checkout-trust.php:202 elementor/class-kdna-checkout-strip-controls.php:876 elementor/widgets/class-widget-checkout.php:958 elementor/widgets/class-widget-checkout.php:2768
+#: elementor/class-kdna-checkout-trust.php:202 elementor/class-kdna-checkout-strip-controls.php:876 elementor/widgets/class-widget-checkout.php:958 elementor/widgets/class-widget-checkout.php:2794
 msgid "Icon size"
 msgstr ""
 
-#: elementor/class-kdna-checkout-trust.php:222 elementor/widgets/class-widget-checkout.php:2749
+#: elementor/class-kdna-checkout-trust.php:222 elementor/widgets/class-widget-checkout.php:2775
 msgid "Icon spacing"
 msgstr ""
 
@@ -739,11 +743,11 @@ msgstr ""
 msgid "If you have a coupon code, please apply it below."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1313
+#: elementor/widgets/class-widget-checkout.php:1334
 msgid "Image border radius"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1295
+#: elementor/widgets/class-widget-checkout.php:1316
 msgid "Image size"
 msgstr ""
 
@@ -751,7 +755,7 @@ msgstr ""
 msgid "In the order summary card, below the pay button"
 msgstr ""
 
-#: elementor/widgets/class-widget-cart-strip.php:197 elementor/widgets/class-widget-checkout.php:3429
+#: elementor/widgets/class-widget-cart-strip.php:197 elementor/widgets/class-widget-checkout.php:3455
 msgid "Increase quantity"
 msgstr ""
 
@@ -759,7 +763,7 @@ msgstr ""
 msgid "Increase quantity of %s"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2548
+#: elementor/widgets/class-widget-checkout.php:2574
 msgid "Individual rows"
 msgstr ""
 
@@ -767,7 +771,7 @@ msgstr ""
 msgid "Inline field validation"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2036
+#: elementor/widgets/class-widget-checkout.php:2062
 msgid "Input Fields"
 msgstr ""
 
@@ -803,7 +807,7 @@ msgstr ""
 msgid "KDNA Cart Strip"
 msgstr ""
 
-#: admin/class-kdna-checkout-admin.php:61 admin/class-kdna-checkout-admin.php:62 admin/class-kdna-checkout-admin.php:71 admin/class-kdna-checkout-admin.php:72 admin/class-kdna-checkout-admin.php:142 elementor/widgets/class-widget-checkout.php:49 elementor/widgets/class-widget-checkout.php:3413
+#: admin/class-kdna-checkout-admin.php:61 admin/class-kdna-checkout-admin.php:62 admin/class-kdna-checkout-admin.php:71 admin/class-kdna-checkout-admin.php:72 admin/class-kdna-checkout-admin.php:142 elementor/widgets/class-widget-checkout.php:49 elementor/widgets/class-widget-checkout.php:3439
 msgid "KDNA Checkout"
 msgstr ""
 
@@ -819,11 +823,11 @@ msgstr ""
 msgid "Keep me posted about my order and cart."
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:1167 elementor/widgets/class-widget-checkout.php:1983
+#: elementor/class-kdna-checkout-strip-controls.php:1167 elementor/widgets/class-widget-checkout.php:2009
 msgid "Label colour"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:1159 elementor/widgets/class-widget-checkout.php:1976
+#: elementor/class-kdna-checkout-strip-controls.php:1159 elementor/widgets/class-widget-checkout.php:2002
 msgid "Label typography"
 msgstr ""
 
@@ -851,7 +855,7 @@ msgstr ""
 msgid "Leave blank to use the WordPress default."
 msgstr ""
 
-#: elementor/class-kdna-checkout-trust.php:174 elementor/class-kdna-checkout-strip-controls.php:1202 elementor/widgets/class-widget-checkout.php:2694
+#: elementor/class-kdna-checkout-trust.php:174 elementor/class-kdna-checkout-strip-controls.php:1202 elementor/widgets/class-widget-checkout.php:2720
 msgid "Left"
 msgstr ""
 
@@ -859,15 +863,15 @@ msgstr ""
 msgid "Left & right ( - input + )"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1467
+#: elementor/widgets/class-widget-checkout.php:1488
 msgid "Line colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1478
+#: elementor/widgets/class-widget-checkout.php:1499
 msgid "Line thickness"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:932 elementor/widgets/class-widget-checkout.php:2379
+#: elementor/widgets/class-widget-checkout.php:932 elementor/widgets/class-widget-checkout.php:2405
 msgid "Link colour"
 msgstr ""
 
@@ -891,7 +895,7 @@ msgstr ""
 msgid "Live checkout in the editor"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:3407
+#: elementor/widgets/class-widget-checkout.php:3433
 msgid "Live preview is on, but your cart is empty. Add a product to your cart, then reload the preview to see the real checkout here."
 msgstr ""
 
@@ -911,7 +915,7 @@ msgstr ""
 msgid "Manage recovery steps"
 msgstr ""
 
-#: elementor/class-kdna-checkout-trust.php:364 elementor/class-kdna-checkout-strip-controls.php:275 elementor/widgets/class-widget-checkout.php:1192 elementor/widgets/class-widget-checkout.php:1396 elementor/widgets/class-widget-checkout.php:2462 elementor/widgets/class-widget-checkout.php:2929
+#: elementor/class-kdna-checkout-trust.php:364 elementor/class-kdna-checkout-strip-controls.php:275 elementor/widgets/class-widget-checkout.php:1213 elementor/widgets/class-widget-checkout.php:1417 elementor/widgets/class-widget-checkout.php:2488 elementor/widgets/class-widget-checkout.php:2955
 msgid "Margin"
 msgstr ""
 
@@ -943,8 +947,8 @@ msgstr ""
 msgid "Minus / plus buttons"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1595
-msgid "Narrow the price column in the order table so the product names on the left get more room."
+#: elementor/widgets/class-widget-checkout.php:1616
+msgid "Narrow the price column in the order table so the product names on the left get more room. Defaults to 30%."
 msgstr ""
 
 #: elementor/class-kdna-checkout-strip-controls.php:545
@@ -959,7 +963,7 @@ msgstr ""
 msgid "New Recovery Email"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:136 elementor/widgets/class-widget-checkout.php:2678
+#: elementor/class-kdna-checkout-strip-controls.php:136 elementor/widgets/class-widget-checkout.php:2704
 msgid "No"
 msgstr ""
 
@@ -991,7 +995,7 @@ msgstr ""
 msgid "No recovery emails found."
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:789 elementor/class-kdna-checkout-strip-controls.php:928 elementor/class-kdna-checkout-strip-controls.php:1065 elementor/widgets/class-widget-checkout.php:2065 elementor/widgets/class-widget-checkout.php:2788
+#: elementor/class-kdna-checkout-strip-controls.php:789 elementor/class-kdna-checkout-strip-controls.php:928 elementor/class-kdna-checkout-strip-controls.php:1065 elementor/widgets/class-widget-checkout.php:2091 elementor/widgets/class-widget-checkout.php:2814
 msgid "Normal"
 msgstr ""
 
@@ -1031,7 +1035,7 @@ msgstr ""
 msgid "Open message"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1131 includes/class-kdna-checkout-cpt.php:89
+#: elementor/widgets/class-widget-checkout.php:1152 includes/class-kdna-checkout-cpt.php:89
 msgid "Order Bump"
 msgstr ""
 
@@ -1043,15 +1047,15 @@ msgstr ""
 msgid "Order Bumps"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2401
+#: elementor/widgets/class-widget-checkout.php:2427
 msgid "Order Summary Card"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2503
+#: elementor/widgets/class-widget-checkout.php:2529
 msgid "Order Summary Text & Totals"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:3482
+#: elementor/widgets/class-widget-checkout.php:3508
 msgid "Order bump headline"
 msgstr ""
 
@@ -1059,11 +1063,11 @@ msgstr ""
 msgid "Order notes"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2322
+#: elementor/widgets/class-widget-checkout.php:2348
 msgid "Order notes box"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1572
+#: elementor/widgets/class-widget-checkout.php:1593
 msgid "Order summary column width"
 msgstr ""
 
@@ -1071,11 +1075,11 @@ msgstr ""
 msgid "Order summary position on mobile"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2648
+#: elementor/widgets/class-widget-checkout.php:2674
 msgid "Order table box"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1594
+#: elementor/widgets/class-widget-checkout.php:1615
 msgid "Order table price column width"
 msgstr ""
 
@@ -1087,7 +1091,7 @@ msgstr ""
 msgid "Paste the full URL of your logo image. Leave blank to show the store name instead."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2667
+#: elementor/widgets/class-widget-checkout.php:2693
 msgid "Pay Button"
 msgstr ""
 
@@ -1095,11 +1099,11 @@ msgstr ""
 msgid "PayPal"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2340
+#: elementor/widgets/class-widget-checkout.php:2366
 msgid "Payment Area"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2348
+#: elementor/widgets/class-widget-checkout.php:2374
 msgid "Payment box"
 msgstr ""
 
@@ -1115,7 +1119,7 @@ msgstr ""
 msgid "Phone"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2053
+#: elementor/widgets/class-widget-checkout.php:2079
 msgid "Placeholder colour"
 msgstr ""
 
@@ -1143,11 +1147,11 @@ msgstr ""
 msgid "Postcode"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1254
+#: elementor/widgets/class-widget-checkout.php:1275
 msgid "Price colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1246
+#: elementor/widgets/class-widget-checkout.php:1267
 msgid "Price typography"
 msgstr ""
 
@@ -1155,11 +1159,11 @@ msgstr ""
 msgid "Product image border radius"
 msgstr ""
 
-#: elementor/widgets/class-widget-cart-strip.php:191 elementor/widgets/class-widget-checkout.php:3423
+#: elementor/widgets/class-widget-cart-strip.php:191 elementor/widgets/class-widget-checkout.php:3449
 msgid "Product name"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:505 elementor/widgets/class-widget-checkout.php:2553
+#: elementor/class-kdna-checkout-strip-controls.php:505 elementor/widgets/class-widget-checkout.php:2579
 msgid "Product name colour"
 msgstr ""
 
@@ -1167,11 +1171,11 @@ msgstr ""
 msgid "Product name typography"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2563
+#: elementor/widgets/class-widget-checkout.php:2589
 msgid "Product price colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2627
+#: elementor/widgets/class-widget-checkout.php:2653
 msgid "Product row background"
 msgstr ""
 
@@ -1179,11 +1183,11 @@ msgstr ""
 msgid "Product to offer"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:3483
+#: elementor/widgets/class-widget-checkout.php:3509
 msgid "Published order bumps appear here, above the pay button."
 msgstr ""
 
-#: elementor/widgets/class-widget-cart-strip.php:196 elementor/widgets/class-widget-checkout.php:3428
+#: elementor/widgets/class-widget-cart-strip.php:196 elementor/widgets/class-widget-checkout.php:3454
 msgid "Quantity"
 msgstr ""
 
@@ -1219,7 +1223,7 @@ msgstr ""
 msgid "Recovery emails"
 msgstr ""
 
-#: elementor/widgets/class-widget-cart-strip.php:199 elementor/widgets/class-widget-checkout.php:3431
+#: elementor/widgets/class-widget-cart-strip.php:199 elementor/widgets/class-widget-checkout.php:3457
 msgid "Remove"
 msgstr ""
 
@@ -1235,11 +1239,11 @@ msgstr ""
 msgid "Require consent"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1866
+#: elementor/widgets/class-widget-checkout.php:1892
 msgid "Required asterisk"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1806
+#: elementor/widgets/class-widget-checkout.php:1832
 msgid "Required mark colour"
 msgstr ""
 
@@ -1263,15 +1267,15 @@ msgstr ""
 msgid "Return to your cart"
 msgstr ""
 
-#: elementor/class-kdna-checkout-trust.php:182 elementor/class-kdna-checkout-strip-controls.php:1210 elementor/widgets/class-widget-checkout.php:2702
+#: elementor/class-kdna-checkout-trust.php:182 elementor/class-kdna-checkout-strip-controls.php:1210 elementor/widgets/class-widget-checkout.php:2728
 msgid "Right"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2618
+#: elementor/widgets/class-widget-checkout.php:2644
 msgid "Row backgrounds"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2594
+#: elementor/widgets/class-widget-checkout.php:2620
 msgid "Row separator colour"
 msgstr ""
 
@@ -1331,11 +1335,11 @@ msgstr ""
 msgid "Set to 0 to remove the border entirely."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2319
+#: elementor/widgets/class-widget-checkout.php:2345
 msgid "Shipping details box"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2583
+#: elementor/widgets/class-widget-checkout.php:2609
 msgid "Shipping row colour"
 msgstr ""
 
@@ -1383,7 +1387,7 @@ msgstr ""
 msgid "Shrunk tile size"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1958
+#: elementor/widgets/class-widget-checkout.php:1984
 msgid "Size"
 msgstr ""
 
@@ -1395,23 +1399,23 @@ msgstr ""
 msgid "Space between the quantity field and the remove (x) button."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1751
+#: elementor/widgets/class-widget-checkout.php:1777
 msgid "Spacing above headings"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1534
+#: elementor/widgets/class-widget-checkout.php:1555
 msgid "Spacing above the divider"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2014
+#: elementor/widgets/class-widget-checkout.php:2040
 msgid "Spacing below"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1733
+#: elementor/widgets/class-widget-checkout.php:1759
 msgid "Spacing below headings"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1817
+#: elementor/widgets/class-widget-checkout.php:1843
 msgid "Spacing below labels"
 msgstr ""
 
@@ -1419,11 +1423,11 @@ msgstr ""
 msgid "Spacing between buttons"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1656
+#: elementor/widgets/class-widget-checkout.php:1682
 msgid "Spacing between checkout sections"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1675
+#: elementor/widgets/class-widget-checkout.php:1701
 msgid "Spacing between fields"
 msgstr ""
 
@@ -1463,7 +1467,7 @@ msgstr ""
 msgid "Sticky order summary on desktop"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:306 elementor/widgets/class-widget-checkout.php:2474
+#: elementor/class-kdna-checkout-strip-controls.php:306 elementor/widgets/class-widget-checkout.php:2500
 msgid "Sticky top offset"
 msgstr ""
 
@@ -1483,7 +1487,7 @@ msgstr ""
 msgid "Subtle: quantity editable, low-emphasis remove"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:151 elementor/widgets/class-widget-cart-strip.php:209 elementor/widgets/class-widget-checkout.php:3441 includes/class-kdna-checkout-cart-strip.php:95
+#: elementor/class-kdna-checkout-strip-controls.php:151 elementor/widgets/class-widget-cart-strip.php:209 elementor/widgets/class-widget-checkout.php:3467 includes/class-kdna-checkout-cart-strip.php:95
 msgid "Subtotal"
 msgstr ""
 
@@ -1491,7 +1495,7 @@ msgstr ""
 msgid "Subtotal label"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2573
+#: elementor/widgets/class-widget-checkout.php:2599
 msgid "Subtotal row colour"
 msgstr ""
 
@@ -1515,15 +1519,15 @@ msgstr ""
 msgid "Test recovery email sent."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2354
+#: elementor/widgets/class-widget-checkout.php:2380
 msgid "Text"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:583 elementor/class-kdna-checkout-strip-controls.php:1071 elementor/class-kdna-checkout-strip-controls.php:1100 elementor/widgets/class-widget-checkout.php:911 elementor/widgets/class-widget-checkout.php:1505 elementor/widgets/class-widget-checkout.php:1895 elementor/widgets/class-widget-checkout.php:2071 elementor/widgets/class-widget-checkout.php:2118
+#: elementor/class-kdna-checkout-strip-controls.php:583 elementor/class-kdna-checkout-strip-controls.php:1071 elementor/class-kdna-checkout-strip-controls.php:1100 elementor/widgets/class-widget-checkout.php:911 elementor/widgets/class-widget-checkout.php:1526 elementor/widgets/class-widget-checkout.php:1921 elementor/widgets/class-widget-checkout.php:2097 elementor/widgets/class-widget-checkout.php:2144
 msgid "Text colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:903 elementor/widgets/class-widget-checkout.php:1497 elementor/widgets/class-widget-checkout.php:2512
+#: elementor/widgets/class-widget-checkout.php:903 elementor/widgets/class-widget-checkout.php:1518 elementor/widgets/class-widget-checkout.php:2538
 msgid "Text typography"
 msgstr ""
 
@@ -1583,7 +1587,7 @@ msgstr ""
 msgid "The little icon on the \"Have a coupon?\" bar. Keep the theme default, swap in your own icon, or remove it."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:3408
+#: elementor/widgets/class-widget-checkout.php:3434
 msgid "The live WooCommerce checkout renders here on the front end. Preview the page to see it working, or switch on \"Live checkout in the editor\" (Layout) with a product in your cart."
 msgstr ""
 
@@ -1611,7 +1615,7 @@ msgstr ""
 msgid "This field is required."
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1948
+#: elementor/widgets/class-widget-checkout.php:1974
 msgid "Tick / accent colour"
 msgstr ""
 
@@ -1631,11 +1635,11 @@ msgstr ""
 msgid "Top of checkout (full width)"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2540
+#: elementor/widgets/class-widget-checkout.php:2566
 msgid "Totals colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2532
+#: elementor/widgets/class-widget-checkout.php:2558
 msgid "Totals typography"
 msgstr ""
 
@@ -1643,7 +1647,7 @@ msgstr ""
 msgid "Town / City"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2883
+#: elementor/widgets/class-widget-checkout.php:2909
 msgid "Transition duration (s)"
 msgstr ""
 
@@ -1651,7 +1655,7 @@ msgstr ""
 msgid "Trust Badges"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:1111 elementor/widgets/class-widget-trust.php:107
+#: elementor/widgets/class-widget-checkout.php:1132 elementor/widgets/class-widget-trust.php:107
 msgid "Trust Block"
 msgstr ""
 
@@ -1659,7 +1663,7 @@ msgstr ""
 msgid "Trust Signals"
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:575 elementor/class-kdna-checkout-strip-controls.php:1023 elementor/widgets/class-widget-checkout.php:1714 elementor/widgets/class-widget-checkout.php:1787 elementor/widgets/class-widget-checkout.php:1888 elementor/widgets/class-widget-checkout.php:1997 elementor/widgets/class-widget-checkout.php:2045 elementor/widgets/class-widget-checkout.php:2360
+#: elementor/class-kdna-checkout-strip-controls.php:575 elementor/class-kdna-checkout-strip-controls.php:1023 elementor/widgets/class-widget-checkout.php:1740 elementor/widgets/class-widget-checkout.php:1813 elementor/widgets/class-widget-checkout.php:1914 elementor/widgets/class-widget-checkout.php:2023 elementor/widgets/class-widget-checkout.php:2071 elementor/widgets/class-widget-checkout.php:2386
 msgid "Typography"
 msgstr ""
 
@@ -1679,11 +1683,11 @@ msgstr ""
 msgid "Use these in the subject and body:"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2188
+#: elementor/widgets/class-widget-checkout.php:2214
 msgid "Validation error colour"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:2202
+#: elementor/widgets/class-widget-checkout.php:2228
 msgid "Validation error typography"
 msgstr ""
 
@@ -1731,7 +1735,7 @@ msgstr ""
 msgid "Write the email body in the editor above using the merge tags listed opposite. Publish the step to make it live."
 msgstr ""
 
-#: elementor/class-kdna-checkout-strip-controls.php:135 elementor/widgets/class-widget-checkout.php:2677
+#: elementor/class-kdna-checkout-strip-controls.php:135 elementor/widgets/class-widget-checkout.php:2703
 msgid "Yes"
 msgstr ""
 
@@ -1787,7 +1791,7 @@ msgstr ""
 msgid "minutes of inactivity"
 msgstr ""
 
-#: elementor/widgets/class-widget-checkout.php:414 elementor/widgets/class-widget-checkout.php:3455 includes/class-kdna-checkout-express.php:97 includes/class-kdna-checkout-express.php:103
+#: elementor/widgets/class-widget-checkout.php:414 elementor/widgets/class-widget-checkout.php:3481 includes/class-kdna-checkout-express.php:97 includes/class-kdna-checkout-express.php:103
 msgid "or pay with card below"
 msgstr ""
 

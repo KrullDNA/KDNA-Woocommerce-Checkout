@@ -1014,6 +1014,27 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			)
 		);
 
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'coupon_button_typography',
+				'label'    => __( 'Button typography', 'kdna-checkout' ),
+				'selector' => '{{WRAPPER}} .kdna-checkout .checkout_coupon button',
+			)
+		);
+
+		$this->add_responsive_control(
+			'coupon_button_padding',
+			array(
+				'label'      => __( 'Button padding', 'kdna-checkout' ),
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .kdna-checkout .checkout_coupon button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
 		$this->start_controls_tabs( 'coupon_button_tabs' );
 
 		$this->start_controls_tab(
@@ -1592,9 +1613,13 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 			'summary_price_column_width',
 			array(
 				'label'       => __( 'Order table price column width', 'kdna-checkout' ),
-				'description' => __( 'Narrow the price column in the order table so the product names on the left get more room.', 'kdna-checkout' ),
+				'description' => __( 'Narrow the price column in the order table so the product names on the left get more room. Defaults to 30%.', 'kdna-checkout' ),
 				'type'        => \Elementor\Controls_Manager::SLIDER,
 				'size_units'  => array( 'px', '%' ),
+				'default'     => array(
+					'unit' => '%',
+					'size' => 30,
+				),
 				'range'       => array(
 					'px' => array(
 						'min' => 60,
@@ -1608,8 +1633,9 @@ class KDNA_Checkout_Widget_Checkout extends \Elementor\Widget_Base {
 				'selectors'   => array(
 					// Fixed layout so the specified column width is actually honoured
 					// (auto layout treats it only as a hint and ignores it here).
-					'{{WRAPPER}} .kdna-checkout__summary .shop_table' => 'table-layout: fixed; width: 100%;',
-					'{{WRAPPER}} .kdna-checkout__summary .shop_table th:last-child, {{WRAPPER}} .kdna-checkout__summary .shop_table td:last-child' => 'width: {{SIZE}}{{UNIT}};',
+					// !important defeats theme rules that set explicit cell widths.
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table' => 'table-layout: fixed !important; width: 100%;',
+					'{{WRAPPER}} .kdna-checkout__summary .shop_table th:last-child, {{WRAPPER}} .kdna-checkout__summary .shop_table td:last-child' => 'width: {{SIZE}}{{UNIT}} !important;',
 				),
 			)
 		);
